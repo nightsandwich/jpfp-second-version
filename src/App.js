@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import {Switch, HashRouter as Router, Route} from 'react-router-dom';
 import { connect} from 'react-redux';
 import { loadCampuses, loadStudents } from './store';
+
 import Nav from './Nav';
 import Campuses from './Campuses';
-import AddCampus from './AddCampus';
+import Campus from './Campus';
 import Students from './Students';
+import Student from './Student';
 
 export class _App extends Component {
     componentDidMount(){
@@ -18,11 +20,11 @@ export class _App extends Component {
     
             <Router>
                     <Route component={Nav} path='/' />
-                    <div>
-                        <Route component={Campuses} path='/campuses' />
-                        <Route component={AddCampus} path='/campuses' />
-                    </div>
-                    <Route component={Students} path='/students' />
+                    
+                        <Route component={Campuses} path='/campuses' exact/>                    
+                        <Route component={Students} path='/students' exact/>
+                        <Route component={Campus} path='/campuses/:id' />
+                        <Route component={Student} path='/students/:id' />
             </Router>
         );
     }

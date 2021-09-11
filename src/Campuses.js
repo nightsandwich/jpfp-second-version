@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import AddCampus from "./AddCampus";
 
 const Campuses = ({campuses}) => {
     console.log(campuses);
@@ -8,6 +9,9 @@ const Campuses = ({campuses}) => {
     <div>
         <div>
         <h1>Campuses</h1>
+        <div>
+            <AddCampus />
+        </div>
         <ul>
             {
                 campuses.map(campus => {
