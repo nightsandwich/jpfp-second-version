@@ -5,7 +5,7 @@ const StudentList = ({students}) => {
  //   const attending = `<a href={`/campuses/${student.campus.id}`}>${student.campus.name}</a>`;
     return (
     <>
-        <h1>Students</h1>
+        <h1>{students.length} Students</h1>
         <ul>
             {
                 students.map(student => {

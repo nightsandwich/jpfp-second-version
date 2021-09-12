@@ -2,8 +2,9 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import AddCampus from "./AddCampus";
+import { deleteCampus } from "./store";
 
-const Campuses = ({campuses}) => {
+const Campuses = ({campuses, destroy}) => {
     console.log(campuses);
     return (
     <div>
@@ -18,6 +19,7 @@ const Campuses = ({campuses}) => {
                     return (
                         <li key={campus.id}>
                             <Link to={`/campuses/${campus.id}`}>{campus.name}</Link> ({campus.students.length} Students Currently Enrolled)
+                            <button onClick={()=>destroy(campus.id)}>X</button>
                         </li>
                     );
                 })
@@ -28,5 +30,9 @@ const Campuses = ({campuses}) => {
 
     );
 }
-
-export default connect(state=>state)(Campuses);
+const mapDispatch = (dispatch) => {
+    return {
+        destroy: (id) => dispatch(deleteCampus(id))
+    }
+}
+export default connect(state=>state, mapDispatch)(Campuses);

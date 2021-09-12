@@ -86,23 +86,25 @@ const addStudent = (student) => {
     }
 }
 
-const _deleteCampus = (campus) => (
-    {type: DELETE_CAMPUS, campus}
+const _deleteCampus = (id) => (
+    {type: DELETE_CAMPUS, id}
 )
 const deleteCampus = (id) => {
     return async (dispatch) => {
-        const deleted = (await axios.delete(`/api/campuses/${id}`)).data;
-        dispatch(_deleteCampus(deleted));
+        await axios.delete(`/api/campuses/${id}`);
+        dispatch(_deleteCampus(id * 1));
+        
     }
 }
 
-const _deleteStudent = (student) => (
-    {type: DELETE_STUDENT, student}
+const _deleteStudent = (id) => (
+    {type: DELETE_STUDENT, id}
 )
-const deleteStudent = (id) => {
+const deleteStudent = (id, history) => {
     return async (dispatch) => {
-        const deleted = (await axios.delete(`/api/students/${id}`)).data;
-        dispatch(_deleteStudent(deleted));
+        await axios.delete(`/api/students/${id}`);
+        dispatch(_deleteStudent(id * 1));
+        //history.push('/students');
     }
 }
 export default store;

@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import Students from "./Students";
+import StudentList from "./StudentList";
 
 const Campus = ({campus, students}) => {
     
@@ -11,8 +11,7 @@ const Campus = ({campus, students}) => {
         <h3>{campus.address}</h3>
         <p>{campus.description}</p>
         <div>
-            <h2>Students</h2>
-            <Students students={students} />
+            <StudentList students={students} />
         </div>
     </>
     );
