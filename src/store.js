@@ -6,6 +6,8 @@ const ADD_CAMPUS = 'ADD_CAMPUS';
 const ADD_STUDENT = 'ADD_STUDENT';
 const DELETE_CAMPUS = 'DELETE_CAMPUS';
 const DELETE_STUDENT = 'DELETE_STUDENT';
+const UPDATE_CAMPUS = 'UPDATE_CAMPUS';
+const UPDATE_STUDENT = 'UPDATE_STUDENT';
 
 import axios from 'axios';
 import thunk from 'redux-thunk';
@@ -21,6 +23,9 @@ const campusesReducer = (state = [], action) => {
     if(action.type === DELETE_CAMPUS){
         state = state.filter(campus => campus.id !== action.id)
     }
+    if(action.type === UPDATE_CAMPUS){
+        state = state.map(campus => campus.id === action.campus.id ? action.campus : campus)
+    }
     return state;
 };
 
@@ -33,6 +38,9 @@ const studentsReducer = (state = [], action) => {
     }
     if(action.type === DELETE_STUDENT){
         state = state.filter(student => student.id !== action.id)
+    }
+    if(action.type === UPDATE_STUDENT){
+        state = state.map(student => student.id === action.student.id ? action.student : student)
     }
     return state;
 };
@@ -107,5 +115,29 @@ const deleteStudent = (id, history) => {
         //history.push('/students');
     }
 }
+
+const _updateCampus = (campus) => (
+    {type: UPDATE_CAMPUS, campus}
+)
+const updateCampus = (campus, history) => {
+    return async (dispatch) => {
+        const updated = (await axios.put(`/api/campuses/${campus.id}`, campus)).data;
+        console.log(updated);
+        dispatch(_updateCampus(updated));
+        history.push('/campuses');
+    }
+}
+
+const _updateStudent = (student) => (
+    {type: UPDATE_STUDENT, student}
+)
+const updateStudent = (student, history) => {
+    return async (dispatch) => {
+        const updated = (await axios.put(`/api/students/${student.id}`, student)).data;
+        dispatch(_updateStudent(updated));
+        history.push('/students');
+    }
+}
+
 export default store;
-export {loadCampuses, loadStudents, addCampus, addStudent, deleteCampus, deleteStudent};
+export {loadCampuses, loadStudents, addCampus, addStudent, deleteCampus, deleteStudent, updateCampus, updateStudent};

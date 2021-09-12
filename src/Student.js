@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import UpdateStudent from "./UpdateStudent";
 
 const Student = ({student, campus}) => {
     
@@ -13,6 +14,7 @@ const Student = ({student, campus}) => {
         <div>
             <Link to={`/campuses/${campus.id}`}>{campus.name}</Link>
         </div>
+        
     </>
     );
 }

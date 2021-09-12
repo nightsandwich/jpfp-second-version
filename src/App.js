@@ -8,6 +8,8 @@ import Campuses from './Campuses';
 import Campus from './Campus';
 import Students from './Students';
 import Student from './Student';
+import UpdateStudent from './UpdateStudent';
+import UpdateCampus from './UpdateCampus';
 
 export class _App extends Component {
     componentDidMount(){
@@ -24,7 +26,9 @@ export class _App extends Component {
                         <Route component={Campuses} path='/campuses' exact/>                    
                         <Route component={Students} path='/students' exact/>
                         <Route component={Campus} path='/campuses/:id' />
+                        <Route component={UpdateCampus} path='/campuses/:id' />
                         <Route component={Student} path='/students/:id' />
+                        <Route component={UpdateStudent} path='/students/:id' />
             </Router>
         );
     }
