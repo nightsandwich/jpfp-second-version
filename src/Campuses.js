@@ -13,6 +13,7 @@ const Campuses = ({campuses, destroy}) => {
         <div>
             <AddCampus />
         </div>
+        
         <ul>
             {
                 campuses.map(campus => {

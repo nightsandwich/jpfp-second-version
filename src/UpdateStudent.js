@@ -15,6 +15,7 @@ export class UpdateStudent extends Component {
             email: '',
             imageUrl: '',
             gpa: '',
+            campusId: ''
         }
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
@@ -48,8 +49,9 @@ export class UpdateStudent extends Component {
     }
 
     render() {
-        const {firstName, lastName, email, imageUrl, gpa} = this.state;
+        const {firstName, lastName, email, imageUrl, gpa, campusId} = this.state;
         const {onChange, onSubmit} = this;
+        const {campuses} = this.props;
 //-----------const isDisabled = !name || !address ;
 // console.log('thisprops2', this.props);
         return (
@@ -65,6 +67,18 @@ export class UpdateStudent extends Component {
                     <input name='imageUrl' value={imageUrl} onChange={onChange} />
                     GPA:
                     <input name='gpa' value={gpa} onChange={onChange} />
+                    Schools:
+                    <select name='campusId' onChange={onChange} value={campusId}>
+                        {
+                            campuses.map( campus => { 
+                                return (
+                                <option value={ campus.id } key={ campus.id } >
+                                    {campus.name}
+                                </option>
+                                );
+                            })
+                        }
+                    </select>
                     <button >UPDATE STUDENT</button>
                 </form>
             </div>
@@ -72,11 +86,10 @@ export class UpdateStudent extends Component {
     }
 }
 const mapState = (state, otherProps) => {
-    console.log(otherProps);
     const student = state.students.find(student => student.id === otherProps.match.params.id * 1) || {}; 
-    console.log('STUDENTTTTTTT', student);
     return {
-        student: student
+        student: student,
+        campuses: state.campuses
     }
 }
 
@@ -85,4 +98,4 @@ const mapDispatch = (dispatch, {history}) => {
         update: (student) => dispatch(updateStudent(student, history))
     }
 }
-export default connect(null, mapDispatch)(UpdateStudent);
+export default connect(mapState, mapDispatch)(UpdateStudent);

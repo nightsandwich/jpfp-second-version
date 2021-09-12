@@ -183,6 +183,34 @@ app.put('/api/students/:id', async(req, res, next) => {
   }
 })
 
+app.put('/api/students/:id/update', async(req, res, next) => {
+  try{
+    const student = await Student.findByPk(req.params.id, {
+      include: [
+        {
+          model: Campus
+        }
+      ]
+    });
+    console.log(req.body)
+    // const campus = await Campus.findByPk(student.campusId, {
+    //   includ: [
+    //     {
+    //       model: Student
+    //     }
+    //   ]
+    // });
+    // ;
+    res.send(await student.update(req.body)); 
+    // res.send(await campus.removeStudent(student));
+    
+    
+  }
+  catch(ex){
+    next(ex);
+  }
+})
+
 app.use((err, req, res, next) => {
   console.error(err.stack)
   res.status(err.status || 500).send({error: err.errors[0].message} || 'Internal server error.')
@@ -273,9 +301,7 @@ const syncAndSeed = async()=> {
   const gpaGenerator = () => {
     return Math.floor(Math.random() * (4 * 10)) / (1*10);
   }
-  for (let i = 0; i < 20; i++){
-    console.log(gpaGenerator());
-  }
+  
   const campusIdGenerator = () => {
     return Math.floor(Math.random() * (5)+1);
   }
@@ -302,7 +328,7 @@ const syncAndSeed = async()=> {
   await Promise.all(campuses.map(campus => {
     Campus.create(campus);
   }))
-  
+
   const students = Array(6).fill().map((student) => {
     return {
       firstName: faker.name.firstName(), 
@@ -316,9 +342,6 @@ const syncAndSeed = async()=> {
   await Promise.all(students.map(student => {
     Student.create(student);
   }));
-  // for (let i = 0; i < students.length; i++){
-  //   await Student.create(students[i])
-  // };
 
   const students2 = Array(3).fill().map((student) => {
     return {
@@ -327,6 +350,7 @@ const syncAndSeed = async()=> {
       email: faker.internet.email(), 
       imageUrl: faker.random.image(),
       gpa: gpaGenerator(),
+      campusId: null
     }
   });
   await Promise.all(students2.map(student => {

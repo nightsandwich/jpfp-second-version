@@ -5,6 +5,8 @@ import AddStudent from './AddStudent';
 import { deleteStudent } from "./store";
 
 const Students = ({students, campuses, destroy}) => {
+//USE COMPONENT DID UPDATE HERE???? BC SCHOOL DOESN"T UPDATE
+
     return (
         <>
         <div>

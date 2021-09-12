@@ -4,7 +4,7 @@
 import axios from 'axios';
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import { updateCampus } from './store'
+import { updateCampus, deleteStudentSchool } from './store'
 import {Link} from 'react-router-dom';
 export class UpdateCampus extends Component {
     constructor(){
@@ -18,6 +18,7 @@ export class UpdateCampus extends Component {
         }
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.onClick = this.onClick.bind(this);
     }
    async componentDidMount(){
         this.setState((await axios.get(`/api/campuses/${this.props.match.params.id}`)).data);
@@ -37,6 +38,18 @@ export class UpdateCampus extends Component {
             //=--------------------add error           
         }
     }
+     async onClick(ev){
+        const {students} = this.state;
+        this.setState({...this.state, students: students.filter(student => student.id !== ev.target.value * 1)});
+        
+        const student = (await axios.get(`/api/students/${ev.target.value}`)).data;
+        
+        try{
+            await this.props.deleteStudentSchool(student);
+        } catch (ex){
+            console.log(ex);
+        }
+    }
     //component did update for student deletion????
     // destroy(id){
     //     console.log(this.state)
@@ -45,10 +58,8 @@ export class UpdateCampus extends Component {
 
     render() {
             const {name, imageUrl, address, description, students} = this.state;
-            const {onChange, onSubmit, destroy} = this;
+            const {onChange, onSubmit, onClick} = this;
 
-     console.log('this.props',this.props)
-            
     //-----------const isDisabled = !name || !address ;
             
             return (
@@ -66,25 +77,24 @@ export class UpdateCampus extends Component {
                     </form>
                     <br></br>
                     <div>
-                    <ul>
-                {
-                    students.map((student) => {
-                        return (
-                            <li key={student.id}>
-                                <Link to={`/students/${student.id}`}>{student.firstName}</Link>  
-                                {/* <button onClick={()=>deleteStudentSchool(student,this.props.storeCampus.id )}>X</button> */}
-                            </li>
-                        );
-                    })
-                }
-            </ul>
+                        <ul>
+                    {
+                        students.map((student) => {
+                            return (
+                                <li key={student.id}>
+                                    <Link to={`/students/${student.id}`}>{student.firstName}</Link>  
+                                    <button value={student.id} onClick={onClick}>X</button>
+                                </li>
+                            );
+                        })
+                    }
+                        </ul>
                     </div>
                 </div>
             );
     }
 }
 const mapState = (state, otherProps) => {
-    console.log(otherProps);
     const campus = state.campuses.find(campus => campus.id === otherProps.match.params.id * 1) || {}; 
     const students = campus.students;
     return {
@@ -96,7 +106,7 @@ const mapState = (state, otherProps) => {
 const mapDispatch = (dispatch, {history}) => {
     return {
         update: (campus) => dispatch(updateCampus(campus, history)),
-        deleteStudentSchool: (student, campusId) => dispatch(deleteStudentSchool(student, campusId))
+        deleteStudentSchool: (student) => dispatch(deleteStudentSchool(student))
     }
 }
 export default connect(mapState, mapDispatch)(UpdateCampus);

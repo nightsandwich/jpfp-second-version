@@ -143,14 +143,15 @@ const updateStudent = (student, history) => {
     }
 }
 
-// const _deleteStudentSchool = (student) => (
-//     {type: DELETE_STUDENT_SCHOOL, student}
-// )
-// const deleteStudentSchool = (student, campusId) => {
-//     return async (dispatch) => {
-//         const updated = (await axios.put(`/api/campuses/${student.id}`, {student.campusId: ''}))
-//     }
-// }
+const _deleteStudentSchool = (student) => (
+    {type: DELETE_STUDENT_SCHOOL, student}
+)
+const deleteStudentSchool = (student) => {
+    return async (dispatch) => {
+        const updated = (await axios.put(`/api/students/${student.id}/update`, {campusId: null})).data;
+        dispatch(_deleteStudentSchool(updated));
+    }
+}
 
 export default store;
-export {loadCampuses, loadStudents, addCampus, addStudent, deleteCampus, deleteStudent, updateCampus, updateStudent, };
+export {loadCampuses, loadStudents, addCampus, addStudent, deleteCampus, deleteStudent, updateCampus, updateStudent, deleteStudentSchool };
