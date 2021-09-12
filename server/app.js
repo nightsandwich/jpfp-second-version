@@ -128,7 +128,13 @@ app.delete('/api/campuses/:id', async(req, res, next) => {
 
 app.delete('/api/students/:id', async(req, res, next) => {
   try{
-    const student = await Student.findByPk(req.params.id);
+    const student = await Student.findByPk(req.params.id, {
+      include: [
+        {
+          model: Campus
+        }
+      ]
+    });
     await student.destroy();
     res.sendStatus(201)
   }
@@ -139,7 +145,13 @@ app.delete('/api/students/:id', async(req, res, next) => {
 
 app.put('/api/campuses/:id', async(req, res, next) => {
   try{
-    const _campus = (await Campus.findByPk(req.params.id));
+    const _campus = await Campus.findByPk(req.params.id, {
+      include: [
+        {
+          model: Student
+        }
+      ]
+    });
     await _campus.update(req.body);
     const campus = (await Campus.findByPk(_campus.id, {
       include: [

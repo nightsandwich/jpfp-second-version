@@ -12,7 +12,7 @@ const Student = ({student, campus}) => {
         <h3>{student.email}</h3>
         <p>{student.gpa}</p>
         <div>
-            <Link to={`/campuses/${campus.id}`}>{campus.name}</Link>
+            <Link to={`/campuses/${student.campus.id}`}>{student.campus.name}</Link>
         </div>
         
     </>
