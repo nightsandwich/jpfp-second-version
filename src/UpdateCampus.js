@@ -13,25 +13,19 @@ export class UpdateCampus extends Component {
             name: '',
             imageUrl: '',
             address: '',
-            description: ''
+            description: '',
+            students: []
         }
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
     }
    async componentDidMount(){
-         const campus = (await axios.get(`/api/campuses/${this.props.match.params.id}`)).data;
-    //     console.log('studentttttttt', student)
-        // const {student} = this.props;
-        console.log('thisprops', this.props);
-        
-        this.setState(campus);
+        this.setState((await axios.get(`/api/campuses/${this.props.match.params.id}`)).data);
     }
     onChange(ev){
         const change = {};
         change[ev.target.name] = ev.target.value;
-        console.log('thisprops', this.props);
         this.setState(change);
-        console.log(this.state);
     }
     async onSubmit(ev){
         ev.preventDefault();
@@ -41,13 +35,18 @@ export class UpdateCampus extends Component {
             console.log(ex);
             //=--------------------add error           
         }
-        //this.setState({firstName: '', lastName: '', email: '', imageUrl: '', gpa: ''});
-        
+    }
+    //component did update for student deletion????
+    destroy(idx){
+        this.setState({...this.state, students: students.splice(idx,1)})
     }
 
     render() {
-            const {name, imageUrl, address, description} = this.state;
-            const {onChange, onSubmit} = this;
+            const {name, imageUrl, address, description, students} = this.state;
+            const {onChange, onSubmit, destroy} = this;
+
+     
+            
     //-----------const isDisabled = !name || !address ;
             
             return (
@@ -61,20 +60,35 @@ export class UpdateCampus extends Component {
                         <input name='address' value={address} onChange={onChange} />
                         Description:
                         <input name='description' value={description} onChange={onChange} />
-                        <button >ADD SCHOOL</button>
+                        <button >UPDATE</button>
                     </form>
+                    <br></br>
+                    <div>
+                    <ul>
+                {
+                    students.map((student,idx) => {
+                        return (
+                            <li key={student.id}>
+                                {student.firstName} <button onClick={()=>destroy(idx)}>X</button>
+                            </li>
+                        );
+                    })
+                }
+            </ul>
+                    </div>
                 </div>
             );
     }
 }
-// const mapState = (state, otherProps) => {
-//     console.log(otherProps);
-//     const campus = state.campuses.find(campus => campus.id === otherProps.match.params.id * 1) || {}; 
-//     console.log('campussssss', campus);
-//     return {
-//         campus: campus
-//     }
-// }
+const mapState = (state, otherProps) => {
+    console.log(otherProps);
+    const campus = state.campuses.find(campus => campus.id === otherProps.match.params.id * 1) || {}; 
+    const students = campus.students;
+    return {
+        storeCampus: campus,
+        storeStudents: students
+    }
+}
 
 const mapDispatch = (dispatch, {history}) => {
     return {

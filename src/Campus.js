@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import StudentList from "./StudentList";
 import { Link } from "react-router-dom";
-
+import UpdateCampus from "./UpdateCampus";
 const Campus = ({campus, students}) => {
     
     return (
