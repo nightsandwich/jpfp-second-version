@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
 const StudentList = ({students}) => {
  //   const attending = `<a href={`/campuses/${student.campus.id}`}>${student.campus.name}</a>`;
@@ -22,4 +23,4 @@ const StudentList = ({students}) => {
     );
 }
 
-export default StudentList;
+export default connect(state=>state)(StudentList)

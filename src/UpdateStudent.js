@@ -19,14 +19,15 @@ export class UpdateStudent extends Component {
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
     }
-//    async componentDidMount(){
-//     //    console.log('thisssssssssss', this);
-//     //     const student = (await axios.get(`/api/students/${this.props.match.params.id}`)).data
-//     //     console.log('studentttttttt', student)
-//         // const {student} = this.props;
-//         console.log('thisprops', this.props);
-//         this.setState({student});
-//     }
+    
+   async componentDidMount(){
+    //    console.log('thisssssssssss', this);
+         const student = (await axios.get(`/api/students/${this.props.match.params.id}`)).data
+    //     console.log('studentttttttt', student)
+        // const {student} = this.props;
+        console.log('thisprops', this.props);
+        this.setState(student);
+    }
     onChange(ev){
         const change = {};
         change[ev.target.name] = ev.target.value;
@@ -84,4 +85,4 @@ const mapDispatch = (dispatch, {history}) => {
         update: (student) => dispatch(updateStudent(student, history))
     }
 }
-export default connect(mapState, mapDispatch)(UpdateStudent);
+export default connect(null, mapDispatch)(UpdateStudent);

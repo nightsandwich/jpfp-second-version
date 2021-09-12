@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import AddStudent from './AddStudent';
 import { deleteStudent } from "./store";
 
-const Students = ({students, destroy}) => {
+const Students = ({students, campuses, destroy}) => {
     return (
         <>
         <div>
@@ -34,4 +34,6 @@ const mapDispatch = (dispatch, {history}) => {
         destroy: (id) => dispatch(deleteStudent(id, history))
     }
 }
-export default connect(state=>state, mapDispatch)(Students);
+export default connect(({students, campuses})=>({students, campuses}), mapDispatch)(Students);
+
+//{campuses.find(campus => campus.studentId === student.id)}
