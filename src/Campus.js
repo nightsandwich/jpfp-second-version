@@ -13,17 +13,6 @@ const Campus = ({campus, students}) => {
         <p>{campus.description}</p>
         <div>
             <h1>{students.length} Students</h1>
-            <ul>
-                {
-                    students.map(student => {
-                        return (
-                            <li key={student.id}>
-                                <Link to={`/students/${student.id}`}>{student.firstName}</Link> 
-                            </li>
-                        );
-                    })
-                }
-            </ul>
         </div>
     </>
     );

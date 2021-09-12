@@ -12,13 +12,15 @@ const Students = ({students, campuses, destroy}) => {
         </div>
         <div>
             <h1>{students.length} Students</h1>
+            <button>SORT</button>
             <ul>
                 {
                     students.map(student => {
                         return (
                             <li key={student.id}>
-                                <Link to={`/students/${student.id}`}>{student.firstName}</Link> {student.campus ? `(attending ${student.campus.name})` : '(doing own thing)'}
+                                <Link to={`/students/${student.id}`}>{student.firstName} {student.lastName}</Link> {student.campus ? `(attending ${student.campus.name})` : '(doing own thing)'}
                                 {/* <Attending student={student} campuses={campuses}/> */}
+                                GPA: {student.gpa}
                                 <button onClick={()=>destroy(student.id)}>X</button>
                             </li>
                         );

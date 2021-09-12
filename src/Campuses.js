@@ -18,7 +18,7 @@ const Campuses = ({campuses, destroy}) => {
                 campuses.map(campus => {
                     return (
                         <li key={campus.id}>
-                            <Link to={`/campuses/${campus.id}`}>{campus.name}</Link> ({campus.students.length} Students Currently Enrolled)
+                            <Link to={`/campuses/${campus.id}`}>{campus.name}</Link> ({campus.students.length} Students)
                             <button onClick={()=>destroy(campus.id)}>X</button>
                         </li>
                     );

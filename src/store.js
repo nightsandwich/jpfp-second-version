@@ -8,6 +8,7 @@ const DELETE_CAMPUS = 'DELETE_CAMPUS';
 const DELETE_STUDENT = 'DELETE_STUDENT';
 const UPDATE_CAMPUS = 'UPDATE_CAMPUS';
 const UPDATE_STUDENT = 'UPDATE_STUDENT';
+const DELETE_STUDENT_SCHOOL = 'DELETE_STUDENT_SCHOOL';
 
 import axios from 'axios';
 import thunk from 'redux-thunk';
@@ -40,6 +41,9 @@ const studentsReducer = (state = [], action) => {
         state = state.filter(student => student.id !== action.id)
     }
     if(action.type === UPDATE_STUDENT){
+        state = state.map(student => student.id === action.student.id ? action.student : student)
+    }
+    if(action.type === DELETE_STUDENT_SCHOOL){
         state = state.map(student => student.id === action.student.id ? action.student : student)
     }
     return state;
@@ -139,5 +143,14 @@ const updateStudent = (student, history) => {
     }
 }
 
+// const _deleteStudentSchool = (student) => (
+//     {type: DELETE_STUDENT_SCHOOL, student}
+// )
+// const deleteStudentSchool = (student, campusId) => {
+//     return async (dispatch) => {
+//         const updated = (await axios.put(`/api/campuses/${student.id}`, {student.campusId: ''}))
+//     }
+// }
+
 export default store;
-export {loadCampuses, loadStudents, addCampus, addStudent, deleteCampus, deleteStudent, updateCampus, updateStudent};
+export {loadCampuses, loadStudents, addCampus, addStudent, deleteCampus, deleteStudent, updateCampus, updateStudent, };

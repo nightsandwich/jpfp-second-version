@@ -22,6 +22,9 @@ app.get('/api/campuses', async(req, res, next) => {
         {
           model: Student
         }
+      ],
+      order: [
+        ['name']
       ]
     }));
   }
@@ -52,6 +55,9 @@ app.get('/api/students', async(req, res, next) => {
         {
           model: Campus
         }
+      ],
+      order: [
+        ['lastName']
       ]
     }));
   }
@@ -145,21 +151,15 @@ app.delete('/api/students/:id', async(req, res, next) => {
 
 app.put('/api/campuses/:id', async(req, res, next) => {
   try{
-    const _campus = await Campus.findByPk(req.params.id, {
+    const campus = await Campus.findByPk(req.params.id, {
       include: [
         {
           model: Student
         }
       ]
     });
-    await _campus.update(req.body);
-    const campus = (await Campus.findByPk(_campus.id, {
-      include: [
-        {
-          model: Student
-        }
-      ]
-    }));
+    await campus.update(req.body);
+   
     res.send(campus);
   }
   catch(ex){
@@ -169,7 +169,13 @@ app.put('/api/campuses/:id', async(req, res, next) => {
 
 app.put('/api/students/:id', async(req, res, next) => {
   try{
-    const student = (await Student.findByPk(req.params.id));
+    const student = await Student.findByPk(req.params.id, {
+      include: [
+        {
+          model: Campus
+        }
+      ]
+    });
     res.send(await student.update(req.body));
   }
   catch(ex){
@@ -195,7 +201,7 @@ module.exports = app;
 
 const Sequelize = require('sequelize');
 const {STRING, TEXT, DECIMAL} = Sequelize;
-const faker = 'faker';
+const faker = require('faker');
 const db = new Sequelize(process.env.DATABASE_URL || 'postgres://localhost/campus_students_db');
 
 const Campus = db.define('campus', {
@@ -264,27 +270,68 @@ Campus.hasMany(Student);
 const syncAndSeed = async()=> {
   await db.sync({ force: true });
   
-  const bebopU = await Campus.create({ name: 'Bebop University' , imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/5/5f/Larkmead_School%2C_Abingdon%2C_Oxfordshire.png', address: '55 Bebop Avenue, Somewhere, NY 0000', description: 'What an amazing school. We do stuff. Lots of stuff.'});
-  const spagTech = await Campus.create({ name: 'Spaghetti Tech', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/5/5f/Larkmead_School%2C_Abingdon%2C_Oxfordshire.png', address: '56 Meatball Way, Saucetown, ID', description: 'sdfsdfsdfsdfdsfdsfsdfsdfdsf'});
-  const coolSchool = await Campus.create({ name: 'Cool School', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/5/5f/Larkmead_School%2C_Abingdon%2C_Oxfordshire.png', address: 'address', description: 'lkdjflksdjf' });
-  const badSchool = await Campus.create({ name: 'Bad School', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/5/5f/Larkmead_School%2C_Abingdon%2C_Oxfordshire.png', address: 'address', description: 'lkdjflksdjf' });
-  const funzone = await Campus.create({ name: 'Funzone', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/5/5f/Larkmead_School%2C_Abingdon%2C_Oxfordshire.png', address: 'address', description: 'lkdjflksdjf' });
-  const pizzahut = await Campus.create({ name: 'Pizza Hut', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/5/5f/Larkmead_School%2C_Abingdon%2C_Oxfordshire.png', address: 'address', description: 'lkdjflksdjf' });
-  const fullstack = await Campus.create({ name: 'Fullstack Academy', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/5/5f/Larkmead_School%2C_Abingdon%2C_Oxfordshire.png', address: 'address', description: 'lkdjflksdjf' });
+  const gpaGenerator = () => {
+    return Math.floor(Math.random() * (4 * 10)) / (1*10);
+  }
+  for (let i = 0; i < 20; i++){
+    console.log(gpaGenerator());
+  }
+  const campusIdGenerator = () => {
+    return Math.floor(Math.random() * (5)+1);
+  }
+  const campusEnding = () => {
+    const random = Math.floor(Math.random() * 5);
+    const arr = ['School', 'University', 'College', 'Academy', 'Center'];
+    return arr[random];
+  }
+//change to more data later
+  const campuses = Array(5).fill().map((campus) => {
+    return {
+      name: faker.random.words() + ' ' + campusEnding(), 
+      imageUrl: faker.random.image(), 
+      address: faker.address.streetAddress() + ', ' + faker.address.city() + ', ' + faker.address.state(), 
+      description: faker.lorem.paragraph()
+    }
+  })
+  //capitalizes first letter of each word in campus name
+  campuses.forEach(campus => {
+    campus.name = campus.name.split(' ').map(word => {
+      return word[0].toUpperCase() + word.slice(1);
+    } ).join(' ');
+  });
+  await Promise.all(campuses.map(campus => {
+    Campus.create(campus);
+  }))
+  
+  const students = Array(6).fill().map((student) => {
+    return {
+      firstName: faker.name.firstName(), 
+      lastName: faker.name.lastName(),
+      email: faker.internet.email(), 
+      imageUrl: faker.random.image(),
+      gpa: gpaGenerator(),
+      campusId: String(campusIdGenerator()) 
+    }
+  });
+  await Promise.all(students.map(student => {
+    Student.create(student);
+  }));
+  // for (let i = 0; i < students.length; i++){
+  //   await Student.create(students[i])
+  // };
 
-  await Promise.all([
-    await Student.create({firstName: 'A', lastName: 'AA', email: 'AAA@gmail.com', imageUrl: 'https://cdn.pixabay.com/photo/2018/08/28/12/41/avatar-3637425_960_720.png', gpa: 3.4, campusId: bebopU.id}),
-    await Student.create({firstName: 'B', lastName: 'BB', email: 'BBB@gmail.com', imageUrl: 'https://cdn.pixabay.com/photo/2018/08/28/12/41/avatar-3637425_960_720.png', gpa: 2.4, campusId: spagTech.id}),
-    await Student.create({firstName: 'C', lastName: 'CC', email: 'CCC@gmail.com', imageUrl: 'https://cdn.pixabay.com/photo/2018/08/28/12/41/avatar-3637425_960_720.png', gpa: 1.4, campusId: coolSchool.id}),
-    await Student.create({firstName: 'D', lastName: 'DD', email: 'DDD@gmail.com', imageUrl: 'https://cdn.pixabay.com/photo/2018/08/28/12/41/avatar-3637425_960_720.png', gpa: 0.4}),
-    await Student.create({firstName: 'E', lastName: 'EE', email: 'CCC@gmail.com', imageUrl: 'https://cdn.pixabay.com/photo/2018/08/28/12/41/avatar-3637425_960_720.png', gpa: 1.4, campusId: badSchool.id}),
-    await Student.create({firstName: 'F', lastName: 'FF', email: 'CCC@gmail.com', imageUrl: 'https://cdn.pixabay.com/photo/2018/08/28/12/41/avatar-3637425_960_720.png', gpa: 1.4, campusId: funzone.id}),
-    await Student.create({firstName: 'G', lastName: 'GG', email: 'CCC@gmail.com', imageUrl: 'https://cdn.pixabay.com/photo/2013/07/18/10/59/human-skeleton-163715_960_720.jpg', gpa: 1.4, campusId: pizzahut.id}),
-    await Student.create({firstName: 'H', lastName: 'HH', email: 'CCC@gmail.com', imageUrl: 'https://cdn.pixabay.com/photo/2013/07/18/10/59/human-skeleton-163715_960_720.jpg', gpa: 1.4, campusId: fullstack.id}),
-    await Student.create({firstName: 'I', lastName: 'HH', email: 'CCC@gmail.com', imageUrl: 'https://cdn.pixabay.com/photo/2013/07/18/10/59/human-skeleton-163715_960_720.jpg', gpa: 1.4, campusId: fullstack.id}),
-    await Student.create({firstName: 'J', lastName: 'HH', email: 'CCC@gmail.com', imageUrl: 'https://cdn.pixabay.com/photo/2013/07/18/10/59/human-skeleton-163715_960_720.jpg', gpa: 1.4, campusId: spagTech.id}),
-  ]);
-
+  const students2 = Array(3).fill().map((student) => {
+    return {
+      firstName: faker.name.firstName(), 
+      lastName: faker.name.lastName(),
+      email: faker.internet.email(), 
+      imageUrl: faker.random.image(),
+      gpa: gpaGenerator(),
+    }
+  });
+  await Promise.all(students2.map(student => {
+    Student.create(student);
+  }))
 };
 
 

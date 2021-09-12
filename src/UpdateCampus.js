@@ -5,7 +5,7 @@ import axios from 'axios';
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { updateCampus } from './store'
-
+import {Link} from 'react-router-dom';
 export class UpdateCampus extends Component {
     constructor(){
         super();
@@ -21,6 +21,7 @@ export class UpdateCampus extends Component {
     }
    async componentDidMount(){
         this.setState((await axios.get(`/api/campuses/${this.props.match.params.id}`)).data);
+        console.log(this.state)
     }
     onChange(ev){
         const change = {};
@@ -37,15 +38,16 @@ export class UpdateCampus extends Component {
         }
     }
     //component did update for student deletion????
-    destroy(idx){
-        this.setState({...this.state, students: students.splice(idx,1)})
-    }
+    // destroy(id){
+    //     console.log(this.state)
+    //     this.setState({...this.state, students: this.state.students.filter(student => student.id !== id)});
+    // }
 
     render() {
             const {name, imageUrl, address, description, students} = this.state;
             const {onChange, onSubmit, destroy} = this;
 
-     
+     console.log('this.props',this.props)
             
     //-----------const isDisabled = !name || !address ;
             
@@ -66,10 +68,11 @@ export class UpdateCampus extends Component {
                     <div>
                     <ul>
                 {
-                    students.map((student,idx) => {
+                    students.map((student) => {
                         return (
                             <li key={student.id}>
-                                {student.firstName} <button onClick={()=>destroy(idx)}>X</button>
+                                <Link to={`/students/${student.id}`}>{student.firstName}</Link>  
+                                {/* <button onClick={()=>deleteStudentSchool(student,this.props.storeCampus.id )}>X</button> */}
                             </li>
                         );
                     })
@@ -92,7 +95,8 @@ const mapState = (state, otherProps) => {
 
 const mapDispatch = (dispatch, {history}) => {
     return {
-        update: (campus) => dispatch(updateCampus(campus, history))
+        update: (campus) => dispatch(updateCampus(campus, history)),
+        deleteStudentSchool: (student, campusId) => dispatch(deleteStudentSchool(student, campusId))
     }
 }
-export default connect(null, mapDispatch)(UpdateCampus);
+export default connect(mapState, mapDispatch)(UpdateCampus);
