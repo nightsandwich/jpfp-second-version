@@ -3,37 +3,32 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import AddStudent from './AddStudent';
 import { deleteStudent } from "./store";
+import StudentList from "./StudentList";
 
+const filter = (name, users) => {
+    return () => {
+        if(name === 'noschool') return users.filter(user => !user.campusId);
+        else return users.filter(user => user.campusId)
+    }
+}
 const Students = ({students, campuses, destroy}) => {
 //USE COMPONENT DID UPDATE HERE???? BC SCHOOL DOESN"T UPDATE
 //the api is correct but it doesn't connect until reload
-console.log('STUDENTS', students)
+
     return (
         <>
-        
-        <div>
+
+        <div className='addstudent'>
             <AddStudent />
         </div>
-        <div>
-            <h1>{students.length} Students</h1>
-            <button>SORT</button>
-            <ul>
-                {
-                    students.map(student => {
-                        return (
-                            <li key={student.id}>
-                                <Link to={`/students/${student.id}`}>{student.firstName} {student.lastName}</Link> {student.campus ? `(attending ${student.campus.name})` : '(doing own thing)'}
-                                {/* <Attending student={student} campuses={campuses}/> */}
-                                GPA: {student.gpa}
-                                <button onClick={()=>destroy(student.id)}>X</button>
-                            </li>
-                        );
-                    })
-                }
-            </ul>
+        <div className='students'>
+            <StudentList students={students}/>
         </div>
     </>
     );
+}
+const mapState = ({users}) => {
+    return 
 }
 const mapDispatch = (dispatch, {history}) => {
     return {

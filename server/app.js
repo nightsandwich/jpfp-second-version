@@ -305,7 +305,7 @@ const syncAndSeed = async()=> {
   }
   
   const campusIdGenerator = () => {
-    return Math.floor(Math.random() * (5)+1);
+    return Math.floor(Math.random() * (100)+1);
   }
   const campusEnding = () => {
     const random = Math.floor(Math.random() * 5);
@@ -313,7 +313,7 @@ const syncAndSeed = async()=> {
     return arr[random];
   }
 //change to more data later
-  const campuses = Array(5).fill().map((campus) => {
+  const campuses = Array(100).fill().map((campus) => {
     return {
       name: faker.random.words() + ' ' + campusEnding(), 
       imageUrl: faker.random.image(), 
@@ -331,7 +331,7 @@ const syncAndSeed = async()=> {
     Campus.create(campus);
   }))
 
-  const students = Array(6).fill().map((student) => {
+  const students = Array(100).fill().map((student) => {
     return {
       firstName: faker.name.firstName(), 
       lastName: faker.name.lastName(),
@@ -345,7 +345,7 @@ const syncAndSeed = async()=> {
     Student.create(student);
   }));
 
-  const students2 = Array(3).fill().map((student) => {
+  const students2 = Array(80).fill().map((student) => {
     return {
       firstName: faker.name.firstName(), 
       lastName: faker.name.lastName(),
