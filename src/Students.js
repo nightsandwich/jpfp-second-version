@@ -6,9 +6,11 @@ import { deleteStudent } from "./store";
 
 const Students = ({students, campuses, destroy}) => {
 //USE COMPONENT DID UPDATE HERE???? BC SCHOOL DOESN"T UPDATE
-
+//the api is correct but it doesn't connect until reload
+console.log('STUDENTS', students)
     return (
         <>
+        
         <div>
             <AddStudent />
         </div>

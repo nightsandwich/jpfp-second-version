@@ -4,7 +4,7 @@
 import axios from 'axios';
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import { updateStudent } from './store'
+import { updateStudent, deleteStudentSchool } from './store'
 
 export class UpdateStudent extends Component {
     constructor(){
@@ -19,6 +19,7 @@ export class UpdateStudent extends Component {
         }
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.dropSchool = this.dropSchool.bind(this);
     }
     
    async componentDidMount(){
@@ -32,9 +33,8 @@ export class UpdateStudent extends Component {
     onChange(ev){
         const change = {};
         change[ev.target.name] = ev.target.value;
-        console.log('thisprops', this.props);
         this.setState(change);
-        console.log(this.state);
+        console.log('state',this.state);
     }
     async onSubmit(ev){
         ev.preventDefault();
@@ -47,10 +47,18 @@ export class UpdateStudent extends Component {
         //this.setState({firstName: '', lastName: '', email: '', imageUrl: '', gpa: ''});
         
     }
+    async dropSchool(ev){
+        try{
+            await this.props.dropSchool(this.props.student);
+        }
+        catch(ex){
+            console.log(ex)
+        }
+    }
 
     render() {
         const {firstName, lastName, email, imageUrl, gpa, campusId} = this.state;
-        const {onChange, onSubmit} = this;
+        const {onChange, onSubmit, dropSchool} = this;
         const {campuses} = this.props;
 //-----------const isDisabled = !name || !address ;
 // console.log('thisprops2', this.props);
@@ -67,8 +75,9 @@ export class UpdateStudent extends Component {
                     <input name='imageUrl' value={imageUrl} onChange={onChange} />
                     GPA:
                     <input name='gpa' value={gpa} onChange={onChange} />
-                    Schools:
+                    Schools:    
                     <select name='campusId' onChange={onChange} value={campusId}>
+                        <option name='campusId' onChange={onChange} value={null}> </option>
                         {
                             campuses.map( campus => { 
                                 return (
@@ -80,6 +89,9 @@ export class UpdateStudent extends Component {
                         }
                     </select>
                     <button >UPDATE STUDENT</button>
+                    {/* 
+                    Unenroll from school?
+                    <input type='checkbox' value={this.props.student.id} onChange={dropSchool} /> */}
                 </form>
             </div>
         )
@@ -95,7 +107,8 @@ const mapState = (state, otherProps) => {
 
 const mapDispatch = (dispatch, {history}) => {
     return {
-        update: (student) => dispatch(updateStudent(student, history))
+        update: (student) => dispatch(updateStudent(student, history)),
+        dropSchool: (student) => dispatch(deleteStudentSchool(student))
     }
 }
 export default connect(mapState, mapDispatch)(UpdateStudent);

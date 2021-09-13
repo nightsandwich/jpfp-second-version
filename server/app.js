@@ -151,6 +151,8 @@ app.delete('/api/students/:id', async(req, res, next) => {
 
 app.put('/api/campuses/:id', async(req, res, next) => {
   try{
+    const _campus = await Campus.findByPk(req.params.id);
+    await _campus.update(req.body);
     const campus = await Campus.findByPk(req.params.id, {
       include: [
         {
@@ -158,8 +160,6 @@ app.put('/api/campuses/:id', async(req, res, next) => {
         }
       ]
     });
-    await campus.update(req.body);
-   
     res.send(campus);
   }
   catch(ex){
@@ -169,6 +169,8 @@ app.put('/api/campuses/:id', async(req, res, next) => {
 
 app.put('/api/students/:id', async(req, res, next) => {
   try{
+    const _student = await Student.findByPk(req.params.id);
+    await _student.update(req.body);
     const student = await Student.findByPk(req.params.id, {
       include: [
         {
@@ -176,7 +178,7 @@ app.put('/api/students/:id', async(req, res, next) => {
         }
       ]
     });
-    res.send(await student.update(req.body));
+    res.send(student);
   }
   catch(ex){
     next(ex);
