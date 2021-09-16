@@ -1,8 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
 import AddStudent from './AddStudent';
-import { deleteStudent } from "./store";
 import StudentList from "./StudentList";
 
 const Students = ({students}) => {
@@ -10,15 +8,15 @@ const Students = ({students}) => {
 //the api is correct but it doesn't connect until reload
 
     return (
-        <>
-        
+    <div>
+        <h1> Students</h1>
         <div className='addContainer'>
             <StudentList students={students}/>
             <div>
                 <AddStudent />
             </div>
         </div>
-    </>
+    </div>
     );
 }
 

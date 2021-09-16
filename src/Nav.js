@@ -1,13 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
-import {Link} from 'react-router-dom'
+import {NavLink} from 'react-router-dom'
 
 const Nav = ({campuses, students}) => {
 
     return (
     <>
-        <Link to='/campuses'> Campuses ({campuses.length}) </Link>
-        <Link to='/students'> Students ({students.length}) </Link>
+        <NavLink to='/campuses'> Campuses ({campuses.length}) </NavLink>
+        <NavLink to='/students'> Students ({students.length}) </NavLink>
     </>
     )
 }

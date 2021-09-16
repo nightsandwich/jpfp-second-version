@@ -4,6 +4,10 @@ img{
 * {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
+.active{
+    background-color: dodgerblue;
+    color: white;
+}
 .addContainer{
     display: flex;
 }
