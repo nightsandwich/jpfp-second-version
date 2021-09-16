@@ -67,15 +67,27 @@ console.log('campusId',this.state.campusId)
                     <button onClick={dropSchool}>Unenroll From School</button> 
                 </div>
                 <form onSubmit={ onSubmit }>
+                    First Name
+                    <br/>
                     <textarea rows='1' cols='50' name='firstName' value={firstName} onChange={onChange} />
+                    <br/>
+                    Last Name
                     <br/>
                     <textarea rows='1' cols='50' name='lastName' value={lastName} onChange={onChange} />
                     <br/>
+                    Email
+                    <br/>
                     <textarea rows='1' cols='50' name='email' value={email} onChange={onChange} />
+                    <br/>
+                    Image URL
                     <br/>
                     <textarea rows='1' cols='50' name='imageUrl' value={imageUrl} onChange={onChange} />
                     <br/>
+                    GPA
+                    <br/>
                     <textarea rows='1' cols='50' name='gpa' value={gpa} onChange={onChange} />
+                    <br/>
+                    Campus
                     <br/>
                     <select name='campusId' onChange={onChange} value={campusId}>
                         <option name='campusId' onChange={onChange} value={null}> </option>

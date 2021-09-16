@@ -58,13 +58,22 @@ export class UpdateCampus extends Component {
 //-----------const isDisabled = !name || !address ;
             
             return (
-                <div>
-                    <form onSubmit={ onSubmit }>
+                <div >
+                    <h2>Edit Campus Information</h2>
+                    <form onSubmit={ onSubmit } >
+                        Name of School
+                        <br/>
                         <textarea rows='1' cols='50' name='name' value={name} onChange={onChange} />
+                        <br/>
+                        Image URL
                         <br/>
                         <textarea rows='1' cols='50' name='imageUrl' value={imageUrl} onChange={onChange} />
                         <br/>
+                        Address
+                        <br/>
                         <textarea rows='1' cols='50' name='address' value={address} onChange={onChange} />
+                        <br/>
+                        Description
                         <br/>
                         <textarea rows='12' cols='50' name='description' value={description} onChange={onChange} />
                         <br/>

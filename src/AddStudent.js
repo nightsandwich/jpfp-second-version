@@ -44,15 +44,15 @@ export class AddStudent extends Component {
             
                 <form onSubmit={ onSubmit } className='add'>
                     First Name:
-                    <input name='firstName' value={firstName} onChange={onChange} />
+                    <textarea rows='1' cols='50' name='firstName' value={firstName} onChange={onChange} />
                     Last Name:
-                    <input name='lastName' value={lastName} onChange={onChange} />
+                    <textarea rows='1' cols='50' name='lastName' value={lastName} onChange={onChange} />
                     Email:
-                    <input name='email' value={email} onChange={onChange} />
+                    <textarea rows='1' cols='50' name='email' value={email} onChange={onChange} />
                     Image URL:
-                    <input name='imageUrl' value={imageUrl} onChange={onChange} />
+                    <textarea rows='1' cols='50' name='imageUrl' value={imageUrl} onChange={onChange} />
                     GPA:
-                    <input name='gpa' value={gpa} onChange={onChange} />
+                    <textarea rows='1' cols='50' name='gpa' value={gpa} onChange={onChange} />
                     <button >ADD STUDENT</button>
                 </form>
             

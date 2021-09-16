@@ -85,6 +85,9 @@ const addCampus = (campus) => {
     return async (dispatch) => {
         const added = (await axios.post('/api/campuses', campus)).data;
         dispatch(_addCampus(added));
+        
+        //not necessary?
+        history.push('/campuses');
     }
 }
 

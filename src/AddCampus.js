@@ -39,13 +39,13 @@ export class AddCampus extends Component {
             
                 <form onSubmit={ onSubmit } className='add'>
                     Name of School:
-                    <input name='name' value={name} onChange={onChange} />
+                    <textarea rows='1' cols='50' name='name' value={name} onChange={onChange} />
                     Image URL:
-                    <input name='imageUrl' value={imageUrl} onChange={onChange} />
+                    <textarea rows='1' cols='50' name='imageUrl' value={imageUrl} onChange={onChange} />
                     Address:
-                    <input name='address' value={address} onChange={onChange} />
+                    <textarea rows='1' cols='50' name='address' value={address} onChange={onChange} />
                     Description:
-                    <input name='description' value={description} onChange={onChange} />
+                    <textarea rows='12' cols='50' name='description' value={description} onChange={onChange} />
                     <button >ADD SCHOOL</button>
                 </form>
             
@@ -55,7 +55,7 @@ export class AddCampus extends Component {
 
 const mapDispatch = (dispatch, {history}) => {
     return {
-        create: (campus) => dispatch(addCampus(campus))
+        create: (campus) => dispatch(addCampus(campus, history))
     }
 }
 export default connect(null, mapDispatch)(AddCampus);
