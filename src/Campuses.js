@@ -8,24 +8,24 @@ const Campuses = ({campuses, destroy}) => {
 
     return (
     <div>
-        <div>
         <h1>Campuses</h1>
-        <div>
-            <AddCampus />
-        </div>
         
-        <ul>
-            {
-                campuses.map(campus => {
-                    return (
-                        <li key={campus.id}>
-                            <Link to={`/campuses/${campus.id}`}>{campus.name}</Link> ({campus.students.length} Students)
-                            <button onClick={()=>destroy(campus.id)}>X</button>
-                        </li>
-                    );
-                })
-            }
-        </ul>
+        <div className='addContainer'>
+            <ul>
+                {
+                    campuses.map(campus => {
+                        return (
+                            <li key={campus.id}>
+                                <Link to={`/campuses/${campus.id}`}>{campus.name}</Link> ({campus.students.length} Students)
+                                <button onClick={()=>destroy(campus.id)}>X</button>
+                            </li>
+                        );
+                    })
+                }
+            </ul>
+            <div>
+                <AddCampus />
+            </div>
         </div>
     </div>
 

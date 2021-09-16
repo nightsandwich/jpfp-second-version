@@ -23,18 +23,20 @@ export class UpdateStudent extends Component {
     }
     
    async componentDidMount(){
-    //    console.log('thisssssssssss', this);
-         const student = (await axios.get(`/api/students/${this.props.match.params.id}`)).data
-    //     console.log('studentttttttt', student)
-        // const {student} = this.props;
-        console.log('thisprops', this.props);
+        const student = (await axios.get(`/api/students/${this.props.match.params.id}`)).data
         this.setState(student);
+    }
+    componentDidUpdate(prevProps, prevState){
+        if (prevProps !== this.props){
+            this.setState({campusId: this.props.student.campusId});
+        }
+console.log('campusId',this.state.campusId)
+//why is this not updating the dropdown menu?
     }
     onChange(ev){
         const change = {};
         change[ev.target.name] = ev.target.value;
         this.setState(change);
-        console.log('state',this.state);
     }
     async onSubmit(ev){
         ev.preventDefault();
@@ -42,7 +44,7 @@ export class UpdateStudent extends Component {
             await this.props.update(this.state);
         } catch (ex){
             console.log(ex);
-            //=--------------------add error           
+//=--------------------add error           
         }
     }
     async dropSchool(ev){
@@ -61,18 +63,20 @@ export class UpdateStudent extends Component {
 //-----------const isDisabled = !name || !address ;
         return (
             <div>
+                <div>
+                    <button onClick={dropSchool}>Unenroll From School</button> 
+                </div>
                 <form onSubmit={ onSubmit }>
-                    First Name:
-                    <input name='firstName' value={firstName} onChange={onChange} />
-                    Last Name:
-                    <input name='lastName' value={lastName} onChange={onChange} />
-                    Email:
-                    <input name='email' value={email} onChange={onChange} />
-                    Image URL:
-                    <input name='imageUrl' value={imageUrl} onChange={onChange} />
-                    GPA:
-                    <input name='gpa' value={gpa} onChange={onChange} />
-                    Schools:    
+                    <textarea rows='1' cols='50' name='firstName' value={firstName} onChange={onChange} />
+                    <br/>
+                    <textarea rows='1' cols='50' name='lastName' value={lastName} onChange={onChange} />
+                    <br/>
+                    <textarea rows='1' cols='50' name='email' value={email} onChange={onChange} />
+                    <br/>
+                    <textarea rows='1' cols='50' name='imageUrl' value={imageUrl} onChange={onChange} />
+                    <br/>
+                    <textarea rows='1' cols='50' name='gpa' value={gpa} onChange={onChange} />
+                    <br/>
                     <select name='campusId' onChange={onChange} value={campusId}>
                         <option name='campusId' onChange={onChange} value={null}> </option>
                         {
@@ -85,11 +89,10 @@ export class UpdateStudent extends Component {
                             })
                         }
                     </select>
-                    <button >UPDATE STUDENT</button>
-                    {/* 
-                    Unenroll from school?
-                    <input type='checkbox' value={this.props.student.id} onChange={dropSchool} /> */}
+                    <br/>
+                    <button >Update Student Info</button>
                 </form>
+                     
             </div>
         )
     }

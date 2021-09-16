@@ -1,13 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import UpdateStudent from "./UpdateStudent";
 
 const Student = ({student, campus}) => {
     
     return (
     <>
-        <h1>{student.firstName}</h1>
+        <h1>{student.firstName} {student.lastName}</h1>
         <img src={student.imageUrl} alt={`Photo of ${student.firstName}`}/>
         <h3>{student.email}</h3>
         <p>{student.gpa}</p>

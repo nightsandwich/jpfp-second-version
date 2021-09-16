@@ -11,12 +11,12 @@ const Students = ({students}) => {
 
     return (
         <>
-
-        <div className='addstudent'>
-            <AddStudent />
-        </div>
-        <div className='students'>
+        
+        <div className='addContainer'>
             <StudentList students={students}/>
+            <div>
+                <AddStudent />
+            </div>
         </div>
     </>
     );

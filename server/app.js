@@ -258,7 +258,7 @@ const Student = db.define('student', {
     allowNull: true
   },
   gpa: {
-    type: DECIMAL(),
+    type: DECIMAL(10,1),
     validate: {
       min: 0,
       max: 4
@@ -290,7 +290,7 @@ const syncAndSeed = async()=> {
       name: faker.random.words() + ' ' + campusEnding(), 
       imageUrl: faker.random.image(), 
       address: faker.address.streetAddress() + ', ' + faker.address.city() + ', ' + faker.address.state(), 
-      description: faker.lorem.paragraph()
+      description: faker.lorem.paragraph($nb=8)
     }
   })
   //capitalizes first letter of each word in campus name
@@ -323,7 +323,7 @@ const syncAndSeed = async()=> {
       lastName: faker.name.lastName(),
       email: faker.internet.email(), 
       imageUrl: faker.random.image(),
-      gpa: gpaGenerator(),
+      gpa: 0.0,
       campusId: null
     }
   });

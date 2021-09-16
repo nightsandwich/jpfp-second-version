@@ -36,8 +36,8 @@ export class AddCampus extends Component {
 //-----------const isDisabled = !name || !address ;
         
         return (
-            <div>
-                <form onSubmit={ onSubmit }>
+            
+                <form onSubmit={ onSubmit } className='add'>
                     Name of School:
                     <input name='name' value={name} onChange={onChange} />
                     Image URL:
@@ -48,7 +48,7 @@ export class AddCampus extends Component {
                     <input name='description' value={description} onChange={onChange} />
                     <button >ADD SCHOOL</button>
                 </form>
-            </div>
+            
         )
     }
 }

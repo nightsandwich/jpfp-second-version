@@ -41,8 +41,8 @@ export class AddStudent extends Component {
 //-----------const isDisabled = !name || !address ;
         
         return (
-            <div>
-                <form onSubmit={ onSubmit }>
+            
+                <form onSubmit={ onSubmit } className='add'>
                     First Name:
                     <input name='firstName' value={firstName} onChange={onChange} />
                     Last Name:
@@ -55,7 +55,7 @@ export class AddStudent extends Component {
                     <input name='gpa' value={gpa} onChange={onChange} />
                     <button >ADD STUDENT</button>
                 </form>
-            </div>
+            
         )
     }
 }

@@ -5,13 +5,11 @@ const Campus = ({campus, students}) => {
     
     return (
     <>
-        <h1>{campus.name}</h1>
+        <div>{campus.name}</div>
         <img src={campus.imageUrl} alt={`Photo of ${campus.name}`}/>
-        <h3>{campus.address}</h3>
         <p>{campus.description}</p>
-        <div>
-            <h1>{students.length} Students</h1>
-        </div>
+        <p>Address: {campus.address}</p>
+        
     </>
     );
 }

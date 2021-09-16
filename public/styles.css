@@ -4,3 +4,12 @@ img{
 * {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
+.addContainer{
+    display: flex;
+}
+.add{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+    padding: 1rem;
+}

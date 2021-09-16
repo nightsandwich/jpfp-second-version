@@ -60,24 +60,25 @@ export class UpdateCampus extends Component {
             return (
                 <div>
                     <form onSubmit={ onSubmit }>
-                        Name of School:
-                        <input name='name' value={name} onChange={onChange} />
-                        Image URL:
-                        <input name='imageUrl' value={imageUrl} onChange={onChange} />
-                        Address:
-                        <input name='address' value={address} onChange={onChange} />
-                        Description:
-                        <input name='description' value={description} onChange={onChange} />
-                        <button >UPDATE</button>
+                        <textarea rows='1' cols='50' name='name' value={name} onChange={onChange} />
+                        <br/>
+                        <textarea rows='1' cols='50' name='imageUrl' value={imageUrl} onChange={onChange} />
+                        <br/>
+                        <textarea rows='1' cols='50' name='address' value={address} onChange={onChange} />
+                        <br/>
+                        <textarea rows='12' cols='50' name='description' value={description} onChange={onChange} />
+                        <br/>
+                        <button >Update Campus Info</button>
                     </form>
                     <br></br>
                     <div>
+                        {students.length ? `Enrollees: ${students.length}` : 'No students currently enrolled.'}
                         <ul>
                     {
                         students.map((student) => {
                             return (
                                 <li key={student.id}>
-                                    <Link to={`/students/${student.id}`}>{student.firstName}</Link>  
+                                    <Link to={`/students/${student.id}`}>{student.firstName} {student.lastName} </Link>  
                                     <button value={student.id} onClick={onClick}>X</button>
                                 </li>
                             );
