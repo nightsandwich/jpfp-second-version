@@ -20,9 +20,7 @@ const Student = ({student, campus}) => {
 }
 const mapState = (state, otherProps) => {
     const student = state.students.find(student => student.id === otherProps.match.params.id * 1) || {};
-    console.log('student:', student);
     const campus = state.campuses.find(campus => campus.id === student.campusId * 1) || {};
-    console.log('campus ', campus);
     return {student, campus};
 }
 export default connect(mapState)(Student);

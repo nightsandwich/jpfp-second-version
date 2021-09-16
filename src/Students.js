@@ -5,13 +5,7 @@ import AddStudent from './AddStudent';
 import { deleteStudent } from "./store";
 import StudentList from "./StudentList";
 
-const filter = (name, users) => {
-    return () => {
-        if(name === 'noschool') return users.filter(user => !user.campusId);
-        else return users.filter(user => user.campusId)
-    }
-}
-const Students = ({students, campuses, destroy}) => {
+const Students = ({students}) => {
 //USE COMPONENT DID UPDATE HERE???? BC SCHOOL DOESN"T UPDATE
 //the api is correct but it doesn't connect until reload
 
@@ -27,14 +21,7 @@ const Students = ({students, campuses, destroy}) => {
     </>
     );
 }
-const mapState = ({users}) => {
-    return 
-}
-const mapDispatch = (dispatch, {history}) => {
-    return {
-        destroy: (id) => dispatch(deleteStudent(id, history))
-    }
-}
-export default connect(({students, campuses})=>({students, campuses}), mapDispatch)(Students);
 
-//{campuses.find(campus => campus.studentId === student.id)}
+
+export default connect(({students, campuses})=>({students, campuses}))(Students);
+

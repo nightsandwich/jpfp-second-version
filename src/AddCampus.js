@@ -25,7 +25,7 @@ export class AddCampus extends Component {
             await this.props.create(this.state);
         } catch (ex){
             console.log(ex);
-            //=--------------------add error           
+//=--------------------add error           
         }
         this.setState({name: '', imageUrl: '', address: '', description: ''});
     }

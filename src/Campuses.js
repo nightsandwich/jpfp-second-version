@@ -5,7 +5,7 @@ import AddCampus from "./AddCampus";
 import { deleteCampus } from "./store";
 
 const Campuses = ({campuses, destroy}) => {
-    console.log(campuses);
+
     return (
     <div>
         <div>

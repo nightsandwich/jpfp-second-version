@@ -35,7 +35,7 @@ export class UpdateCampus extends Component {
             await this.props.update(this.state);
         } catch (ex){
             console.log(ex);
-            //=--------------------add error           
+//=--------------------add error           
         }
     }
      async onClick(ev){
@@ -50,17 +50,12 @@ export class UpdateCampus extends Component {
             console.log(ex);
         }
     }
-    //component did update for student deletion????
-    // destroy(id){
-    //     console.log(this.state)
-    //     this.setState({...this.state, students: this.state.students.filter(student => student.id !== id)});
-    // }
 
     render() {
             const {name, imageUrl, address, description, students} = this.state;
             const {onChange, onSubmit, onClick} = this;
 
-    //-----------const isDisabled = !name || !address ;
+//-----------const isDisabled = !name || !address ;
             
             return (
                 <div>

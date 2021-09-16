@@ -126,7 +126,6 @@ const _updateCampus = (campus) => (
 const updateCampus = (campus, history) => {
     return async (dispatch) => {
         const updated = (await axios.put(`/api/campuses/${campus.id}`, campus)).data;
-        console.log(updated);
         dispatch(_updateCampus(updated));
         history.push('/campuses');
     }
@@ -148,7 +147,7 @@ const _deleteStudentSchool = (student) => (
 )
 const deleteStudentSchool = (student) => {
     return async (dispatch) => {
-        const updated = (await axios.put(`/api/students/${student.id}/update`, {campusId: null})).data;
+        const updated = (await axios.put(`/api/students/${student.id}`, {campusId: null})).data;
         dispatch(_deleteStudentSchool(updated));
     }
 }

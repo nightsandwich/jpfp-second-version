@@ -44,8 +44,6 @@ export class UpdateStudent extends Component {
             console.log(ex);
             //=--------------------add error           
         }
-        //this.setState({firstName: '', lastName: '', email: '', imageUrl: '', gpa: ''});
-        
     }
     async dropSchool(ev){
         try{
@@ -61,7 +59,6 @@ export class UpdateStudent extends Component {
         const {onChange, onSubmit, dropSchool} = this;
         const {campuses} = this.props;
 //-----------const isDisabled = !name || !address ;
-// console.log('thisprops2', this.props);
         return (
             <div>
                 <form onSubmit={ onSubmit }>

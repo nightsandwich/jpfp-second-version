@@ -29,7 +29,7 @@ export class AddStudent extends Component {
             await this.props.create(this.state);
         } catch (ex){
             console.log(ex);
-            //=--------------------add error           
+//=--------------------add error           
         }
         this.setState({firstName: '', lastName: '', email: '', imageUrl: '', gpa: ''});
         

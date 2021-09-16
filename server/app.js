@@ -57,7 +57,7 @@ app.get('/api/students', async(req, res, next) => {
         }
       ],
       order: [
-        ['lastName']
+        ['firstName']
       ]
     }));
   }
@@ -179,34 +179,6 @@ app.put('/api/students/:id', async(req, res, next) => {
       ]
     });
     res.send(student);
-  }
-  catch(ex){
-    next(ex);
-  }
-})
-
-app.put('/api/students/:id/update', async(req, res, next) => {
-  try{
-    const student = await Student.findByPk(req.params.id, {
-      include: [
-        {
-          model: Campus
-        }
-      ]
-    });
-    console.log(req.body)
-    // const campus = await Campus.findByPk(student.campusId, {
-    //   includ: [
-    //     {
-    //       model: Student
-    //     }
-    //   ]
-    // });
-    // ;
-    res.send(await student.update(req.body)); 
-    // res.send(await campus.removeStudent(student));
-    
-    
   }
   catch(ex){
     next(ex);
