@@ -38,15 +38,14 @@ export class AddStudent extends Component {
         
     }
     validate(firstName, lastName, email, gpa){
-        //const validEmail = new RegExp('^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$');
-//const validGpa = new RegExp('^[0-3]+(.[0-9]{0,1})?$|^4+(.[0]{0,1})?$');
+        const validEmail = new RegExp('^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$');
+        const validGpa = new RegExp('^[0-3]+(.[0-9]{0,1})?$|^4+(.[0]{0,1})?$');
         
         return {
             firstName: firstName.length === 0,
             lastName: lastName.length === 0,
-            email: email.length === 0,
-            gpa: gpa.length === 0
-//            gpa: !validGpa.test(gpa)
+            email: email.length === 0 || !validEmail.test(email),
+            gpa: gpa.length === 0 || !validGpa.test(gpa),
         }
     }
 
@@ -54,9 +53,10 @@ export class AddStudent extends Component {
         const {firstName, lastName, email, imageUrl, gpa, campusId} = this.state;
         const {onChange, onSubmit, validate} = this;
         const {campuses} = this.props;
-//-----------const isDisabled = !name || !address ;
-const errors = validate(firstName, lastName, email, gpa);
-const isEnabled = !Object.keys(errors).some(x => errors[x]);
+
+        const errors = validate(firstName, lastName, email, gpa);
+        const isEnabled = !Object.keys(errors).some(x => errors[x]);
+        
         return (
             
                 <form onSubmit={ onSubmit } className='add'>
@@ -81,7 +81,7 @@ const isEnabled = !Object.keys(errors).some(x => errors[x]);
                             })
                         }
                     </select>
-                    <label>GPA<sup>*</sup><small className='errormessage'>{errors.email ? '---GPA should be between 0.0 and 4.0---' : ''}</small></label>
+                    <label>GPA<sup>*</sup><small className='errormessage'>{errors.gpa ? '---GPA should be between 0.0 and 4.0---' : ''}</small></label>
                     <textarea className={errors.gpa ? 'error' : ''} rows='1' cols='50' name='gpa' value={gpa} onChange={onChange} />
                     <button disabled={!isEnabled}>ADD STUDENT</button>
                     <br/>
