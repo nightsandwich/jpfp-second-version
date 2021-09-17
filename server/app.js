@@ -22,9 +22,6 @@ app.get('/api/campuses', async(req, res, next) => {
         {
           model: Student
         }
-      ],
-      order: [
-        ['name']
       ]
     }));
   }
@@ -55,9 +52,6 @@ app.get('/api/students', async(req, res, next) => {
         {
           model: Campus
         }
-      ],
-      order: [
-        ['firstName']
       ]
     }));
   }
@@ -277,7 +271,7 @@ const syncAndSeed = async()=> {
   }
   
   const campusIdGenerator = () => {
-    return Math.floor(Math.random() * (10)+1);
+    return Math.floor(Math.random() * (100)+1);
   }
   const campusEnding = () => {
     const random = Math.floor(Math.random() * 5);
@@ -290,7 +284,7 @@ const syncAndSeed = async()=> {
     return arr[random];
   }
 //change to more data later
-  const campuses = Array(10).fill().map((campus) => {
+  const campuses = Array(100).fill().map((campus) => {
     return {
       name: faker.random.words() + ' ' + campusEnding(), 
       imageUrl: faker.random.image(), 
@@ -308,7 +302,7 @@ const syncAndSeed = async()=> {
     Campus.create(campus);
   }))
 
-  const students = Array(5).fill().map((student) => {
+  const students = Array(100).fill().map((student) => {
     return {
       firstName: faker.name.firstName(), 
       lastName: faker.name.lastName(),
@@ -327,15 +321,18 @@ const syncAndSeed = async()=> {
     Student.create(student);
   })); 
 
-  const students2 = Array(5).fill().map((student) => {
+  const students2 = Array(50).fill().map((student) => {
     return {
       firstName: faker.name.firstName(), 
       lastName: faker.name.lastName(),
-      email: faker.internet.email(), 
+      email: '', 
       imageUrl: faker.random.image(),
       gpa: 0.0,
       campusId: null
     }
+  });
+  students2.forEach(student => {
+    student.email = `${student.firstName.toLowerCase()}.${student.lastName.toLowerCase()}@${emailEnding()}.com`;
   });
   await Promise.all(students2.map(student => {
     Student.create(student);

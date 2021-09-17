@@ -150,7 +150,7 @@ You can determine views and functionality from the requirements and wireframes s
 
 #### Finishing Touches
 
-- [ ] If a user attempts to add a new student or campus without a required field, a helpful message should be displayed
+- [Y] If a user attempts to add a new student or campus without a required field, a helpful message should be displayed
 - [ ] If a user attempts to access a page that doesn't exist (ex. `/potato`), a helpful "not found" message should be displayed
 - [ ] If a user attempts to view a student/campus that doesn't exist, a helpful message should be displayed
 - [ ] Whenever a component needs to wait for data to load from the server, a "loading" message should be displayed until the data is available
@@ -158,9 +158,9 @@ You can determine views and functionality from the requirements and wireframes s
 
 #### Ordering
 
-- [ ] Create option for students to be ordered based on lastName on all-students view
-- [ ] Create option for students to be ordered based on GPA on all-students view
-- [ ] Create option for campuses to be ordered based on number of enrolled students on all-campuses view
+- [Y] Create option for students to be ordered based on lastName on all-students view
+- [Y] Create option for students to be ordered based on GPA on all-students view
+- [Y] Create option for campuses to be ordered based on number of enrolled students on all-campuses view
 
 #### Filtering
 

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import {deleteStudentSchool} from './store';
 
 const Student = ({student, campus, dropSchool}) => {
+    
         return (
         <div className='infocontainer student'>
             <div className='studentname'>

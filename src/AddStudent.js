@@ -5,7 +5,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { addStudent } from './store'
 
-export class AddStudent extends Component {
+class AddStudent extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -30,22 +30,21 @@ export class AddStudent extends Component {
         try{
             await this.props.create(this.state);
         } catch (ex){
-            console.log(ex);
-//=--------------------add error           
+            console.log(ex);           
         }
-        console.log('this.state', this.state);
         this.setState({firstName: '', lastName: '', email: '', imageUrl: '', gpa: '', camppusId: ''});
         
     }
-    validate(firstName, lastName, email, gpa){
+    validate(firstName, lastName, campusId, email, gpa){
         const validEmail = new RegExp('^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$');
         const validGpa = new RegExp('^[0-3]+(.[0-9]{0,1})?$|^4+(.[0]{0,1})?$');
         
         return {
-            firstName: firstName.length === 0,
-            lastName: lastName.length === 0,
-            email: email.length === 0 || !validEmail.test(email),
-            gpa: gpa.length === 0 || !validGpa.test(gpa),
+            firstName: !firstName.length,
+            lastName: !lastName.length,
+            email: !email.length || !validEmail.test(email),
+            gpa: !gpa.length || !validGpa.test(gpa),
+            campusId: !campusId
         }
     }
 
@@ -54,7 +53,7 @@ export class AddStudent extends Component {
         const {onChange, onSubmit, validate} = this;
         const {campuses} = this.props;
 
-        const errors = validate(firstName, lastName, email, gpa);
+        const errors = validate(firstName, lastName, campusId, email, gpa);
         const isEnabled = !Object.keys(errors).some(x => errors[x]);
         
         return (
@@ -69,7 +68,7 @@ export class AddStudent extends Component {
                     <label>Image URL</label>
                     <textarea rows='1' cols='50' name='imageUrl' value={imageUrl} onChange={onChange} />
                     <label>Campus<sup>*</sup></label>
-                    <select name='campusId' onChange={onChange} value={campusId}>
+                    <select className={errors.email ? 'error' : ''} name='campusId' onChange={onChange} value={campusId}>
                         <option name='campusId' onChange={onChange} value={null}>SELECT CAMPUS</option>
                         {
                             campuses.map( campus => { 

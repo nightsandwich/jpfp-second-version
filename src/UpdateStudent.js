@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import { updateStudent, deleteStudentSchool } from './store'
+import { updateStudent } from './store'
 
 class UpdateStudent extends Component {
     constructor(){
