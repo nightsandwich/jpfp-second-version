@@ -204,7 +204,7 @@ module.exports = app;
 const Sequelize = require('sequelize');
 const {STRING, TEXT, DECIMAL} = Sequelize;
 const faker = require('faker');
-const db = new Sequelize(process.env.DATABASE_URL || 'postgres://localhost/campus_students_db');
+const db = new Sequelize(process.env.HEROKU_POSTGRESQL_CRIMSON_URL || 'postgres://localhost/campus_students_db');
 
 const Campus = db.define('campus', {
   name: {
