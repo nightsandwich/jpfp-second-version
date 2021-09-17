@@ -13,9 +13,7 @@
     "express": "^4.17.1",
     "pg": "^8.6.0",
     "sequelize": "^6.6.4",
-    "faker": "^5.5.3"
-  },
-  "devDependencies": {
+    "faker": "^5.5.3",
     "@babel/core": "^7.14.6",
     "@babel/preset-react": "^7.14.5",
     "axios": "^0.21.1",
@@ -29,5 +27,8 @@
     "redux-thunk": "^2.3.0",
     "webpack": "^5.41.1",
     "webpack-cli": "^4.7.2"
+  },
+  "devDependencies": {
+    
   }
 }
