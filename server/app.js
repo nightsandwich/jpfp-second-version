@@ -226,7 +226,7 @@ module.exports = app;
 const Sequelize = require('sequelize');
 const {STRING, TEXT, DECIMAL} = Sequelize;
 const faker = require('faker');
-const db = new Sequelize('postgresql-globular-90888' || 'postgres://localhost/campus_students_db');
+const db = new Sequelize(HEROKU_POSTGRESQL_MAUVE_URL || 'postgres://localhost/campus_students_db');
 
 const Campus = db.define('campus', {
   name: {
