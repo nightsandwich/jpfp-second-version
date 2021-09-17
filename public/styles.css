@@ -9,6 +9,12 @@ img{
     background-color: dodgerblue;
     color: white;
 }
+.error{
+    border: 1px solid red;
+}
+.errormessage{
+    color: red;
+}
 .updatecontainer{
     display: flex;
 }
