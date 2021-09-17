@@ -5,16 +5,20 @@ import { Link } from "react-router-dom";
 const Student = ({student, campus}) => {
     
     return (
-    <>
+    <div className='infocontainer'>
         <h1>{student.firstName} {student.lastName}</h1>
-        <img src={student.imageUrl} alt={`Photo of ${student.firstName}`}/>
-        <h3>{student.email}</h3>
-        <p>{student.gpa}</p>
         <div>
-            <Link to={`/campuses/${campus.id}`}>{campus.name}</Link>
+            <img src={student.imageUrl} alt={`Photo of ${student.firstName}`}/>
+        </div>
+        <div>
+            {campus.id ? `GPA: ${student.gpa} at ` : '' }
+            {campus.id ? <Link to={`/campuses/${campus.id}`}>{campus.name}</Link> : 'Not enrolled in a school.' }
+        </div>
+        <div>
+            Email: {student.email}
         </div>
         
-    </>
+    </div>
     );
 }
 const mapState = (state, otherProps) => {

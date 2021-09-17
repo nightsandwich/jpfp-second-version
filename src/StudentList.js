@@ -15,13 +15,12 @@ const StudentList = ({students, destroy}) => {
                                 <button onClick={()=>destroy(student.id)}>X</button>
                                 <br/> 
                                 {student.campus ? ` (attending ${student.campus.name}) ` : ' (doing own thing) '}
-                                
-                                GPA: {student.gpa}
+                                GPA: {student.campus ?  student.gpa : ' N/A '} 
                             </li>
                         );
                     })
                 }
-            </ul>
+        </ul>
     
     );
 }

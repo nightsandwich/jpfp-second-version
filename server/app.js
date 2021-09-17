@@ -277,19 +277,24 @@ const syncAndSeed = async()=> {
   }
   
   const campusIdGenerator = () => {
-    return Math.floor(Math.random() * (100)+1);
+    return Math.floor(Math.random() * (10)+1);
   }
   const campusEnding = () => {
     const random = Math.floor(Math.random() * 5);
     const arr = ['School', 'University', 'College', 'Academy', 'Center'];
     return arr[random];
   }
+  const emailEnding = () => {
+    const random = Math.floor(Math.random() * 5);
+    const arr = ['gmail', 'hotmail', 'yahoo', 'blah', 'me'];
+    return arr[random];
+  }
 //change to more data later
-  const campuses = Array(100).fill().map((campus) => {
+  const campuses = Array(10).fill().map((campus) => {
     return {
       name: faker.random.words() + ' ' + campusEnding(), 
       imageUrl: faker.random.image(), 
-      address: faker.address.streetAddress() + ', ' + faker.address.city() + ', ' + faker.address.state(), 
+      address: faker.address.streetAddress() + ', ' + faker.address.city() + ', ' + faker.address.state() + ' ' + faker.address.zipCode(), 
       description: faker.lorem.paragraph($nb=8)
     }
   })
@@ -303,21 +308,26 @@ const syncAndSeed = async()=> {
     Campus.create(campus);
   }))
 
-  const students = Array(100).fill().map((student) => {
+  const students = Array(5).fill().map((student) => {
     return {
       firstName: faker.name.firstName(), 
       lastName: faker.name.lastName(),
-      email: faker.internet.email(), 
       imageUrl: faker.random.image(),
+      email: '',
       gpa: gpaGenerator(),
       campusId: String(campusIdGenerator()) 
     }
   });
+  
+  students.forEach(student => {
+    student.email = `${student.firstName.toLowerCase()}.${student.lastName.toLowerCase()}@${emailEnding()}.com`;
+  });
+  
   await Promise.all(students.map(student => {
     Student.create(student);
-  }));
+  })); 
 
-  const students2 = Array(80).fill().map((student) => {
+  const students2 = Array(5).fill().map((student) => {
     return {
       firstName: faker.name.firstName(), 
       lastName: faker.name.lastName(),

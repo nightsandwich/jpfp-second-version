@@ -26,13 +26,14 @@ export class UpdateStudent extends Component {
         const student = (await axios.get(`/api/students/${this.props.match.params.id}`)).data
         this.setState(student);
     }
-    componentDidUpdate(prevProps, prevState){
-        if (prevProps !== this.props){
-            this.setState({campusId: this.props.student.campusId});
-        }
-console.log('campusId',this.state.campusId)
+//     componentDidUpdate(prevProps, prevState){
+//         if (prevProps !== this.props){
+//             const campus = this.props.campuses.find(campus => campus.id === this.state.campusId);
+//             campus.students.push(this.props.student);
+//         }
+// console.log('this.props', this.props)
 //why is this not updating the dropdown menu?
-    }
+//    }
     onChange(ev){
         const change = {};
         change[ev.target.name] = ev.target.value;
@@ -59,13 +60,17 @@ console.log('campusId',this.state.campusId)
     render() {
         const {firstName, lastName, email, imageUrl, gpa, campusId} = this.state;
         const {onChange, onSubmit, dropSchool} = this;
-        const {campuses} = this.props;
+        const {campuses, student} = this.props;
 //-----------const isDisabled = !name || !address ;
         return (
             <div>
+                {campusId ? 
                 <div>
                     <button onClick={dropSchool}>Unenroll From School</button> 
-                </div>
+                </div> 
+                : 
+                ''
+                }
                 <form onSubmit={ onSubmit }>
                     First Name
                     <br/>
@@ -110,7 +115,7 @@ console.log('campusId',this.state.campusId)
     }
 }
 const mapState = (state, otherProps) => {
-    const student = state.students.find(student => student.id === otherProps.match.params.id * 1) || {}; 
+    const student = state.students.find(student => student.id === otherProps.match.params.id * 1) || {};
     return {
         student: student,
         campuses: state.campuses

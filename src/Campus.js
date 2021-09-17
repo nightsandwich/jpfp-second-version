@@ -1,16 +1,34 @@
 import React from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
 const Campus = ({campus, students}) => {
     
     return (
-    <>
-        <div>{campus.name}</div>
-        <img src={campus.imageUrl} alt={`Photo of ${campus.name}`}/>
-        <p>{campus.description}</p>
-        <p>Address: {campus.address}</p>
+    <div className='infocontainer'>
+        <h1>{campus.name}</h1>
+        <div>
+            <img src={campus.imageUrl} alt={`Photo of ${campus.name}`}/>
+        </div>
+        <div className='description'>
+            {campus.description}
+            <br/>
+            <small><i>({campus.address})</i></small>
+        </div>
+        {students.length ? <h3 className='studentsheading'>{students. length} Students Enrolled</h3> : <h4 className='studentsheading'>No students.</h4>}
+        <ul>
+                {
+                    students.map(student => {
+                        return (
+                            <li key={student.id}>
+                                <Link to={`/students/${student.id}`}>{student.firstName} {student.lastName}</Link>
+                            </li>
+                        );
+                    })
+                }
+        </ul>
         
-    </>
+    </div>
     );
 }
 const mapState = (state, otherProps) => {

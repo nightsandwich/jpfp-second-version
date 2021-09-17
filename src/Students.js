@@ -1,25 +1,36 @@
-import React from "react";
+import React, {Component} from "react";
 import { connect } from "react-redux";
 import AddStudent from './AddStudent';
 import StudentList from "./StudentList";
+import {loadStudents} from './store';
 
-const Students = ({students}) => {
-//USE COMPONENT DID UPDATE HERE???? BC SCHOOL DOESN"T UPDATE
-//the api is correct but it doesn't connect until reload
-
-    return (
-    <div>
-        <h1> Students</h1>
-        <div className='addContainer'>
-            <StudentList students={students}/>
-            <div>
-                <AddStudent />
+class Students extends Component {
+    componentDidMount(){
+        this.props.loadStudents();
+    }
+    render() {
+        const {students} = this.props;
+        return (
+        <div>
+            <h1> Students</h1>
+            <div className='addContainer'>
+                <StudentList students={students}/>
+                <div>
+                    <AddStudent />
+                </div>
             </div>
         </div>
-    </div>
-    );
+        );
+
+    }
+}
+
+const mapDispatch = dispatch => {
+    return {
+        loadStudents: () => dispatch(loadStudents())
+    }
 }
 
 
-export default connect(({students, campuses})=>({students, campuses}))(Students);
+export default connect(({students, campuses})=>({students, campuses}), mapDispatch)(Students);
 
