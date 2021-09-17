@@ -15,18 +15,18 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'))
 }); 
 
-app.get('/db', async (req, res) => {
-  try {
-    const client = await pool.connect();
-    const result = await client.query('SELECT * FROM test_table');
-    const results = { 'results': (result) ? result.rows : null};
-    res.render('pages/db', results );
-    client.release();
-  } catch (err) {
-    console.error(err);
-    res.send("Error " + err);
-  }
-})
+// app.get('/db', async (req, res) => {
+//   try {
+//     const client = await pool.connect();
+//     const result = await client.query('SELECT * FROM test_table');
+//     const results = { 'results': (result) ? result.rows : null};
+//     res.render('pages/db', results );
+//     client.release();
+//   } catch (err) {
+//     console.error(err);
+//     res.send("Error " + err);
+//   }
+// })
 
 app.get('/api/campuses', async(req, res, next) => {
   try{
@@ -217,7 +217,7 @@ module.exports = app;
 const Sequelize = require('sequelize');
 const {STRING, TEXT, DECIMAL} = Sequelize;
 const faker = require('faker');
-const db = new Sequelize('postgres://zfpsoepnirdjev:efdb1ef78e26c935000c4eb68b9b46650efa6fe49546c7757a482d60d2fff576@ec2-34-227-120-94.compute-1.amazonaws.com:5432/d50ift7h6te4tg' || 'postgres://localhost/campus_students_db');
+const db = new Sequelize(process.env.DATABASE_URL || 'postgres://localhost/campus_students_db');
 
 const Campus = db.define('campus', {
   name: {
