@@ -8,9 +8,11 @@ class Students extends Component {
     constructor(props){
         super(props);
         this.state = {
-            view: 'normal'
+            view: 'normal',
+            filter: 'all'
         }
         this.chooseSort = this.chooseSort.bind(this);
+        this.chooseFilter = this.chooseFilter.bind(this);
     }
     async componentDidMount(){
         try{
@@ -23,15 +25,17 @@ class Students extends Component {
     chooseSort(ev){
         this.setState({view: ev.target.value});
     }
-    
+    chooseFilter(ev){
+        this.setState({filter: ev.target.value});
+    } 
     render() {
         const {students, destroy} = this.props;
-        const {view} = this.state;
-        const {chooseSort} = this;
+        const {view, filter} = this.state;
+        const {chooseSort, chooseFilter} = this;
+        
         const sortedByFirst = [...students].sort((a,b) => (a.firstName > b.firstName) ? 1 : -1); 
         const sortedByLast = [...students].sort((a,b) => (a.lastName > b.lastName) ? 1 : -1);
         const sortedByGpa = [...students].sort((a,b) => (a.gpa * 1 < b.gpa * 1) ? 1 : (a.gpa * 1 === b.gpa * 1) ? ((a.firstName > b.firstName) ? 1: -1) : -1);
-
         const studentsToRender = view === 'normal' ? sortedByFirst : view === 'last' ? sortedByLast : sortedByGpa;
         
         return (
@@ -44,12 +48,26 @@ class Students extends Component {
                 <option value={'last'}>Last Name</option>
                 <option value={'gpa'}>Highest GPA</option>
             </select>
-                
+            </div>
+            <div>
+                Filter by: 
+                <select name='filter' value={filter} onChange={chooseFilter}>
+                    <option value={'all'}>Show All</option>
+                    <option value={'campuses'}>Students With Campus Enrollment</option>
+                    <option value={'none'}>Students Without Campus Enrollment</option>
+                </select>
             </div>
             <div className='addContainer'>
                 <ul>
                     {
-                        studentsToRender.map(student => {
+                        studentsToRender.filter(student => {
+                            return filter === 'all' ?
+                            student :
+                            filter === 'campuses' ?
+                            student.campusId :
+                            !student.campusId
+                        })
+                        .map(student => {
                             return (
                                 <li key={student.id}>
                                     <Link to={`/students/${student.id}`}>{student.firstName} {student.lastName}</Link>
