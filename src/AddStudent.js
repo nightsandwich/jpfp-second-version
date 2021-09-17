@@ -14,6 +14,7 @@ export class AddStudent extends Component {
             email: '',
             imageUrl: '',
             gpa: '',
+            campusId: '',
         }
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
@@ -31,13 +32,15 @@ export class AddStudent extends Component {
             console.log(ex);
 //=--------------------add error           
         }
-        this.setState({firstName: '', lastName: '', email: '', imageUrl: '', gpa: ''});
+        console.log('this.state', this.state);
+        this.setState({firstName: '', lastName: '', email: '', imageUrl: '', gpa: '', camppusId: ''});
         
     }
 
     render() {
-        const {firstName, lastName, email, imageUrl, gpa} = this.state;
+        const {firstName, lastName, email, imageUrl, gpa, campusId} = this.state;
         const {onChange, onSubmit} = this;
+        const {campuses} = this.props;
 //-----------const isDisabled = !name || !address ;
         
         return (
@@ -51,6 +54,19 @@ export class AddStudent extends Component {
                     <textarea rows='1' cols='50' name='email' value={email} onChange={onChange} />
                     Image URL:
                     <textarea rows='1' cols='50' name='imageUrl' value={imageUrl} onChange={onChange} />
+                    Campus
+                    <select name='campusId' onChange={onChange} value={campusId}>
+                        <option name='campusId' onChange={onChange} value={null}>SELECT SCHOOL</option>
+                        {
+                            campuses.map( campus => { 
+                                return (
+                                <option value={ campus.id } key={ campus.id } >
+                                    {campus.name}
+                                </option>
+                                );
+                            })
+                        }
+                    </select>
                     GPA:
                     <textarea rows='1' cols='50' name='gpa' value={gpa} onChange={onChange} />
                     <button >ADD STUDENT</button>
@@ -65,4 +81,4 @@ const mapDispatch = (dispatch, {history}) => {
         create: (student) => dispatch(addStudent(student))
     }
 }
-export default connect(null, mapDispatch)(AddStudent);
+export default connect(({campuses})=> ({campuses}), mapDispatch)(AddStudent);
