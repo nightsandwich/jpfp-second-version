@@ -15,6 +15,7 @@ class AddStudent extends Component {
             imageUrl: '',
             gpa: '',
             campusId: '',
+            error: ''
         }
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
@@ -26,13 +27,15 @@ class AddStudent extends Component {
         this.setState(change);
     }
     async onSubmit(ev){
+        const {firstName, lastName, email, imageUrl, gpa, campusId} = this.state;
         ev.preventDefault();
         try{
-            await this.props.create(this.state);
+            await this.props.create({firstName, lastName, email, imageUrl, gpa, campusId});
         } catch (ex){
-            console.log(ex);           
+            console.log(ex);
+            this.setState({error: ex.response.data.error});
         }
-        this.setState({firstName: '', lastName: '', email: '', imageUrl: '', gpa: '', camppusId: ''});
+        this.setState({firstName: '', lastName: '', email: '', imageUrl: '', gpa: '', campusId: ''});
         
     }
     validate(firstName, lastName, campusId, email, gpa){
@@ -49,7 +52,7 @@ class AddStudent extends Component {
     }
 
     render() {
-        const {firstName, lastName, email, imageUrl, gpa, campusId} = this.state;
+        const {firstName, lastName, email, imageUrl, gpa, campusId, error} = this.state;
         const {onChange, onSubmit, validate} = this;
         const {campuses} = this.props;
 
@@ -86,6 +89,11 @@ class AddStudent extends Component {
                     <button disabled={!isEnabled}>ADD STUDENT</button>
                     <br/>
                     <small><sup>*</sup>Required Field</small>
+                    <pre className={error ? 'error' : ''}>
+                            {
+                                !!error && JSON.stringify(error, null, 2)
+                            }
+                    </pre>
                 </form>
             
         )
