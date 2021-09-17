@@ -59,6 +59,7 @@ class AddStudent extends Component {
         return (
             
                 <form onSubmit={ onSubmit } className='add'>
+                    <h3>Add New Student</h3>
                     <label>First Name<sup>*</sup></label>
                     <textarea className={errors.firstName ? 'error' : ''} rows='1' cols='50' name='firstName' value={firstName} onChange={onChange} />
                     <label>Last Name<sup>*</sup></label>

@@ -15,14 +15,6 @@ class Campuses extends Component {
         this.chooseFilter = this.chooseFilter.bind(this);
     }
     
-    async componentDidMount(){
-        try{
-            this.props.loadCampuses();
-        }
-        catch (ex){
-            console.log(ex);
-        }
-    }
     chooseSort(ev){
         this.setState({view: ev.target.value});
     }
@@ -30,7 +22,7 @@ class Campuses extends Component {
         this.setState({filter: ev.target.value});
     } 
     render(){
-        const {campuses, destroy} = this.props;
+        const {campuses, destroy, start, end} = this.props;
         const {view, filter} = this.state;
         const {chooseSort, chooseFilter} = this;
         
@@ -38,6 +30,15 @@ class Campuses extends Component {
         const sortedByStudents = [...campuses].sort((a,b) => (a.students.length < b.students.length) ? 1 : (a.students.length === b.students.length) ? ((a.name > b.name) ? 1: -1) : -1);
         const campusesToRender = view === 'normal' ? sortedByName : sortedByStudents;
         
+        const filteredCampuses = campusesToRender.filter(campus => {
+            return filter === 'all' ? 
+            campus : 
+            filter === 'students' ?
+            campus.students.length :
+            !campus.students.length
+        });
+        const paginatedCampuses = filteredCampuses.filter((campus,idx) => idx + 1 >= start && idx + 1 <= end ? campus : '');
+
         return (
         <div>
             <h1>Campuses</h1>
@@ -59,18 +60,14 @@ class Campuses extends Component {
             <div className='addContainer'>
                 <ul>
                     {
-                        campusesToRender.filter(campus => {
-                            return filter === 'all' ? 
-                            campus : 
-                            filter === 'students' ?
-                            campus.students.length :
-                            !campus.students.length
-                        })
-                        .map(campus => {
+                        paginatedCampuses.map(campus => {
                             return (
                                 <li key={campus.id}>
-                                    <Link to={`/campuses/${campus.id}`}>{campus.name}</Link> ({campus.students.length} Students)
-                                    <button onClick={()=>destroy(campus.id)}>X</button>
+                                    <button onClick={()=>destroy(campus.id)}><small>DELETE</small></button><span> </span>
+                                    <Link to={`/campuses/${campus.id}`}>{campus.name}</Link>
+                                    <small>  ({campus.address.split(', ').slice(2,3).join('').split(' (')[0]})</small> 
+                                    <br/>
+                                    {campus.students.length === 0 ? '--No students--' : campus.students.length === 1 ? '--1 student--' : `--${campus.students.length} students--`}
                                 </li>
                             );
                         })
@@ -80,16 +77,39 @@ class Campuses extends Component {
                     <AddCampus />
                 </div>
             </div>
+            <br/>
+            <br/>
+            <br/>
+            <div className='pagnav'>
+                Go to Campuses 
+                {
+                    filteredCampuses.map((campus, idx) => {
+                        return (((idx + 1) % 10 === 1) ? 
+                        <Link key={campus.id} to={`campuses?page=${(idx + 10) / 10}`}> {`<${idx + 1}>`} </Link>
+                        : '');
+                    })
+                }
+            </div>
         </div>
     
         );
     }
 }
-
+const mapState = (state, otherProps) => {
+    const start = (10 * (otherProps.location.search.slice(6) - 1)) + 1;
+    const end = start + 9;
+    return {
+        campuses: state.campuses,
+        start: start,
+        end: end,
+    }
+}
 const mapDispatch = (dispatch) => {
     return {
         destroy: (id) => dispatch(deleteCampus(id)),
         loadCampuses: () => dispatch(loadCampuses())
     }
 }
-export default connect(state=>state, mapDispatch)(Campuses);
+export default connect(mapState, mapDispatch)(Campuses);
+
+

@@ -6,8 +6,8 @@ const Nav = ({campuses, students}) => {
 
     return (
     <>
-        <NavLink to='/campuses'> Campuses ({campuses.length}) </NavLink>
-        <NavLink to='/students'> Students ({students.length}) </NavLink>
+        <NavLink to='/campuses?page=1'> Campuses ({campuses.length}) </NavLink>
+        <NavLink to='/students?page=1'> Students ({students.length}) </NavLink>
     </>
     )
 }

@@ -164,12 +164,12 @@ You can determine views and functionality from the requirements and wireframes s
 
 #### Filtering
 
-- [ ] Create a filter on all-students view to only show students who are not registered to a campus
+- [Y] Create a filter on all-students view to only show students who are not registered to a campus
 - [Y] Create a filter on the all-campuses view to only show campuses that do not have any registered students
 
 #### Seeding & Pagination
 
-- [ ] Seed 100+ students and 100+ campuses
+- [Y] Seed 100+ students and 100+ campuses
 - [ ] Implement _front-end_ pagination for the students view (e.g. `/students?page=1` renders the first ten students, and `/students?page=2` renders students 11-20)
 - [ ] Implement _front-end_ pagination for the campuses view (e.g. `/campuses?page=1` renders the first ten campuses, and `/campuses?page=2` renders campuses 11-20)
 - [ ] Implement _back-end_ pagination for students (e.g. `/api/students?page=1` returns the first ten students' data, and `/api/students?page=2` returns students 11-20)
@@ -177,9 +177,6 @@ You can determine views and functionality from the requirements and wireframes s
 
 
 * `RUBRIC.md` - contains the grading rubric for additional factors, as well as the formula for calculating the total score
-
-
-
 
 
 ## Evaluation

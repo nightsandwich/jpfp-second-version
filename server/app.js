@@ -22,6 +22,9 @@ app.get('/api/campuses', async(req, res, next) => {
         {
           model: Student
         }
+      ],
+      order: [
+        ['id']
       ]
     }));
   }
@@ -52,6 +55,9 @@ app.get('/api/students', async(req, res, next) => {
         {
           model: Campus
         }
+      ],
+      order: [
+        ['id']
       ]
     }));
   }
@@ -287,8 +293,8 @@ const syncAndSeed = async()=> {
   const campuses = Array(100).fill().map((campus) => {
     return {
       name: faker.random.words() + ' ' + campusEnding(), 
-      imageUrl: faker.random.image(), 
-      address: faker.address.streetAddress() + ', ' + faker.address.city() + ', ' + faker.address.state() + ' ' + faker.address.zipCode(), 
+      imageUrl: faker.image.nature(), 
+      address: faker.address.streetAddress() + ', ' + faker.address.city() + ', ' + faker.address.state() + ' (' + faker.address.zipCode() + ')', 
       description: faker.lorem.paragraph($nb=8)
     }
   })
@@ -306,7 +312,7 @@ const syncAndSeed = async()=> {
     return {
       firstName: faker.name.firstName(), 
       lastName: faker.name.lastName(),
-      imageUrl: faker.random.image(),
+      imageUrl: faker.image.people(),
       email: '',
       gpa: gpaGenerator(),
       campusId: String(campusIdGenerator()) 
@@ -321,7 +327,7 @@ const syncAndSeed = async()=> {
     Student.create(student);
   })); 
 
-  const students2 = Array(50).fill().map((student) => {
+  const students2 = Array(30).fill().map((student) => {
     return {
       firstName: faker.name.firstName(), 
       lastName: faker.name.lastName(),

@@ -14,14 +14,6 @@ class Students extends Component {
         this.chooseSort = this.chooseSort.bind(this);
         this.chooseFilter = this.chooseFilter.bind(this);
     }
-    async componentDidMount(){
-        try{
-            this.props.loadStudents();
-        }
-        catch(ex){
-            console.log(ex)
-        }
-    }
     chooseSort(ev){
         this.setState({view: ev.target.value});
     }
@@ -29,7 +21,7 @@ class Students extends Component {
         this.setState({filter: ev.target.value});
     } 
     render() {
-        const {students, destroy} = this.props;
+        const {students, destroy, start, end} = this.props;
         const {view, filter} = this.state;
         const {chooseSort, chooseFilter} = this;
         
@@ -38,16 +30,25 @@ class Students extends Component {
         const sortedByGpa = [...students].sort((a,b) => (a.gpa * 1 < b.gpa * 1) ? 1 : (a.gpa * 1 === b.gpa * 1) ? ((a.firstName > b.firstName) ? 1: -1) : -1);
         const studentsToRender = view === 'normal' ? sortedByFirst : view === 'last' ? sortedByLast : sortedByGpa;
         
+        const filteredStudents = studentsToRender.filter(student => {
+            return filter === 'all' ?
+            student :
+            filter === 'campuses' ?
+            student.campusId :
+            !student.campusId
+        });
+        const paginatedStudents = filteredStudents.filter((student, idx) => idx + 1 >= start && idx + 1 <= end ? student : '');
+        
         return (
         <div>
             <h1> Students</h1>
             <div>
                 Sort by:
-            <select name='view' value={view} onChange={chooseSort}>
-                <option value={'normal'}>First Name</option>
-                <option value={'last'}>Last Name</option>
-                <option value={'gpa'}>Highest GPA</option>
-            </select>
+                <select name='view' value={view} onChange={chooseSort}>
+                    <option value={'normal'}>First Name</option>
+                    <option value={'last'}>Last Name</option>
+                    <option value={'gpa'}>Highest GPA</option>
+                </select>
             </div>
             <div>
                 Filter by: 
@@ -60,21 +61,14 @@ class Students extends Component {
             <div className='addContainer'>
                 <ul>
                     {
-                        studentsToRender.filter(student => {
-                            return filter === 'all' ?
-                            student :
-                            filter === 'campuses' ?
-                            student.campusId :
-                            !student.campusId
-                        })
-                        .map(student => {
+                        paginatedStudents.map(student => {
                             return (
                                 <li key={student.id}>
+                                    <button onClick={()=>destroy(student.id)}><small>DELETE</small></button><span> </span>
                                     <Link to={`/students/${student.id}`}>{student.firstName} {student.lastName}</Link>
-                                    <button onClick={()=>destroy(student.id)}>X</button>
+                                    <small>  (GPA: {student.campus ?  student.gpa : 'N/A'}) </small>
                                     <br/> 
-                                    {student.campus ? ` (attending ${student.campus.name}) ` : ' (doing own thing) '}
-                                    GPA: {student.campus ?  student.gpa : ' N/A '} 
+                                    {student.campus ? `--attending ${student.campus.name}--` : '--not enrolled--'}
                                 </li>
                             );
                         })
@@ -84,12 +78,32 @@ class Students extends Component {
                     <AddStudent />
                 </div>
             </div>
+            <br/>
+            <br/>
+            <br/>
+            <div className='pagnav'>
+                Go to Students
+                {
+                    filteredStudents.map((student, idx) => {
+                        return (((idx + 1) % 10 === 1) ? 
+                        <Link key={student.id} to={`students?page=${(idx + 10) / 10}`}> {`<${idx + 1}>`} </Link>
+                        : '');
+                    })
+                }
+            </div>
         </div>
         );
-
     }
 }
-
+const mapState = (state, otherProps) => {
+    const start = (10 * (otherProps.location.search.slice(6) - 1)) + 1;
+    const end = start + 9;
+    return {
+        students: state.students,
+        start: start,
+        end: end,
+    }
+}
 const mapDispatch = (dispatch, {history}) => {
     return {
         loadStudents: () => dispatch(loadStudents()),
@@ -98,5 +112,5 @@ const mapDispatch = (dispatch, {history}) => {
 }
 
 
-export default connect(({students, campuses})=>({students, campuses}), mapDispatch)(Students);
+export default connect(mapState, mapDispatch)(Students);
 

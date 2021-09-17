@@ -5,6 +5,12 @@ img{
 * {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
+h1{
+    text-align: center;
+}
+li{
+    margin: .5rem;
+}
 .active{
     background-color: dodgerblue;
     color: white;
@@ -17,18 +23,25 @@ img{
 }
 .updatecontainer{
     display: flex;
+    margin-top: 2rem;
 }
 .addContainer{
     display: flex;
 }
 .addContainer > * {
     margin: .5rem;
+    border: 1px solid black;
 }
 .add{
     display: flex;
     flex-direction: column;
-    border: 1px solid black;
     padding: 1rem;
+}
+.add h3{
+    align-self: center;
+}
+li {
+    list-style: none;
 }
 /* campus view */
 .description{

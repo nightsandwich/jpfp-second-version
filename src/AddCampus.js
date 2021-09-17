@@ -44,8 +44,8 @@ class AddCampus extends Component {
         const isEnabled = !Object.keys(errors).some(x => errors[x]);
         
         return (
-            
                 <form onSubmit={ onSubmit } className='add'>
+                    <h3>Add New Campus</h3>
                     <label>Name<sup>*</sup></label>
                     <textarea className={errors.name ? 'error' : ''} rows='1' cols='50' name='name' value={name} onChange={onChange} />
                     <label>Image URL</label>
@@ -54,11 +54,10 @@ class AddCampus extends Component {
                     <textarea className={errors.address ? 'error' : ''} rows='1' cols='50' name='address' value={address} onChange={onChange} />
                     <label>Description</label>
                     <textarea rows='12' cols='50' name='description' value={description} onChange={onChange} />
-                    <button disabled={!isEnabled}>ADD SCHOOL</button>
+                    <button disabled={!isEnabled}>ADD CAMPUS</button>
                     <br/>
                     <small><sup>*</sup>Required Field</small>
                 </form>
-            
         )
     }
 }

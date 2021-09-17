@@ -11,10 +11,10 @@ const Student = ({student, campus, dropSchool}) => {
                 <h2>{student.firstName} {student.lastName}</h2>
             </div>
             <div>
-                <small>{student.email}</small>
+                <img src={student.imageUrl} alt={`Photo of ${student.firstName}`}/>
             </div>
             <div>
-                <img src={student.imageUrl} alt={`Photo of ${student.firstName}`}/>
+                <small>{student.email}</small>
             </div>
             <div>
                 {campus.id ? `GPA: ${student.gpa}` : '' }
