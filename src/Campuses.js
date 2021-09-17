@@ -5,11 +5,24 @@ import AddCampus from "./AddCampus";
 import { deleteCampus, loadCampuses } from "./store";
 
 class Campuses extends Component {
-    componentDidMount(){
-        this.props.loadCampuses();
-        //this.props.loadStudents();
+    async componentDidMount(){
+        try{
+            this.props.loadCampuses();
+        }
+        catch (ex){
+            console.log(ex);
+        }
     }
-
+    async componentDidUpdate(prevProps){
+        if(prevProps !== this.props){
+            try{
+                this.props.loadCampuses();
+            }
+            catch (ex){
+                console.log(ex);
+            }
+        }
+    }
     render(){
         const {campuses, destroy} = this.props;
         return (

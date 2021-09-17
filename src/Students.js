@@ -5,8 +5,23 @@ import StudentList from "./StudentList";
 import {loadStudents} from './store';
 
 class Students extends Component {
-    componentDidMount(){
-        this.props.loadStudents();
+    async componentDidMount(){
+        try{
+            this.props.loadStudents();
+        }
+        catch(ex){
+            console.log(ex)
+        }
+    }
+    async componentDidUpdate(prevProps){
+        if(prevProps !== this.props){
+            try{
+                this.props.loadStudents();
+            }
+            catch (ex){
+                console.log(ex);
+            }
+        }
     }
     render() {
         const {students} = this.props;

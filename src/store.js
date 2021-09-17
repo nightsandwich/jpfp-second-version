@@ -81,13 +81,13 @@ const loadStudents = () => {
 const _addCampus = (campus) => (
     {type: ADD_CAMPUS, campus}
 )
-const addCampus = (campus) => {
+const addCampus = (campus, history) => {
     return async (dispatch) => {
         const added = (await axios.post('/api/campuses', campus)).data;
         dispatch(_addCampus(added));
         
         //not necessary?
-        history.push('/campuses');
+        //history.push('/campuses');
     }
 }
 
