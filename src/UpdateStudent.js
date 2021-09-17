@@ -6,7 +6,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { updateStudent, deleteStudentSchool } from './store'
 
-export class UpdateStudent extends Component {
+class UpdateStudent extends Component {
     constructor(){
         super();
         this.state = {
@@ -19,7 +19,6 @@ export class UpdateStudent extends Component {
         }
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
-        this.dropSchool = this.dropSchool.bind(this);
     }
     
    async componentDidMount(){
@@ -41,29 +40,14 @@ export class UpdateStudent extends Component {
 //=--------------------add error           
         }
     }
-    async dropSchool(ev){
-        try{
-            await this.props.dropSchool(this.props.student);
-        }
-        catch(ex){
-            console.log(ex)
-        }
-    }
 
     render() {
         const {firstName, lastName, email, imageUrl, gpa, campusId} = this.state;
-        const {onChange, onSubmit, dropSchool} = this;
+        const {onChange, onSubmit} = this;
         const {campuses, student} = this.props;
 //-----------const isDisabled = !name || !address ;
         return (
             <div>
-                {campusId ? 
-                <div>
-                    <button onClick={dropSchool}>NEED TO CHANGE Unenroll From School</button> 
-                </div> 
-                : 
-                ''
-                }
                 <form onSubmit={ onSubmit }>
                     First Name
                     <br/>
@@ -117,8 +101,7 @@ const mapState = (state, otherProps) => {
 
 const mapDispatch = (dispatch, {history}) => {
     return {
-        update: (student) => dispatch(updateStudent(student, history)),
-        dropSchool: (student) => dispatch(deleteStudentSchool(student))
+        update: (student) => dispatch(updateStudent(student, history))
     }
 }
 export default connect(mapState, mapDispatch)(UpdateStudent);
