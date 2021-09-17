@@ -8,7 +8,7 @@ const Student = ({student, campus, dropSchool}) => {
 //console.log('student',student)
 //console.log('campus',campus)
     if (!student.id){
-        return <NotFound />
+        return( <NotFound /> );
     }
         return (
         <div className='infocontainer student'>
