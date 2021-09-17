@@ -1,4 +1,7 @@
 import {createStore, combineReducers, applyMiddleware} from 'redux';
+import { createLogger } from 'redux-logger';
+import {composeWithDevTools} from 'redux-devtools-extension';
+import thunkMiddleware from 'redux-thunk';
 
 const LOAD_CAMPUSES = 'LOAD_CAMPUSES';
 const LOAD_STUDENTS = 'LOAD_STUDENTS';
@@ -54,8 +57,9 @@ const reducer = combineReducers({
     campuses: campusesReducer,
     students: studentsReducer,
 });
+const middleware = composeWithDevTools(applyMiddleware(thunkMiddleware, createLogger({collapsed:true})));
 
-const store = createStore(reducer, applyMiddleware(thunk));
+const store = createStore(reducer, middleware);
 
 //action creators and thunks
 const _loadCampuses = (campuses) => (
@@ -141,9 +145,9 @@ const updateStudent = (student) => {
 const _deleteStudentSchool = (student) => (
     {type: DELETE_STUDENT_SCHOOL, student}
 )
-const deleteStudentSchool = (student) => {
+const deleteStudentSchool = (id) => {
     return async (dispatch) => {
-        const updated = (await axios.put(`/api/students/${student.id}`, {campusId: null})).data;
+        const updated = (await axios.put(`/api/students/${id}`, {campusId: null})).data;
         dispatch(_deleteStudentSchool(updated));
     }
 }

@@ -59,7 +59,7 @@ class Students extends Component {
             </div>
             <div>
                 Filter by: 
-                <select name='filter' value={filter} onChange={chooseFilter}>
+                <select name='filter' value={filter} onChange={chooseFilter} disabled={start !== 1}>
                     <option value={'all'}>Show All</option>
                     <option value={'campuses'}>Students With Campus Enrollment</option>
                     <option value={'none'}>Students Without Campus Enrollment</option>

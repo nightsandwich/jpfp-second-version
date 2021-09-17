@@ -45,16 +45,16 @@ export class UpdateCampus extends Component {
         }
     }
 
-     async onClick(ev){
+        onClick(ev){
         const {students} = this.state;
+        // const {storeStudents} = this.props;
         this.setState({...this.state, students: students.filter(student => student.id !== ev.target.value * 1)});
-        const student = (await axios.get(`/api/students/${ev.target.value}`)).data || {};
-        try{
-            await this.props.deleteStudentSchool(student);
-        } 
-        catch (ex){
-            console.log(ex);
-        }
+        // const student = (await axios.get(`/api/students/${ev.target.value}`)).data || {};
+        // const student = storeStudents.find(student => student.id === ev.target.value) || {};
+        
+        this.props.deleteStudentSchool(ev.target.value * 1);
+        
+        
     }
 
     render() {
@@ -114,7 +114,7 @@ export class UpdateCampus extends Component {
 const mapDispatch = (dispatch) => {
     return {
         update: (campus) => dispatch(updateCampus(campus)),
-        deleteStudentSchool: (student) => dispatch(deleteStudentSchool(student))
+        deleteStudentSchool: (id) => dispatch(deleteStudentSchool(id))
     }
 }
 export default connect(null, mapDispatch)(UpdateCampus);

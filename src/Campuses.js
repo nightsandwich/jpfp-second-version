@@ -32,7 +32,8 @@ class Campuses extends Component {
         
         const sortedByName = [...campuses].sort((a,b) => (a.name > b.name) ? 1 : -1); 
         const sortedByStudents = [...campuses].sort((a,b) => (a.students.length < b.students.length) ? 1 : (a.students.length === b.students.length) ? ((a.name > b.name) ? 1: -1) : -1);
-        const campusesToRender = view === 'normal' ? sortedByName : sortedByStudents;
+        const sortedByState = [...campuses].sort((a,b) => (a.address.split(', ').slice(2,3).join('').split(' (')[0] > b.address.split(', ').slice(2,3).join('').split(' (')[0]) ? 1 : -1);
+        const campusesToRender = view === 'normal' ? sortedByName : view === 'students' ? sortedByStudents : sortedByState;
         
         const filteredCampuses = campusesToRender.filter(campus => {
             return filter === 'all' ? 
@@ -48,14 +49,15 @@ class Campuses extends Component {
             <h1>Campuses</h1>
             <div>
                 Sort by:
-                <select name='view' value={view} onChange={chooseSort}>
+                <select name='view' value={view} onChange={chooseSort} >
                     <option value={'normal'}>Name</option>
                     <option value={'students'}>Number of Students</option>
+                    <option value={'states'}>State</option>
                 </select>
             </div>
             <div>
                 Filter by: 
-                <select name='filter' value={filter} onChange={chooseFilter}>
+                <select name='filter' value={filter} onChange={chooseFilter} disabled={start !== 1}>
                     <option value={'all'}>Show All</option>
                     <option value={'students'}>Campuses With Students</option>
                     <option value={'none'}>Campuses Without Students</option>
@@ -69,9 +71,10 @@ class Campuses extends Component {
                                 <li key={campus.id}>
                                     <button onClick={()=>destroy(campus.id)}><small>DELETE</small></button><span> </span>
                                     <Link to={`/campuses/${campus.id}`}>{campus.name}</Link>
-                                    <small>  ({campus.address.split(', ').slice(2,3).join('').split(' (')[0]})</small> 
-                                    <br/>
+                                    <small>  ({campus.address.split(', ').slice(2,3).join('').split(' (')[0]})</small>
+                                    <div className='count'>
                                     {campus.students.length === 0 ? '--No students--' : campus.students.length === 1 ? '--1 student--' : `--${campus.students.length} students--`}
+                                    </div>
                                 </li>
                             );
                         })

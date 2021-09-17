@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Switch, HashRouter as Router, Route} from 'react-router-dom';
+import { Switch, HashRouter as Router, Route} from 'react-router-dom';
 import { connect} from 'react-redux';
 import { loadCampuses, loadStudents } from './store';
 
@@ -10,6 +10,8 @@ import Students from './Students';
 import Student from './Student';
 import UpdateStudent from './UpdateStudent';
 import UpdateCampus from './UpdateCampus';
+import Home from './Home';
+import NotFound from './NotFound';
 
 export class _App extends Component {
     componentDidMount(){
@@ -21,17 +23,23 @@ export class _App extends Component {
         return (
     
             <Router>
+                    
                     <Route component={Nav} path='/' />
-                    <Route component={Campuses} path='/campuses' exact/>                    
-                    <Route component={Campuses} path='/campuses?page=:pg' exact/>                    
-                    <Route component={Students} path='/students' exact/>
-                    <Route component={Students} path='/students?page=:pg' exact/>                    
-                    <div className='updatecontainer'>
-                        <Route component={Campus} path='/campuses/:id' />
-                        <Route component={UpdateCampus} path='/campuses/:id' />
-                        <Route component={Student} path='/students/:id' />
-                        <Route component={UpdateStudent} path='/students/:id' />
-                    </div>
+                    <Route component={Home} path='/' exact/>
+                    <Switch>
+                        <Route component={Students} path='/students' exact/>
+                        <Route component={Campuses} path='/campuses' exact/>                    
+                        <Route component={Campuses} path='/campuses?page=:pg' exact/>                    
+                        <Route component={Students} path='/students?page=:pg' exact/> 
+                        <div className='updatecontainer'>
+                            <Route component={Campus} path='/campuses/:id' exact/>
+                            <Route component={UpdateCampus} path='/campuses/:id' exact/>
+                            <Route component={Student} path='/students/:id' exact/>
+                            <Route component={UpdateStudent} path='/students/:id' exact/>
+                        </div>
+                        <Route component={NotFound} />                   
+                    </Switch>
+                    
             </Router>
         );
     }

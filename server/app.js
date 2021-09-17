@@ -277,7 +277,7 @@ const syncAndSeed = async()=> {
   }
   
   const campusIdGenerator = () => {
-    return Math.floor(Math.random() * (100)+1);
+    return Math.floor(Math.random() * (110)+1);
   }
   const campusEnding = () => {
     const random = Math.floor(Math.random() * 5);
@@ -289,13 +289,13 @@ const syncAndSeed = async()=> {
     const arr = ['gmail', 'hotmail', 'yahoo', 'blah', 'me'];
     return arr[random];
   }
-//change to more data later
-  const campuses = Array(100).fill().map((campus) => {
+
+  const campuses = Array(110).fill().map((campus) => {
     return {
       name: faker.random.words() + ' ' + campusEnding(), 
       imageUrl: faker.image.nature(), 
       address: faker.address.streetAddress() + ', ' + faker.address.city() + ', ' + faker.address.state() + ' (' + faker.address.zipCode() + ')', 
-      description: faker.lorem.paragraph($nb=8)
+      description: faker.company.catchPhrase() + '! ' + faker.lorem.paragraphs($nb=3)
     }
   })
   //capitalizes first letter of each word in campus name
@@ -308,7 +308,7 @@ const syncAndSeed = async()=> {
     Campus.create(campus);
   }))
 
-  const students = Array(100).fill().map((student) => {
+  const students = Array(110).fill().map((student) => {
     return {
       firstName: faker.name.firstName(), 
       lastName: faker.name.lastName(),
