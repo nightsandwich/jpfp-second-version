@@ -2,13 +2,14 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import {deleteStudentSchool} from './store';
-import { NotFound } from "./NotFound";
+
 
 const Student = ({student, campus, dropSchool}) => {
 //console.log('student',student)
 //console.log('campus',campus)
     if (!student.id){
-        return( <NotFound /> );
+        //return( <NotFound /> );
+        return('...loading student');
     }
         return (
         <div className='infocontainer student'>
