@@ -14,12 +14,16 @@ class Campuses extends Component {
         this.chooseSort = this.chooseSort.bind(this);
         this.chooseFilter = this.chooseFilter.bind(this);
     }
+
+    componentDidMount(){
+        this.props.loadCampuses();
+    }
     
     chooseSort(ev){
-        this.setState({view: ev.target.value});
+        this.setState({...this.state, view: ev.target.value});
     }
     chooseFilter(ev){
-        this.setState({filter: ev.target.value});
+        this.setState({...this.state, filter: ev.target.value});
     } 
     render(){
         const {campuses, destroy, start, end} = this.props;
@@ -38,7 +42,7 @@ class Campuses extends Component {
             !campus.students.length
         });
         const paginatedCampuses = filteredCampuses.filter((campus,idx) => idx + 1 >= start && idx + 1 <= end ? campus : '');
-
+        
         return (
         <div>
             <h1>Campuses</h1>
@@ -104,6 +108,7 @@ const mapState = (state, otherProps) => {
         end: end,
     }
 }
+
 const mapDispatch = (dispatch) => {
     return {
         destroy: (id) => dispatch(deleteCampus(id)),

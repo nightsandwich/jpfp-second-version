@@ -19,8 +19,13 @@ class UpdateStudent extends Component {
     }
     
    async componentDidMount(){
-        const student = (await axios.get(`/api/students/${this.props.match.params.id}`)).data
-        this.setState(student);
+       try{
+           const student = (await axios.get(`/api/students/${this.props.match.params.id}`)).data || {};
+           this.setState(student);
+       }
+       catch(ex){
+           console.log(ex);
+       }
     }
 
     onChange(ev){
@@ -41,7 +46,7 @@ class UpdateStudent extends Component {
     render() {
         const {firstName, lastName, email, imageUrl, gpa, campusId} = this.state;
         const {onChange, onSubmit} = this;
-        const {campuses, student} = this.props;
+        const {campuses} = this.props;
 //-----------const isDisabled = !name || !address ;
         return (
             <div className='edit'>
@@ -94,14 +99,14 @@ class UpdateStudent extends Component {
 const mapState = (state, otherProps) => {
     const student = state.students.find(student => student.id === otherProps.match.params.id * 1) || {};
     return {
-        student: student,
+        // student: student,
         campuses: state.campuses
     }
 }
 
-const mapDispatch = (dispatch, {history}) => {
+const mapDispatch = (dispatch) => {
     return {
-        update: (student) => dispatch(updateStudent(student, history))
+        update: (student) => dispatch(updateStudent(student))
     }
 }
 export default connect(mapState, mapDispatch)(UpdateStudent);

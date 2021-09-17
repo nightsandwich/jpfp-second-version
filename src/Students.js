@@ -14,12 +14,19 @@ class Students extends Component {
         this.chooseSort = this.chooseSort.bind(this);
         this.chooseFilter = this.chooseFilter.bind(this);
     }
+
+    componentDidMount(){
+        this.props.loadStudents();
+    }
+    
     chooseSort(ev){
         this.setState({view: ev.target.value});
     }
+
     chooseFilter(ev){
         this.setState({filter: ev.target.value});
-    } 
+    }
+
     render() {
         const {students, destroy, start, end} = this.props;
         const {view, filter} = this.state;
@@ -104,10 +111,10 @@ const mapState = (state, otherProps) => {
         end: end,
     }
 }
-const mapDispatch = (dispatch, {history}) => {
+const mapDispatch = (dispatch) => {
     return {
         loadStudents: () => dispatch(loadStudents()),
-        destroy: (id) => dispatch(deleteStudent(id, history))
+        destroy: (id) => dispatch(deleteStudent(id))
     }
 }
 

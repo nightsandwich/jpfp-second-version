@@ -16,11 +16,13 @@ class AddCampus extends Component {
         this.onSubmit = this.onSubmit.bind(this);
         this.validate = this.validate.bind(this);
     }
+
     onChange(ev){
         const change = {};
         change[ev.target.name] = ev.target.value;
         this.setState(change);
     }
+    
     async onSubmit(ev){
         const {name, imageUrl, address, description} = this.state;
         ev.preventDefault();
@@ -32,6 +34,7 @@ class AddCampus extends Component {
         }
         this.setState({name: '', imageUrl: '', address: '', description: ''});
     }
+    
     validate(name, address){
         return {
             name: !name.length,
@@ -71,9 +74,9 @@ class AddCampus extends Component {
     }
 }
 
-const mapDispatch = (dispatch, {history}) => {
+const mapDispatch = (dispatch) => {
     return {
-        create: (campus) => dispatch(addCampus(campus, history))
+        create: (campus) => dispatch(addCampus(campus))
     }
 }
 export default connect(null, mapDispatch)(AddCampus);

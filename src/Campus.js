@@ -3,7 +3,9 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
 const Campus = ({campus, students}) => {
-    
+   if (!campus.id){
+       return '...loading campus';
+   } 
     return (
     <div className='infocontainer'>
         <h1>{campus.name}</h1>
@@ -15,7 +17,7 @@ const Campus = ({campus, students}) => {
             <br/>
             <small><i>({campus.address})</i></small>
         </div>
-        {students.length === 1 ? <h3 className='studentsheading'>{students. length} Student Currently Enrolled</h3> : students.length > 1 ? <h3 className='studentsheading'>{students. length} Students Currently Enrolled</h3> : <h4 className='studentsheading'>(No students currently enrolled.)</h4>}
+        {students.length === 1 ? <h3 className='studentsheading'>{students.length} Student Currently Enrolled</h3> : students.length > 1 ? <h3 className='studentsheading'>{students. length} Students Currently Enrolled</h3> : <h4 className='studentsheading'>(No students currently enrolled.)</h4>}
         <ul>
                 {
                     students.map(student => {

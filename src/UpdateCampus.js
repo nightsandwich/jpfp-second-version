@@ -18,33 +18,41 @@ export class UpdateCampus extends Component {
         this.onSubmit = this.onSubmit.bind(this);
         this.onClick = this.onClick.bind(this);
     }
-   async componentDidMount(){
-        this.setState((await axios.get(`/api/campuses/${this.props.match.params.id}`)).data);
-        console.log(this.state)
+
+    async componentDidMount(){
+        try{
+            const campus = (await axios.get(`/api/campuses/${this.props.match.params.id}`)).data || {};
+            this.setState(campus);
+        }
+        catch(ex){
+            console.log(ex);
+        }
     }
+
     onChange(ev){
         const change = {};
         change[ev.target.name] = ev.target.value;
         this.setState(change);
     }
+
     async onSubmit(ev){
         ev.preventDefault();
         try{
             await this.props.update(this.state);
-        } catch (ex){
+        } 
+        catch (ex){
             console.log(ex);
-//=--------------------add error           
         }
     }
+
      async onClick(ev){
         const {students} = this.state;
         this.setState({...this.state, students: students.filter(student => student.id !== ev.target.value * 1)});
-        
-        const student = (await axios.get(`/api/students/${ev.target.value}`)).data;
-        
+        const student = (await axios.get(`/api/students/${ev.target.value}`)).data || {};
         try{
             await this.props.deleteStudentSchool(student);
-        } catch (ex){
+        } 
+        catch (ex){
             console.log(ex);
         }
     }
@@ -52,8 +60,6 @@ export class UpdateCampus extends Component {
     render() {
             const {name, imageUrl, address, description, students} = this.state;
             const {onChange, onSubmit, onClick} = this;
-
-//-----------const isDisabled = !name || !address ;
             
             return (
                 <div className='edit'>
@@ -96,19 +102,19 @@ export class UpdateCampus extends Component {
             );
     }
 }
-const mapState = (state, otherProps) => {
-    const campus = state.campuses.find(campus => campus.id === otherProps.match.params.id * 1) || {}; 
-    const students = campus.students;
-    return {
-        storeCampus: campus,
-        storeStudents: students
-    }
-}
+// const mapState = (state, otherProps) => {
+//     const campus = state.campuses.find(campus => campus.id === otherProps.match.params.id * 1) || {}; 
+//     const students = campus.students || [];
+//     return {
+//         storeCampus: campus,
+//         storeStudents: students
+//     }
+// }
 
-const mapDispatch = (dispatch, {history}) => {
+const mapDispatch = (dispatch) => {
     return {
-        update: (campus) => dispatch(updateCampus(campus, history)),
+        update: (campus) => dispatch(updateCampus(campus)),
         deleteStudentSchool: (student) => dispatch(deleteStudentSchool(student))
     }
 }
-export default connect(mapState, mapDispatch)(UpdateCampus);
+export default connect(null, mapDispatch)(UpdateCampus);

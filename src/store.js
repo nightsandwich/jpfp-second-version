@@ -81,13 +81,10 @@ const loadStudents = () => {
 const _addCampus = (campus) => (
     {type: ADD_CAMPUS, campus}
 )
-const addCampus = (campus, history) => {
+const addCampus = (campus) => {
     return async (dispatch) => {
         const added = (await axios.post('/api/campuses', campus)).data;
-        dispatch(_addCampus(added));
-        
-        //not necessary?
-        //history.push('/campuses');
+        dispatch(_addCampus(added));;
     }
 }
 
@@ -107,41 +104,37 @@ const _deleteCampus = (id) => (
 const deleteCampus = (id) => {
     return async (dispatch) => {
         await axios.delete(`/api/campuses/${id}`);
-        dispatch(_deleteCampus(id * 1));
-        
+        dispatch(_deleteCampus(id * 1));   
     }
 }
 
 const _deleteStudent = (id) => (
     {type: DELETE_STUDENT, id}
 )
-const deleteStudent = (id, history) => {
+const deleteStudent = (id) => {
     return async (dispatch) => {
         await axios.delete(`/api/students/${id}`);
         dispatch(_deleteStudent(id * 1));
-        //history.push('/students');
     }
 }
 
 const _updateCampus = (campus) => (
     {type: UPDATE_CAMPUS, campus}
 )
-const updateCampus = (campus, history) => {
+const updateCampus = (campus) => {
     return async (dispatch) => {
         const updated = (await axios.put(`/api/campuses/${campus.id}`, campus)).data;
         dispatch(_updateCampus(updated));
-//        history.push('/campuses');
     }
 }
 
 const _updateStudent = (student) => (
     {type: UPDATE_STUDENT, student}
 )
-const updateStudent = (student, history) => {
+const updateStudent = (student) => {
     return async (dispatch) => {
         const updated = (await axios.put(`/api/students/${student.id}`, student)).data;
         dispatch(_updateStudent(updated));
-//        history.push('/students');
     }
 }
 

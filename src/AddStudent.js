@@ -26,6 +26,7 @@ class AddStudent extends Component {
         change[ev.target.name] = ev.target.value;
         this.setState(change);
     }
+
     async onSubmit(ev){
         const {firstName, lastName, email, imageUrl, gpa, campusId} = this.state;
         ev.preventDefault();
@@ -35,9 +36,9 @@ class AddStudent extends Component {
             console.log(ex);
             this.setState({error: ex.response.data.error});
         }
-        this.setState({firstName: '', lastName: '', email: '', imageUrl: '', gpa: '', campusId: ''});
-        
+        this.setState({firstName: '', lastName: '', email: '', imageUrl: '', gpa: '', campusId: ''});    
     }
+
     validate(firstName, lastName, campusId, email, gpa){
         const validEmail = new RegExp('^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$');
         const validGpa = new RegExp('^[0-3]+(.[0-9]{0,1})?$|^4+(.[0]{0,1})?$');
@@ -100,7 +101,7 @@ class AddStudent extends Component {
     }
 }
 
-const mapDispatch = (dispatch, {history}) => {
+const mapDispatch = (dispatch) => {
     return {
         create: (student) => dispatch(addStudent(student))
     }
