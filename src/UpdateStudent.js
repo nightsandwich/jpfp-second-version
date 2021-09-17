@@ -1,6 +1,3 @@
-//TODO ADD SCHOOL OPTION
-
-
 import axios from 'axios';
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
@@ -47,7 +44,8 @@ class UpdateStudent extends Component {
         const {campuses, student} = this.props;
 //-----------const isDisabled = !name || !address ;
         return (
-            <div>
+            <div className='edit'>
+                <h2>Edit Student Information</h2>
                 <form onSubmit={ onSubmit }>
                     First Name
                     <br/>
@@ -84,8 +82,10 @@ class UpdateStudent extends Component {
                         }
                     </select>
                     <br/>
+                    <br/> 
                     <button >Update Student Info</button>
                 </form>
+                    <br/>
                      
             </div>
         )

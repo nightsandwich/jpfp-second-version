@@ -25,10 +25,14 @@ export class _App extends Component {
                     
                         <Route component={Campuses} path='/campuses' exact/>                    
                         <Route component={Students} path='/students' exact/>
-                        <Route component={Campus} path='/campuses/:id' />
-                        <Route component={UpdateCampus} path='/campuses/:id' />
-                        <Route component={Student} path='/students/:id' />
-                        <Route component={UpdateStudent} path='/students/:id' />
+                        <div className='updatecontainer'>
+                            <Route component={Campus} path='/campuses/:id' />
+                            <Route component={UpdateCampus} path='/campuses/:id' />
+                        </div>
+                        <div className='updatecontainer'>
+                            <Route component={Student} path='/students/:id' />
+                            <Route component={UpdateStudent} path='/students/:id' />
+                        </div>
             </Router>
         );
     }

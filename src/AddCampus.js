@@ -38,15 +38,17 @@ export class AddCampus extends Component {
         return (
             
                 <form onSubmit={ onSubmit } className='add'>
-                    Name of School:
+                    <label>Name<sup>*</sup></label>
                     <textarea rows='1' cols='50' name='name' value={name} onChange={onChange} />
-                    Image URL:
+                    <label>Image URL</label>
                     <textarea rows='1' cols='50' name='imageUrl' value={imageUrl} onChange={onChange} />
-                    Address:
+                    <label>Address<sup>*</sup></label>
                     <textarea rows='1' cols='50' name='address' value={address} onChange={onChange} />
-                    Description:
+                    <label>Description</label>
                     <textarea rows='12' cols='50' name='description' value={description} onChange={onChange} />
                     <button >ADD SCHOOL</button>
+                    <br/>
+                    <small><sup>*</sup>Required Field</small>
                 </form>
             
         )

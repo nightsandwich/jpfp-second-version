@@ -9,8 +9,14 @@ img{
     background-color: dodgerblue;
     color: white;
 }
+.updatecontainer{
+    display: flex;
+}
 .addContainer{
     display: flex;
+}
+.addContainer > * {
+    margin: .5rem;
 }
 .add{
     display: flex;
@@ -20,18 +26,30 @@ img{
 }
 /* campus view */
 .description{
-    width: 500px;
+    width: 400px;
 }
-.infocontainer{
+
+.infocontainer, .edit{
     display: flex;
     flex-direction: column;
     align-items: center;
     border: 1px solid black;
-    width: 550px;
+}
+.infocontainer.student{
+    width: 275px;
+}
+.studentname{
+    flex-grow: .25;
 }
 .studentsheading{
     margin-bottom: .5rem;;
 }
 ul{
     margin-top: 0;
+}
+.edit{
+    width: 400px;
+}
+sup{
+    color: red;
 }

@@ -46,17 +46,17 @@ export class AddStudent extends Component {
         return (
             
                 <form onSubmit={ onSubmit } className='add'>
-                    First Name:
+                    <label>First Name<sup>*</sup></label>
                     <textarea rows='1' cols='50' name='firstName' value={firstName} onChange={onChange} />
-                    Last Name:
+                    <label>Last Name<sup>*</sup></label>
                     <textarea rows='1' cols='50' name='lastName' value={lastName} onChange={onChange} />
-                    Email:
+                    <label>Email<sup>*</sup></label>
                     <textarea rows='1' cols='50' name='email' value={email} onChange={onChange} />
-                    Image URL:
+                    <label>Image URL</label>
                     <textarea rows='1' cols='50' name='imageUrl' value={imageUrl} onChange={onChange} />
-                    Campus
+                    <br/>
                     <select name='campusId' onChange={onChange} value={campusId}>
-                        <option name='campusId' onChange={onChange} value={null}>SELECT SCHOOL</option>
+                        <option name='campusId' onChange={onChange} value={null}>SELECT CAMPUS</option>
                         {
                             campuses.map( campus => { 
                                 return (
@@ -67,9 +67,11 @@ export class AddStudent extends Component {
                             })
                         }
                     </select>
-                    GPA:
+                    <label>GPA<sup>*</sup></label>
                     <textarea rows='1' cols='50' name='gpa' value={gpa} onChange={onChange} />
                     <button >ADD STUDENT</button>
+                    <br/>
+                    <small><sup>*</sup>Required Field</small>
                 </form>
             
         )

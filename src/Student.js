@@ -1,22 +1,26 @@
-import React, {Component} from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import {deleteStudentSchool} from './store';
 
 const Student = ({student, campus, dropSchool}) => {
         return (
-        <div className='infocontainer'>
-            <h1>{student.firstName} {student.lastName}</h1>
+        <div className='infocontainer student'>
+            <div className='studentname'>
+                <h2>{student.firstName} {student.lastName}</h2>
+            </div>
+            <div>
+                <small>{student.email}</small>
+            </div>
             <div>
                 <img src={student.imageUrl} alt={`Photo of ${student.firstName}`}/>
             </div>
             <div>
-                {campus.id ? `GPA: ${student.gpa} at ` : '' }
-                {campus.id ? <Link to={`/campuses/${campus.id}`}>{campus.name}</Link> : 'Not enrolled in a school.' }
-                {campus.id ? <button onClick={()=>dropSchool(student)}>Unenroll</button> : '' }
+                {campus.id ? `GPA: ${student.gpa}` : '' }
             </div>
             <div>
-                Email: {student.email}
+                {campus.id ? <Link to={`/campuses/${campus.id}`}>{campus.name}</Link> : 'Not enrolled in a school.' }
+                {campus.id ? <button onClick={()=>dropSchool(student)}>Unenroll</button> : '' }
             </div>
         </div>
         );

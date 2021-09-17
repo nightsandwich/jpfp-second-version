@@ -15,7 +15,7 @@ const Campus = ({campus, students}) => {
             <br/>
             <small><i>({campus.address})</i></small>
         </div>
-        {students.length ? <h3 className='studentsheading'>{students. length} Students Enrolled</h3> : <h4 className='studentsheading'>No students.</h4>}
+        {students.length === 1 ? <h3 className='studentsheading'>{students. length} Student Currently Enrolled</h3> : students.length > 1 ? <h3 className='studentsheading'>{students. length} Students Currently Enrolled</h3> : <h4 className='studentsheading'>(No students currently enrolled.)</h4>}
         <ul>
                 {
                     students.map(student => {

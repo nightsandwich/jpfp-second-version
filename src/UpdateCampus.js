@@ -1,11 +1,8 @@
-//TODO ADD SCHOOL OPTION
-
 
 import axios from 'axios';
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { updateCampus, deleteStudentSchool } from './store'
-import {Link} from 'react-router-dom';
 export class UpdateCampus extends Component {
     constructor(){
         super();
@@ -58,7 +55,7 @@ export class UpdateCampus extends Component {
 //-----------const isDisabled = !name || !address ;
             
             return (
-                <div >
+                <div className='edit'>
                     <h2>Edit Campus Information</h2>
                     <form onSubmit={ onSubmit } >
                         Name of School
@@ -87,8 +84,7 @@ export class UpdateCampus extends Component {
                         students.map((student) => {
                             return (
                                 <li key={student.id}>
-                                    <Link to={`/students/${student.id}`}>{student.firstName} {student.lastName} </Link>  
-                                    <button value={student.id} onClick={onClick}>X</button>
+                                    {student.firstName} {student.lastName} <button value={student.id} onClick={onClick}>Unenroll</button>
                                 </li>
                             );
                         })
