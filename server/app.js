@@ -15,19 +15,6 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'))
 }); 
 
-// app.get('/db', async (req, res) => {
-//   try {
-//     const client = await pool.connect();
-//     const result = await client.query('SELECT * FROM test_table');
-//     const results = { 'results': (result) ? result.rows : null};
-//     res.render('pages/db', results );
-//     client.release();
-//   } catch (err) {
-//     console.error(err);
-//     res.send("Error " + err);
-//   }
-// })
-
 app.get('/api/campuses', async(req, res, next) => {
   try{
     res.send(await Campus.findAll({
@@ -59,6 +46,28 @@ app.get('/api/campuses/:id', async(req, res, next) => {
   catch(ex){
     next(ex)
   }
+});
+
+app.get('/api/campuses?page=:pg', async(req, res, next) => {
+  try{
+    const campuses = (await Campus.findAll({
+      include: [
+        {
+          model: Student
+        }
+      ],
+      order: [
+        ['id']
+      ]
+    }));
+    const start = (10 * (req.params.pg - 1)) + 1;
+    const end = start + 9;
+    res.send(campuses.filter(campus => {campus.id >= start && campus.id <= end}));
+  }
+  catch(ex){
+    next(ex)
+  }
+  
 });
 
 app.get('/api/students', async(req, res, next) => {

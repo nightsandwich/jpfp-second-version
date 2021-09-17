@@ -13,6 +13,7 @@ import UpdateCampus from './UpdateCampus';
 import Home from './Home';
 import NotFound from './NotFound';
 
+
 export class _App extends Component {
     componentDidMount(){
         this.props.loadCampuses();
@@ -26,19 +27,19 @@ export class _App extends Component {
                     
                     <Route component={Nav} path='/' />
                     <Route component={Home} path='/' exact/>
-                    <Switch>
-                        <Route component={Students} path='/students' exact/>
-                        <Route component={Campuses} path='/campuses' exact/>                    
-                        <Route component={Campuses} path='/campuses?page=:pg' exact/>                    
-                        <Route component={Students} path='/students?page=:pg' exact/> 
+                        <Route component={Students} path='/students?page=:pg' /> 
+                        <Route component={Students} path='/students/' exact/>
+                        <Route component={Campuses} path='/campuses?page=:pg' />                    
+                        <Route component={Campuses} path='/campuses/' exact/>                    
+                    
                         <div className='updatecontainer'>
                             <Route component={Campus} path='/campuses/:id' exact/>
                             <Route component={UpdateCampus} path='/campuses/:id' exact/>
                             <Route component={Student} path='/students/:id' exact/>
                             <Route component={UpdateStudent} path='/students/:id' exact/>
                         </div>
-                        <Route component={NotFound} />                   
-                    </Switch>
+                        {/* <Route component={NotFound} />                    */}
+                    
                     
             </Router>
         );

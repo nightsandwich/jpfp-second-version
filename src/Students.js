@@ -59,7 +59,7 @@ class Students extends Component {
             </div>
             <div>
                 Filter by: 
-                <select name='filter' value={filter} onChange={chooseFilter} disabled={start !== 1}>
+                <select name='filter' value={filter} onChange={chooseFilter} >
                     <option value={'all'}>Show All</option>
                     <option value={'campuses'}>Students With Campus Enrollment</option>
                     <option value={'none'}>Students Without Campus Enrollment</option>
@@ -85,9 +85,6 @@ class Students extends Component {
                     <AddStudent />
                 </div>
             </div>
-            <br/>
-            <br/>
-            <br/>
             <div className='pagnav'>
                 Go to Students
                 {
@@ -108,7 +105,7 @@ const mapState = (state, otherProps) => {
     return {
         students: state.students,
         start: start,
-        end: end,
+        end: end
     }
 }
 const mapDispatch = (dispatch) => {

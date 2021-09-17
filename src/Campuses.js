@@ -43,7 +43,7 @@ class Campuses extends Component {
             !campus.students.length
         });
         const paginatedCampuses = filteredCampuses.filter((campus,idx) => idx + 1 >= start && idx + 1 <= end ? campus : '');
-        
+
         return (
         <div>
             <h1>Campuses</h1>
@@ -57,7 +57,7 @@ class Campuses extends Component {
             </div>
             <div>
                 Filter by: 
-                <select name='filter' value={filter} onChange={chooseFilter} disabled={start !== 1}>
+                <select name='filter' value={filter} onChange={chooseFilter} >
                     <option value={'all'}>Show All</option>
                     <option value={'students'}>Campuses With Students</option>
                     <option value={'none'}>Campuses Without Students</option>
@@ -84,9 +84,6 @@ class Campuses extends Component {
                     <AddCampus />
                 </div>
             </div>
-            <br/>
-            <br/>
-            <br/>
             <div className='pagnav'>
                 Go to Campuses 
                 {
@@ -97,6 +94,7 @@ class Campuses extends Component {
                     })
                 }
             </div>
+            
         </div>
     
         );
