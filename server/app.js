@@ -299,7 +299,7 @@ const syncAndSeed = async()=> {
   }
   
   const campusIdGenerator = () => {
-    return Math.floor(Math.random() * (110)+1);
+    return Math.floor(Math.random() * (10)+1);
   }
   const campusEnding = () => {
     const random = Math.floor(Math.random() * 5);
@@ -319,7 +319,7 @@ const syncAndSeed = async()=> {
     }
     return retStr;
   }
-  const campuses = Array(110).fill().map((campus) => {
+  const campuses = Array(10).fill().map((campus) => {
     return {
       name: faker.random.words() + ' ' + campusEnding(), 
       imageUrl: faker.image.nature(), 
@@ -342,7 +342,7 @@ const syncAndSeed = async()=> {
     Campus.create(campus);
   }))
 
-  const students = Array(300).fill().map((student) => {
+  const students = Array(8).fill().map((student) => {
     return {
       firstName: faker.name.firstName(), 
       lastName: faker.name.lastName(),
@@ -361,7 +361,7 @@ const syncAndSeed = async()=> {
     Student.create(student);
   })); 
 
-  const students2 = Array(70).fill().map((student) => {
+  const students2 = Array(2).fill().map((student) => {
     return {
       firstName: faker.name.firstName(), 
       lastName: faker.name.lastName(),
