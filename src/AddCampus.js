@@ -45,8 +45,8 @@ class AddCampus extends Component {
 
 
     render() {
-        const {name, imageUrl, address, description, error} = this.state;
-        const {onChange, onSubmit, validate} = this;
+        const {name, address} = this.state;
+        const {validate} = this;
 
         const errors = validate(name, address);
         const isEnabled = !Object.keys(errors).some(x => errors[x]);

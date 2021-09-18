@@ -54,9 +54,8 @@ class AddStudent extends Component {
     }
 
     render() {
-        const {firstName, lastName, email, imageUrl, gpa, campusId, error} = this.state;
-        const {onChange, onSubmit, validate} = this;
-        const {campuses} = this.props;
+        const {firstName, lastName, email, gpa, campusId} = this.state;
+        const {validate} = this;
 
         const errors = validate(firstName, lastName, campusId, email, gpa);
         const isEnabled = !Object.keys(errors).some(x => errors[x]);

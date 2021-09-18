@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { updateStudent } from './store'
+import StudentForm from './StudentForm';
 
 class UpdateStudent extends Component {
     constructor(){
@@ -12,10 +13,12 @@ class UpdateStudent extends Component {
             email: '',
             imageUrl: '',
             gpa: '',
-            campusId: ''
+            campusId: '',
+            error: ''
         }
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.validate = this.validate.bind(this);
     }
     
    async componentDidMount(){
@@ -33,74 +36,42 @@ class UpdateStudent extends Component {
         change[ev.target.name] = ev.target.value;
         this.setState(change);
     }
+
     async onSubmit(ev){
         ev.preventDefault();
         try{
             await this.props.update(this.state);
         } catch (ex){
             console.log(ex);
-//=--------------------add error           
+            this.setState({error: ex.response.data.error});
+        }
+    }
+
+    validate(firstName, lastName, campusId, email, gpa){
+        const validEmail = new RegExp('^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$');
+        const validGpa = new RegExp('^[0-3]+(.[0-9]{0,1})?$|^4+(.[0]{0,1})?$');
+        
+        return {
+            firstName: !firstName.length,
+            lastName: !lastName.length,
+            email: !email.length || !validEmail.test(email),
+            gpa: !gpa.length || !validGpa.test(gpa),
+            campusId: !campusId
         }
     }
 
     render() {
-        const {firstName, lastName, email, imageUrl, gpa, campusId} = this.state;
-        const {onChange, onSubmit} = this;
-        const {campuses} = this.props;
-//-----------const isDisabled = !name || !address ;
+        const {firstName, lastName, email, gpa, campusId} = this.state;
+        const {validate} = this;
+
+        const errors = validate(firstName, lastName, campusId, email, gpa);
+        const isEnabled = !Object.keys(errors).some(x => errors[x]);
+
         return (
             <div className='edit'>
-                <h2>Edit Student Information</h2>
-                <form onSubmit={ onSubmit }>
-                    First Name
-                    <br/>
-                    <textarea rows='1' cols='50' name='firstName' value={firstName} onChange={onChange} />
-                    <br/>
-                    Last Name
-                    <br/>
-                    <textarea rows='1' cols='50' name='lastName' value={lastName} onChange={onChange} />
-                    <br/>
-                    Email
-                    <br/>
-                    <textarea rows='1' cols='50' name='email' value={email} onChange={onChange} />
-                    <br/>
-                    Image URL
-                    <br/>
-                    <textarea rows='1' cols='50' name='imageUrl' value={imageUrl} onChange={onChange} />
-                    <br/>
-                    GPA
-                    <br/>
-                    <textarea rows='1' cols='50' name='gpa' value={gpa} onChange={onChange} />
-                    <br/>
-                    Campus
-                    <br/>
-                    <select name='campusId' onChange={onChange} value={campusId}>
-                        <option name='campusId' onChange={onChange} value={null}>SELECT SCHOOL</option>
-                        {
-                            campuses.map( campus => { 
-                                return (
-                                <option value={ campus.id } key={ campus.id } >
-                                    {campus.name}
-                                </option>
-                                );
-                            })
-                        }
-                    </select>
-                    <br/>
-                    <br/> 
-                    <button >Update Student Info</button>
-                </form>
-                    <br/>
-                     
+                <StudentForm {...this.state} {...this} {...this.props} errors={errors} isEnabled={isEnabled} buttonName={'Update Student'}/>
             </div>
         )
-    }
-}
-const mapState = (state, otherProps) => {
-    //const student = state.students.find(student => student.id === otherProps.match.params.id * 1) || {};
-    return {
-        // student: student,
-        campuses: state.campuses
     }
 }
 
@@ -109,4 +80,4 @@ const mapDispatch = (dispatch) => {
         update: (student) => dispatch(updateStudent(student))
     }
 }
-export default connect(mapState, mapDispatch)(UpdateStudent);
+export default connect(({campuses})=> ({campuses}), mapDispatch)(UpdateStudent);

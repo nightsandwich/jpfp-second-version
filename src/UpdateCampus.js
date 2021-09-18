@@ -45,6 +45,7 @@ export class UpdateCampus extends Component {
         } 
         catch (ex){
             console.log(ex);
+            this.setState({error: ex.response.data.error});       
         }
     }
     
@@ -64,8 +65,8 @@ export class UpdateCampus extends Component {
     }
 
     render() {
-            const {name, imageUrl, address, description, students, error} = this.state;
-            const {onChange, onSubmit, onClick, validate} = this;
+            const {name, address, students } = this.state;
+            const {onClick, validate} = this;
             
             const errors = validate(name, address);
             const isEnabled = !Object.keys(errors).some(x => errors[x]);
