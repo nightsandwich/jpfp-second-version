@@ -114,4 +114,5 @@ a:hover{
     align-content: center;
     background-color: rgba(30, 143, 255, 0.521);
     color: black;
+    flex-wrap: wrap
 }

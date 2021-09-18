@@ -311,13 +311,20 @@ const syncAndSeed = async()=> {
     const arr = ['gmail', 'hotmail', 'yahoo', 'blah', 'me'];
     return arr[random];
   }
-
+  const description = () => {
+    const random = Math.floor(Math.random() *  (20 - 15) + 15);
+    let retStr = '';
+    for (let i = 1; i <= random; i++){
+      retStr += faker.company.catchPhrase() + '! ';
+    }
+    return retStr;
+  }
   const campuses = Array(110).fill().map((campus) => {
     return {
       name: faker.random.words() + ' ' + campusEnding(), 
       imageUrl: faker.image.nature(), 
       address: faker.address.streetAddress() + ', ' + faker.address.city() + ', ' + faker.address.state() + ' (' + faker.address.zipCode() + ')', 
-      description: faker.company.catchPhrase() + '! ' + faker.lorem.paragraphs($nb=3)
+      description: description()
     }
   })
   //capitalizes first letter of each word in campus name
@@ -326,11 +333,16 @@ const syncAndSeed = async()=> {
       return word[0].toUpperCase() + word.slice(1);
     } ).join(' ');
   });
+  campuses.forEach(campus => {
+    campus.name = campus.name.split('-').map(word => {
+      return word[0].toUpperCase() + word.slice(1);
+    } ).join(' ');
+  });
   await Promise.all(campuses.map(campus => {
     Campus.create(campus);
   }))
 
-  const students = Array(110).fill().map((student) => {
+  const students = Array(300).fill().map((student) => {
     return {
       firstName: faker.name.firstName(), 
       lastName: faker.name.lastName(),
@@ -349,7 +361,7 @@ const syncAndSeed = async()=> {
     Student.create(student);
   })); 
 
-  const students2 = Array(30).fill().map((student) => {
+  const students2 = Array(70).fill().map((student) => {
     return {
       firstName: faker.name.firstName(), 
       lastName: faker.name.lastName(),

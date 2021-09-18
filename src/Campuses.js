@@ -86,7 +86,7 @@ class Campuses extends Component {
                 </div>
             </div>
             <div className='pagnav'>
-                Go to Campuses 
+                Campuses 
                 {
                     filteredCampuses.map((campus, idx) => {
                         return (((idx + 1) % 10 === 1) ? 

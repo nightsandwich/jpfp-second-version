@@ -13,10 +13,12 @@ const Campus = ({campus, students}) => {
             <img src={campus.imageUrl} alt={`Photo of ${campus.name}`}/>
         </div>
         <div className='description'>
+            <strong>About:</strong>
+            <br/>
             {campus.description}
             <br/>
-            <small><i>({campus.address})</i></small>
         </div>
+        <small><i>({campus.address})</i></small>
         {students.length === 1 ? <h3 className='studentsheading'>{students.length} Student Currently Enrolled</h3> : students.length > 1 ? <h3 className='studentsheading'>{students. length} Students Currently Enrolled</h3> : <h4 className='studentsheading'>(No students currently enrolled.)</h4>}
         <ul>
                 {
