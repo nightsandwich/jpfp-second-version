@@ -16,9 +16,7 @@
     "faker": "^5.5.3",
     "nodemon": "^2.0.9",
     "webpack": "^5.41.1",
-    "webpack-cli": "^4.7.2" 
-  },
-  "devDependencies": {
+    "webpack-cli": "^4.7.2",
     "@babel/core": "^7.14.6",
     "@babel/preset-react": "^7.14.5",
     "axios": "^0.21.1",
@@ -32,7 +30,8 @@
     "redux-devtools-extension": "^2.13.9",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
-    "webpack": "^5.41.1",
-    "webpack-cli": "^4.7.2"
+  },
+  "devDependencies": {
+    
   }
 }
