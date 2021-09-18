@@ -38,6 +38,9 @@ li{
     background-color: cornsilk;
     color: black;
 }
+.nums{
+    margin-bottom: 0;
+}
 .error{
     border: 1px solid red;
 }

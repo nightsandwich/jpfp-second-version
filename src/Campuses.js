@@ -63,6 +63,7 @@ class Campuses extends Component {
                     <option value={'none'}>Campuses Without Students</option>
                 </select>
             </div>
+            <small className='nums' ><b>({start} to {end} of {campuses.length})</b></small>
             <div className='addContainer'>
                 <ul>
                     {
