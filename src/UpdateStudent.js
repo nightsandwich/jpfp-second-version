@@ -97,7 +97,7 @@ class UpdateStudent extends Component {
     }
 }
 const mapState = (state, otherProps) => {
-    const student = state.students.find(student => student.id === otherProps.match.params.id * 1) || {};
+    //const student = state.students.find(student => student.id === otherProps.match.params.id * 1) || {};
     return {
         // student: student,
         campuses: state.campuses

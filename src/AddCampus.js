@@ -41,6 +41,7 @@ class AddCampus extends Component {
             address: !address.length
         }
     }
+    
 
     render() {
         const {name, imageUrl, address, description, error} = this.state;

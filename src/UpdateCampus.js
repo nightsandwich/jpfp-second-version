@@ -45,16 +45,12 @@ export class UpdateCampus extends Component {
         }
     }
 
-        onClick(ev){
-        const {students} = this.state;
-        // const {storeStudents} = this.props;
-        this.setState({...this.state, students: students.filter(student => student.id !== ev.target.value * 1)});
-        // const student = (await axios.get(`/api/students/${ev.target.value}`)).data || {};
-        // const student = storeStudents.find(student => student.id === ev.target.value) || {};
+    onClick(ev){
+    const {students} = this.state;
+    this.setState({...this.state, students: students.filter(student => student.id !== ev.target.value * 1)});      
+    this.props.deleteStudentSchool(ev.target.value * 1);
         
-        this.props.deleteStudentSchool(ev.target.value * 1);
-        
-        
+
     }
 
     render() {
