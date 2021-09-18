@@ -4,7 +4,6 @@ const Home = () => {
     return (
     <div>
         <div className='home'>
-            <h1>Super</h1>
             <h1>Important</h1>
             <h1>Database</h1>
             <h1>Of</h1>

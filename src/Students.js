@@ -65,7 +65,7 @@ class Students extends Component {
                     <option value={'none'}>Students Without Campus Enrollment</option>
                 </select>
             </div>
-            <small className='nums' ><b>({start} to {end} of {students.length})</b></small>
+            
             <div className='addContainer'>
                 <ul>
                     {
@@ -95,6 +95,7 @@ class Students extends Component {
                         : '');
                     })
                 }
+                <small className='nums' ><b>({start} to {end} of {students.length})</b></small>
             </div>
         </div>
         );

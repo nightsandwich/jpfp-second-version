@@ -87,7 +87,7 @@ class AddStudent extends Component {
                     </select>
                     <label>GPA<sup>*</sup><small className='errormessage'>{errors.gpa ? '---GPA should be between 0.0 and 4.0---' : ''}</small></label>
                     <textarea className={errors.gpa ? 'error' : ''} rows='1' cols='50' name='gpa' value={gpa} onChange={onChange} />
-                    <button disabled={!isEnabled}>ADD STUDENT</button>
+                    <button disabled={!isEnabled}>Add Student</button>
                     <br/>
                     <small><sup>*</sup>Required Field</small>
                     <pre className={error ? 'error' : ''}>

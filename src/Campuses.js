@@ -63,7 +63,7 @@ class Campuses extends Component {
                     <option value={'none'}>Campuses Without Students</option>
                 </select>
             </div>
-            <small className='nums' ><b>({start} to {end} of {campuses.length})</b></small>
+            
             <div className='addContainer'>
                 <ul>
                     {
@@ -93,7 +93,8 @@ class Campuses extends Component {
                         <Link key={campus.id} to={`campuses?page=${(idx + 10) / 10}`}> {`<${idx + 1}>`} </Link>
                         : '');
                     })
-                }
+                } 
+                <small className='nums' ><b>({start} to {end} of {campuses.length})</b></small>
             </div>
             
         </div>

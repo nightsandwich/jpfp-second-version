@@ -107,3 +107,11 @@ a:hover{
     background-color: yellow;
     color: black;
 }
+.pagnav{
+    display: flex;
+    justify-content: space-evenly;
+    border: 1px solid black;
+    align-content: center;
+    background-color: rgba(30, 143, 255, 0.521);
+    color: black;
+}

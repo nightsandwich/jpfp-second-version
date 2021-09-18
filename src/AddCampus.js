@@ -61,7 +61,7 @@ class AddCampus extends Component {
                     <textarea className={errors.address ? 'error' : ''} rows='1' cols='50' name='address' value={address} onChange={onChange} />
                     <label>Description</label>
                     <textarea rows='12' cols='50' name='description' value={description} onChange={onChange} />
-                    <button disabled={!isEnabled}>ADD CAMPUS</button>
+                    <button disabled={!isEnabled}>Add Campus</button>
                     <br/>
                     <small><sup>*</sup>Required Field</small>
                     <pre className={error ? 'error' : ''}>
