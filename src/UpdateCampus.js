@@ -1,8 +1,9 @@
 
 import axios from 'axios';
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { updateCampus, deleteStudentSchool } from './store'
+import { updateCampus, deleteStudentSchool } from './store';
+import CampusForm from './CampusForm';
 
 export class UpdateCampus extends Component {
     constructor(){
@@ -71,25 +72,7 @@ export class UpdateCampus extends Component {
 
             return (
                 <div className='edit'>
-                    <form onSubmit={ onSubmit } className='add' >
-                        <h3>Edit Campus Information</h3>
-                        <label>Name<sup>*</sup></label>
-                        <textarea className={errors.name ? 'error' : ''} rows='1' cols='50' name='name' value={name} onChange={onChange} />
-                        <label>Image URL</label>
-                        <textarea rows='1' cols='50' name='imageUrl' value={imageUrl} onChange={onChange} />
-                        <label>Address<sup>*</sup></label>
-                        <textarea className={errors.address ? 'error' : ''} rows='1' cols='50' name='address' value={address} onChange={onChange} />
-                        <label>Description</label>
-                        <textarea rows='12' cols='50' name='description' value={description} onChange={onChange} />
-                        <br/>
-                        <button disabled={!isEnabled}>Update Campus Info</button>
-                        <small><sup>*</sup>Required Field</small>
-                        <pre className={error ? 'error' : ''}>
-                                {
-                                    !!error && JSON.stringify(error, null, 2)
-                                }
-                        </pre>
-                    </form>
+                    <CampusForm {...this.state} {...this} errors={errors} isEnabled={isEnabled} buttonName={'Update Campus'}/>
                     <div>
                         {students.length ? `Enrollees: ${students.length}` : 'No students currently enrolled.'}
                         <ul>

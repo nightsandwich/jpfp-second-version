@@ -1,14 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import {deleteStudentSchool} from './store';
 
+const Student = ({student, campus}) => {
 
-const Student = ({student, campus, dropSchool}) => {
-//console.log('student',student)
-//console.log('campus',campus)
     if (!student.id){
-        //return( <NotFound /> );
         return('...loading student');
     }
         return (
@@ -27,7 +23,6 @@ const Student = ({student, campus, dropSchool}) => {
             </div>
             <div>
                 {campus.id ? <Link to={`/campuses/${campus.id}`}>{campus.name}</Link> : 'Not enrolled in a school.' }
-                {campus.id ? <button onClick={()=>dropSchool(student.id)}>Unenroll</button> : '' }
             </div>
         </div>
         );
@@ -38,9 +33,5 @@ const mapState = (state, otherProps) => {
     const campus = state.campuses.find(campus => campus.id === student.campusId * 1) || {};
     return {student, campus};
 }
-const mapDispatch = dispatch => {
-    return {
-        dropSchool: (id) => dispatch(deleteStudentSchool(id))
-    }
-}
-export default connect(mapState, mapDispatch)(Student);
+
+export default connect(mapState)(Student);
