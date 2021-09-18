@@ -1,6 +1,3 @@
-//TODO ADD SCHOOL OPTION
-//get added at end of the list - need to be ordered alphaebicalltyadlkfjsdlkf
-
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { addStudent } from './store'

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { updateCampus, deleteStudentSchool } from './store';
 import CampusForm from './CampusForm';
 
-export class UpdateCampus extends Component {
+class UpdateCampus extends Component {
     constructor(){
         super();
         this.state = {

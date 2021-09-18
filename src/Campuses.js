@@ -43,7 +43,7 @@ class Campuses extends Component {
             !campus.students.length
         });
         const paginatedCampuses = filteredCampuses.filter((campus,idx) => idx + 1 >= start && idx + 1 <= end ? campus : '');
-
+        
         return (
         <div>
             <h1>Campuses</h1>

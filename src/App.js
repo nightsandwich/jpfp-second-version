@@ -12,9 +12,8 @@ import UpdateStudent from './UpdateStudent';
 import UpdateCampus from './UpdateCampus';
 import Home from './Home';
 
+class _App extends Component {
 
-
-export class _App extends Component {
     componentDidMount(){
         this.props.loadCampuses();
         this.props.loadStudents();

@@ -1,7 +1,4 @@
 import {createStore, combineReducers, applyMiddleware} from 'redux';
-import { createLogger } from 'redux-logger';
-import {composeWithDevTools} from 'redux-devtools-extension';
-import thunkMiddleware from 'redux-thunk';
 
 const LOAD_CAMPUSES = 'LOAD_CAMPUSES';
 const LOAD_STUDENTS = 'LOAD_STUDENTS';
@@ -65,7 +62,6 @@ const reducer = combineReducers({
     campuses: campusesReducer,
     students: studentsReducer,
 });
-//const middleware = composeWithDevTools(applyMiddleware(thunkMiddleware, createLogger({collapsed:true})));
 
 const store = createStore(reducer, applyMiddleware(thunk));
 
