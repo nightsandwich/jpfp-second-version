@@ -295,9 +295,9 @@ const syncAndSeed = async()=> {
   await db.sync({ force: true });
   
 //--------------------------------------//
-  const numCampuses = 10;
-  const numStudentsWithSchool = 10;
-  const numStudentsWithoutSchool = 5;
+  const numCampuses = 100;
+  const numStudentsWithSchool = 150;
+  const numStudentsWithoutSchool = 50;
 //--------------------------------------//
 
   const gpaGenerator = () => {
