@@ -1,6 +1,23 @@
 import React from "react";
 
-const StudentForm = ({firstName, lastName, email, imageUrl, gpa, campusId, campuses, error, onChange, onSubmit, errors, isEnabled, buttonName}) => {
+const StudentForm = ({firstName, lastName, email, imageUrl, gpa, campusId, campuses, error, onChange, onSubmit, buttonName}) => {    
+    
+    const validate = (firstName, lastName, campusId, email, gpa) => {
+        const validEmail = new RegExp('^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$');
+        const validGpa = new RegExp('^[0-3]+(.[0-9]{0,1})?$|^4+(.[0]{0,1})?$');
+        
+        return {
+            firstName: !firstName.length,
+            lastName: !lastName.length,
+            email: !email.length || !validEmail.test(email),
+            gpa: !gpa.length || !validGpa.test(gpa),
+            campusId: !campusId
+        }
+    }
+
+    const errors = validate(firstName, lastName, campusId, email, gpa);
+    const isEnabled = !Object.keys(errors).some(x => errors[x]);
+    
     return (
         <form onSubmit={ onSubmit } className='add'>
             <h3>{buttonName}</h3>

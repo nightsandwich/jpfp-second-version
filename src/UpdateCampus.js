@@ -19,7 +19,6 @@ export class UpdateCampus extends Component {
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.onClick = this.onClick.bind(this);
-        this.validate = this.validate.bind(this);
     }
 
     async componentDidMount(){
@@ -48,13 +47,6 @@ export class UpdateCampus extends Component {
             this.setState({error: ex.response.data.error});       
         }
     }
-    
-    validate(name, address){
-        return {
-            name: !name.length,
-            address: !address.length
-        }
-    }
 
     onClick(ev){
     const {students} = this.state;
@@ -65,15 +57,12 @@ export class UpdateCampus extends Component {
     }
 
     render() {
-            const {name, address, students } = this.state;
-            const {onClick, validate} = this;
-            
-            const errors = validate(name, address);
-            const isEnabled = !Object.keys(errors).some(x => errors[x]);
+            const {students } = this.state;
+            const {onClick} = this;
 
             return (
                 <div className='edit'>
-                    <CampusForm {...this.state} {...this} errors={errors} isEnabled={isEnabled} buttonName={'Update Campus'}/>
+                    <CampusForm {...this.state} {...this} buttonName={'Update Campus'}/>
                     <div>
                         {students.length ? `Enrollees: ${students.length}` : 'No students currently enrolled.'}
                         <ul>

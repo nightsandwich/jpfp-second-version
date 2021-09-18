@@ -20,7 +20,6 @@ class AddStudent extends Component {
         }
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
-        this.validate = this.validate.bind(this);
     }
     onChange(ev){
         const change = {};
@@ -40,29 +39,10 @@ class AddStudent extends Component {
         this.setState({firstName: '', lastName: '', email: '', imageUrl: '', gpa: '', campusId: ''});    
     }
 
-    validate(firstName, lastName, campusId, email, gpa){
-        const validEmail = new RegExp('^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$');
-        const validGpa = new RegExp('^[0-3]+(.[0-9]{0,1})?$|^4+(.[0]{0,1})?$');
-        
-        return {
-            firstName: !firstName.length,
-            lastName: !lastName.length,
-            email: !email.length || !validEmail.test(email),
-            gpa: !gpa.length || !validGpa.test(gpa),
-            campusId: !campusId
-        }
-    }
-
     render() {
-        const {firstName, lastName, email, gpa, campusId} = this.state;
-        const {validate} = this;
-
-        const errors = validate(firstName, lastName, campusId, email, gpa);
-        const isEnabled = !Object.keys(errors).some(x => errors[x]);
-        
         return (
-            <StudentForm {...this.state} {...this} {...this.props} errors={errors} isEnabled={isEnabled} buttonName={'Add Student'}/>
-            
+            <StudentForm {...this.state} {...this} {...this.props} buttonName={'Add Student'}/>
+
         )
     }
 }

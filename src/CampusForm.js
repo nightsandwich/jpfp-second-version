@@ -1,6 +1,15 @@
 import React from "react";
 
-const CampusForm = ({name, imageUrl, address, description, errors, error, isEnabled, onChange, onSubmit, buttonName}) => {
+const CampusForm = ({name, imageUrl, address, description, error, onChange, onSubmit, buttonName}) => {
+    const validate = (name, address) => {
+        return {
+            name: !name.length,
+            address: !address.length
+        }
+    }
+
+    const errors = validate(name, address);
+    const isEnabled = !Object.keys(errors).some(x => errors[x]);
     return (
         <form onSubmit={ onSubmit } className='add'>
             <h3>{buttonName}</h3>

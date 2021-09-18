@@ -15,7 +15,6 @@ class AddCampus extends Component {
         }
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
-        this.validate = this.validate.bind(this);
     }
 
     onChange(ev){
@@ -35,24 +34,10 @@ class AddCampus extends Component {
         }
         this.setState({name: '', imageUrl: '', address: '', description: ''});
     }
-    
-    validate(name, address){
-        return {
-            name: !name.length,
-            address: !address.length
-        }
-    }
-
 
     render() {
-        const {name, address} = this.state;
-        const {validate} = this;
-
-        const errors = validate(name, address);
-        const isEnabled = !Object.keys(errors).some(x => errors[x]);
-        
         return (
-            <CampusForm {...this.state} {...this} errors={errors} isEnabled={isEnabled} buttonName={'Add Campus'}/>
+            <CampusForm {...this.state} {...this} buttonName={'Add Campus'}/>
         )
     }
 }
