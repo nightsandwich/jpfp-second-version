@@ -102,14 +102,6 @@ export class UpdateCampus extends Component {
             );
     }
 }
-// const mapState = (state, otherProps) => {
-//     const campus = state.campuses.find(campus => campus.id === otherProps.match.params.id * 1) || {}; 
-//     const students = campus.students || [];
-//     return {
-//         storeCampus: campus,
-//         storeStudents: students
-//     }
-// }
 
 const mapDispatch = (dispatch) => {
     return {

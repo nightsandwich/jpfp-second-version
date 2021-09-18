@@ -73,7 +73,7 @@ class AddStudent extends Component {
                     <label>Image URL</label>
                     <textarea rows='1' cols='50' name='imageUrl' value={imageUrl} onChange={onChange} />
                     <label>Campus<sup>*</sup></label>
-                    <select className={errors.email ? 'error' : ''} name='campusId' onChange={onChange} value={campusId}>
+                    <select className={errors.campusId ? 'error' : ''} name='campusId' onChange={onChange} value={campusId}>
                         <option name='campusId' onChange={onChange} value={null}>SELECT CAMPUS</option>
                         {
                             campuses.map( campus => { 
