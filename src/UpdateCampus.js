@@ -12,11 +12,13 @@ export class UpdateCampus extends Component {
             imageUrl: '',
             address: '',
             description: '',
-            students: []
+            students: [],
+            error: ''
         }
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.onClick = this.onClick.bind(this);
+        this.validate = this.validate.bind(this);
     }
 
     async componentDidMount(){
@@ -44,6 +46,13 @@ export class UpdateCampus extends Component {
             console.log(ex);
         }
     }
+    
+    validate(name, address){
+        return {
+            name: !name.length,
+            address: !address.length
+        }
+    }
 
     onClick(ev){
     const {students} = this.state;
@@ -54,32 +63,33 @@ export class UpdateCampus extends Component {
     }
 
     render() {
-            const {name, imageUrl, address, description, students} = this.state;
-            const {onChange, onSubmit, onClick} = this;
+            const {name, imageUrl, address, description, students, error} = this.state;
+            const {onChange, onSubmit, onClick, validate} = this;
             
+            const errors = validate(name, address);
+            const isEnabled = !Object.keys(errors).some(x => errors[x]);
+
             return (
                 <div className='edit'>
-                    <h2>Edit Campus Information</h2>
-                    <form onSubmit={ onSubmit } >
-                        Name of School
-                        <br/>
-                        <textarea rows='1' cols='50' name='name' value={name} onChange={onChange} />
-                        <br/>
-                        Image URL
-                        <br/>
+                    <form onSubmit={ onSubmit } className='add' >
+                        <h3>Edit Campus Information</h3>
+                        <label>Name<sup>*</sup></label>
+                        <textarea className={errors.name ? 'error' : ''} rows='1' cols='50' name='name' value={name} onChange={onChange} />
+                        <label>Image URL</label>
                         <textarea rows='1' cols='50' name='imageUrl' value={imageUrl} onChange={onChange} />
-                        <br/>
-                        Address
-                        <br/>
-                        <textarea rows='1' cols='50' name='address' value={address} onChange={onChange} />
-                        <br/>
-                        Description
-                        <br/>
+                        <label>Address<sup>*</sup></label>
+                        <textarea className={errors.address ? 'error' : ''} rows='1' cols='50' name='address' value={address} onChange={onChange} />
+                        <label>Description</label>
                         <textarea rows='12' cols='50' name='description' value={description} onChange={onChange} />
                         <br/>
-                        <button >Update Campus Info</button>
+                        <button disabled={!isEnabled}>Update Campus Info</button>
+                        <small><sup>*</sup>Required Field</small>
+                        <pre className={error ? 'error' : ''}>
+                                {
+                                    !!error && JSON.stringify(error, null, 2)
+                                }
+                        </pre>
                     </form>
-                    <br></br>
                     <div>
                         {students.length ? `Enrollees: ${students.length}` : 'No students currently enrolled.'}
                         <ul>

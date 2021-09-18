@@ -7,7 +7,7 @@
     "build": "webpack",
     "start:dev": "nodemon server/index.js --ignore dist/ --ignore src/ & npm run build:dev",
     "build:dev": "npm run build -- --watch --mode=development",
-    "start": "node server & npm run build"
+    "start": "node server && npm run build"
   },
   "dependencies": {
     "express": "^4.17.1",

@@ -41,7 +41,7 @@ class AddCampus extends Component {
             address: !address.length
         }
     }
-    
+
 
     render() {
         const {name, imageUrl, address, description, error} = this.state;
@@ -53,8 +53,7 @@ class AddCampus extends Component {
         return (
                 <form onSubmit={ onSubmit } className='add'>
                     <h3>Add New Campus</h3>
-                    <label>Name<sup>*</sup>
-                    </label>
+                    <label>Name<sup>*</sup></label>
                     <textarea className={errors.name ? 'error' : ''} rows='1' cols='50' name='name' value={name} onChange={onChange} />
                     <label>Image URL</label>
                     <textarea rows='1' cols='50' name='imageUrl' value={imageUrl} onChange={onChange} />

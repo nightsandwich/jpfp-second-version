@@ -294,12 +294,17 @@ Campus.hasMany(Student);
 const syncAndSeed = async()=> {
   await db.sync({ force: true });
   
+//--------------------------------------//
+  const numCampuses = 10;
+  const numStudentsWithSchool = 10;
+  const numStudentsWithoutSchool = 5;
+//--------------------------------------//
+
   const gpaGenerator = () => {
     return Math.floor(Math.random() * (4 * 10)) / (1*10);
   }
-  
   const campusIdGenerator = () => {
-    return Math.floor(Math.random() * (10)+1);
+    return Math.floor(Math.random() * (numCampuses)+1);
   }
   const campusEnding = () => {
     const random = Math.floor(Math.random() * 5);
@@ -319,7 +324,8 @@ const syncAndSeed = async()=> {
     }
     return retStr;
   }
-  const campuses = Array(10).fill().map((campus) => {
+
+  const campuses = Array(numCampuses).fill().map((campus) => {
     return {
       name: faker.random.words() + ' ' + campusEnding(), 
       imageUrl: faker.image.nature(), 
@@ -327,6 +333,7 @@ const syncAndSeed = async()=> {
       description: description()
     }
   })
+
   //capitalizes first letter of each word in campus name
   campuses.forEach(campus => {
     campus.name = campus.name.split(' ').map(word => {
@@ -342,7 +349,7 @@ const syncAndSeed = async()=> {
     Campus.create(campus);
   }))
 
-  const students = Array(8).fill().map((student) => {
+  const students = Array(numStudentsWithSchool).fill().map((student) => {
     return {
       firstName: faker.name.firstName(), 
       lastName: faker.name.lastName(),
@@ -361,7 +368,7 @@ const syncAndSeed = async()=> {
     Student.create(student);
   })); 
 
-  const students2 = Array(2).fill().map((student) => {
+  const students2 = Array(numStudentsWithoutSchool).fill().map((student) => {
     return {
       firstName: faker.name.firstName(), 
       lastName: faker.name.lastName(),
@@ -378,6 +385,8 @@ const syncAndSeed = async()=> {
     Student.create(student);
   }))
 };
+
+
 
 
 init();
