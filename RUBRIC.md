@@ -10,34 +10,34 @@
 
 | Criteria                                                                   | Score | Comments |
 | -------------------------------------------------------------------------- | ----- | -------- |
-| Uses thunks to encapsulate AJAX requests for redux store                   | -/2   |          |
-| Avoids side effects/mutations in reducers and in renders                   | -/2   |          |
-| Takes advantage of components to enforce modularity/separation of concerns | -/2   |          |
+| Uses thunks to encapsulate AJAX requests for redux store                   |   2   |          |
+| Avoids side effects/mutations in reducers and in renders                   |   2   |          |
+| Takes advantage of components to enforce modularity/separation of concerns |   2   |          |
 
 ### Backend (6/24)
 
 | Criteria                                                                                                 | Score | Comments |
 | -------------------------------------------------------------------------------------------------------- | ----- | -------- |
-| Properly handles errors in routes (i.e. by passing them to `next`)                                       | -/2   |          |
-| Properly manages control flow in routes (i.e. does not send more than one response for the same request) | -/2   |          |
-| Selects appropriate data types for database columns                                                      | -/2   |          |
+| Properly handles errors in routes (i.e. by passing them to `next`)                                       |   2   |          |
+| Properly manages control flow in routes (i.e. does not send more than one response for the same request) |   2   |          |
+| Selects appropriate data types for database columns                                                      |   2   |          |
 
 ### Code Cleanliness/Maintainability (8/24)
 
 | Criteria                                                                 | Score | Comments |
 | ------------------------------------------------------------------------ | ----- | -------- |
-| Formatting (indentation, whitespace, etc) is consistent                  | -/2   |          |
-| No unused/unnecessary code                                               | -/2   |          |
-| Uses meaningful/self-documenting variable/function names                 | -/2   |          |
-| Does not contain blocks of commented code, console.logs or node_modules  | -/2   |          |
+| Formatting (indentation, whitespace, etc) is consistent                  |   2   |          |
+| No unused/unnecessary code                                               |   2   |          |
+| Uses meaningful/self-documenting variable/function names                 |   2   |          |
+| Does not contain blocks of commented code, console.logs or node_modules  |   2   |          |
 |   along with transpiled files
 
 ### Git (4/24)
 
 | Criteria                                     | Score | Comments |
 | -------------------------------------------- | ----- | -------- |
-| Commits are pushed to GitHub regularly       | -/2   |          |
-| Commit messages clearly describe the changes | -/2   |          |
+| Commits are pushed to GitHub regularly       |   2   |          |
+| Commit messages clearly describe the changes |   2   |          |
 
 ### Deductions
 
@@ -48,6 +48,7 @@ Points may be deducted if you are unable to complete a requirement without full 
 ## Comments
 
 _Comments from your instructor or fellow will go here_
+Holy cow! Great job Corinne you knocked this out of the park!
 
 ## Evaluation
 
@@ -55,12 +56,12 @@ _Comments from your instructor or fellow will go here_
 - Rubric score (24 points total, weighted at 30% of total grade)
 - Extra credit (23 points total, for an additional 15% max)
 
-- RAW REQUIREMENT SCORE: __
-- RAW RUBRIC SCORE: __
-- RAW EC SCORE: __
-- DEDUCTIONS: __
+- RAW REQUIREMENT SCORE: 61
+- RAW RUBRIC SCORE: 24
+- RAW EC SCORE: 15
+- DEDUCTIONS: 0
 
-- TOTAL: __
+- TOTAL: 106.5%
 
 ```javascript
 const getTotal = (rawRequirementScore, rawRubricScore, rawExtraCredit, deductions) => {
