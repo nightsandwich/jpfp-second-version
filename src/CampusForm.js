@@ -8,9 +8,7 @@ const CampusForm = ({buttonName, action, campusId}) => {
 
     //mapState
     const campus = useSelector(state => state.campuses.find(school => school.id === campusId) || {});
-
-    //componentDidMount
-    useEffect(() => {setInputs({...inputs, ...campus})},[campus]);
+    const students = action === 'update' ? useSelector(state => state.students.filter(student => student.campusId === campusId) || []) : '';
     
     const [inputs, setInputs] = useState(() => ({
         id: '',
@@ -18,12 +16,13 @@ const CampusForm = ({buttonName, action, campusId}) => {
         imageUrl: '',
         address: '',
         description: '',
-        error: '',
-        students: []
+        error: ''
     }));
     
-    const {id, name, imageUrl, address, description, error, students} = inputs;
+    const {id, name, imageUrl, address, description, error} = inputs;
     
+    //componentDidUpdate
+    useEffect(() => {setInputs({...inputs, ...campus})},action === 'update' ? [campus] : []);
     
     const validate = (name, address) => {
         return {
@@ -53,6 +52,7 @@ const CampusForm = ({buttonName, action, campusId}) => {
         setInputs({name: '', imageUrl: '', address: '', description: '', error: ''});
     }
     return (
+        <>
         <form onSubmit={ onSubmit } className='add'>
             <h3>{buttonName}</h3>
             <label>Name<sup>*</sup></label>
@@ -72,6 +72,24 @@ const CampusForm = ({buttonName, action, campusId}) => {
                     }
             </pre>
         </form>
+        {action === 'update' ? 
+            <div>
+            {students.length ? `Enrollees: ${students.length}` : 'No students currently enrolled.'}
+            <ul>
+            {
+            students.map((student) => {
+                return (
+                    <li key={student.id}>
+                        {student.firstName} {student.lastName} <button value={student.id} onClick={() => dispatch(updateStudent({...student, campusId: null}))}>Unenroll</button>
+                    </li>
+                );
+            })
+            }
+            </ul>
+        </div>    
+        : ''
+        }
+        </>
     )
 }
 
