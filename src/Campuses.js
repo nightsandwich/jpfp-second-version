@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import AddCampus from "./AddCampus";
+import CampusForm from "./CampusForm";
 import { deleteCampus, loadCampuses } from "./store";
 
 const Campuses = ({location}) => {
@@ -10,8 +10,8 @@ const Campuses = ({location}) => {
     
     //mapState
     const campuses = useSelector(({campuses}) => campuses);
-    
-    const dispatch = useDispatch(); //mapDispatch
+    //mapDispatch
+    const dispatch = useDispatch(); 
     
     // //pagination
     const start = 10 * (location.search.slice(6) - 1) + 1;
@@ -25,12 +25,10 @@ const Campuses = ({location}) => {
     
     
     //sort and filter
-    const chooseSort = (ev) => {
-        setInputs({...inputs, view: ev.target.value});
+    const chooseSortFilter = (ev) => {
+        setInputs({...inputs, [ev.target.name]: ev.target.value});
     }
-    const chooseFilter = (ev) =>{
-        setInputs({...inputs, filter: ev.target.value});
-    } 
+     
     const sortedByName = [...campuses].sort((a,b) => (a.name > b.name) ? 1 : -1); 
     const sortedByStudents = [...campuses].sort((a,b) => (a.students.length < b.students.length) ? 1 : (a.students.length === b.students.length) ? ((a.name > b.name) ? 1: -1) : -1);
     const sortedByState = [...campuses].sort((a,b) => (a.address.split(', ').slice(2,3).join('').split(' (')[0] > b.address.split(', ').slice(2,3).join('').split(' (')[0]) ? 1 : -1);
@@ -44,13 +42,13 @@ const Campuses = ({location}) => {
         !campus.students.length
     });
     const paginatedCampuses = filteredCampuses.filter((campus,idx) => idx + 1 >= start && idx + 1 <= end ? campus : '');
-    console.log('paginatedCampuses, ', paginatedCampuses);
+    
     return (
     <div>
         <h1>Campuses</h1>
         <div>
             Sort by:
-            <select name='view' value={inputs.view} onChange={chooseSort} >
+            <select name='view' value={inputs.view} onChange={chooseSortFilter} >
                 <option value={'normal'}>Name</option>
                 <option value={'students'}>Number of Students</option>
                 <option value={'states'}>State</option>
@@ -58,7 +56,7 @@ const Campuses = ({location}) => {
         </div>
         <div>
             Filter by: 
-            <select disabled={start !== 1} name='filter' value={inputs.filter} onChange={chooseFilter} >
+            <select disabled={start !== 1} name='filter' value={inputs.filter} onChange={chooseSortFilter} >
                 <option value={'all'}>Show All</option>
                 <option value={'students'}>Campuses With Students</option>
                 <option value={'none'}>Campuses Without Students</option>
@@ -83,7 +81,7 @@ const Campuses = ({location}) => {
                 }
             </ul>
             <div>
-                <AddCampus />
+                <CampusForm buttonName={'Add Campus'} />
             </div>
         </div>
         <div className='pagnav'>

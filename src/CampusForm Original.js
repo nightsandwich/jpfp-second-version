@@ -1,45 +1,15 @@
-import React, {useState, useEffect} from "react";
-import { useDispatch, useSelector} from 'react-redux';
-import { addCampus } from './store';
+import React from "react";
 
-const CampusForm = ({buttonName}) => {
-    const dispatch = useDispatch();
-
-    const [inputs, setInputs] = useState(() => ({
-        name: '',
-        imageUrl: '',
-        address: '',
-        description: '',
-        error: ''
-    }));
-    const {name, imageUrl, address, description, error} = inputs;
-    
+const CampusForm = ({name, imageUrl, address, description, error, onChange, onSubmit, buttonName}) => {
     const validate = (name, address) => {
         return {
             name: !name.length,
             address: !address.length
         }
     }
+
     const errors = validate(name, address);
     const isEnabled = !Object.keys(errors).some(x => errors[x]);
-
-    const onChange = ev => {
-        const change = {};
-        change[ev.target.name] = ev.target.value;
-        setInputs({...inputs, ...change});
-    }
-
-    const onSubmit = (ev) => {
-        const {name, imageUrl, address, description} = inputs;
-        ev.preventDefault();
-        try{
-            dispatch(addCampus({name, imageUrl, address, description}));
-        }
-        catch(ex){
-            setInputs({...inputs, error: ex.response.data.error});
-        }
-        setInputs({name: '', imageUrl: '', address: '', description: '', error: ''});
-    }
     return (
         <form onSubmit={ onSubmit } className='add'>
             <h3>{buttonName}</h3>
