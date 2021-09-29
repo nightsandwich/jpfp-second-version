@@ -1,7 +1,9 @@
 import React from "react";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 
-const Home = ({campuses, students}) => {
+const Home = () => {
+    const [campuses, students] = useSelector(({campuses, students}) => [campuses, students]);
+
     return (
     <div>
         <div className='home'>
@@ -16,4 +18,4 @@ const Home = ({campuses, students}) => {
     )
 }
 
-export default connect(({campuses, students}) => ({campuses, students}))(Home);
+export default Home;
