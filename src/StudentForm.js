@@ -25,7 +25,7 @@ const StudentForm = ({action, studentId}) => {
     const {id, firstName, lastName, imageUrl, email, gpa, error, campusId} = inputs;
 
     //componentDidUpdate
-    useEffect(() => {setInputs({...inputs, ...student, campusId: campus.id})}, action === 'update' ? [student, campus] : []);
+    useEffect(() => {setInputs({...inputs, ...student, campusId: campus.id})}, action === 'update' ? [student] : []);
 
     const validate = (firstName, lastName, campusId, email, gpa) => {
         const validEmail = new RegExp('^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$');

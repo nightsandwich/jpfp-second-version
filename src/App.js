@@ -4,13 +4,11 @@ import { useDispatch } from 'react-redux';
 import { loadCampuses, loadStudents } from './store';
 
 import Nav from './Nav';
+import Home from './Home';
 import Campuses from './Campuses';
 import Campus from './Campus';
 import Students from './Students';
 import Student from './Student';
-import UpdateStudent from './UpdateStudent';
-
-import Home from './Home';
 
 const App = () => {
     const dispatch = useDispatch();
@@ -32,9 +30,7 @@ const App = () => {
         
             <div className='updatecontainer'>
                 <Route component={Campus} path='/campuses/:id' exact/>
-                
                 <Route component={Student} path='/students/:id' exact/>
-                <Route component={UpdateStudent} path='/students/:id' exact/>
             </div>
         </Router>
     );
