@@ -5,13 +5,13 @@ import CampusForm from "./CampusForm";
 import { deleteCampus, loadCampuses } from "./store";
 
 const Campuses = ({location, match}) => {
-    
-    useEffect(() => dispatch(loadCampuses()), []); //componentDidMount
-    
     //mapState
     const campuses = useSelector(({campuses}) => campuses);
     //mapDispatch
     const dispatch = useDispatch(); 
+    
+    useEffect(() => dispatch(loadCampuses()), []); //componentDidMount
+    
     
     // //pagination
     const start = 10 * (location.search.slice(6) - 1) + 1;
