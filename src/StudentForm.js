@@ -1,16 +1,16 @@
 import React, {useState, useEffect} from "react";
 import { useDispatch, useSelector} from 'react-redux';
-import { addStudent, updateCampus, updateStudent } from './store';
-
+import { addStudent, updateStudent } from './store';
+// import { Form, Button } from "react-bootstrap";
 
 const StudentForm = ({action, studentId}) => {    
+    console.log('render')
     const dispatch = useDispatch();
-
+    
     //mapState
     const student = useSelector(state => state.students.find(student => student.id === studentId) || {});
     const campuses = useSelector(({campuses}) => campuses);
     const campus = action === 'update' ? useSelector(state => state.campuses.find(campus => campus.id === student.campusId) || {}) : '';
-
     const [inputs, setInputs] = useState(() => ({
         id: '',
         firstName: '',
@@ -21,12 +21,12 @@ const StudentForm = ({action, studentId}) => {
         error: '',
         campusId: ''
     }));
-
+    
     const {id, firstName, lastName, imageUrl, email, gpa, error, campusId} = inputs;
-
+console.log(inputs.campusId)
     //componentDidUpdate
-    useEffect(() => {setInputs({...inputs, ...student, campusId: campus.id})}, action === 'update' ? [student] : []);
-
+    useEffect(() => {setInputs({ ...inputs, ...student})}, action === 'update' ? [student] : []);
+    //useEffect(() => {setInputs({...inputs, ...student, campusId: campus.id})}, action === 'update' ? [campus] : []);
     const validate = (firstName, lastName, campusId, email, gpa) => {
         const validEmail = new RegExp('^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$');
         const validGpa = new RegExp('^[0-3]+(.[0-9]{0,1})?$|^4+(.[0]{0,1})?$');        
@@ -57,8 +57,15 @@ const StudentForm = ({action, studentId}) => {
         }
         setInputs({firstName: '', lastName: '', email: '', imageUrl: '', gpa: '', error: '', id: ''})
     }
+    const actions = [
+        {label: 'SELECT CAMPUS', value: null},
+        campuses.map(campus => {
+            return ({label: campus.name, value: campus.id, key: campus.id })
+        })
+    ];
 
-    return (
+    return (   
+
         <form onSubmit={ onSubmit } className='add'>
             <h3>{action === 'add' ? 'Add Student' : 'Update Student'}</h3>
             <label>First Name<sup>*</sup></label>
@@ -69,9 +76,10 @@ const StudentForm = ({action, studentId}) => {
             <textarea className={errors.email ? 'error' : ''} rows='1' cols='50' name='email' value={email} onChange={onChange} />
             <label>Image URL</label>
             <textarea rows='1' cols='50' name='imageUrl' value={imageUrl} onChange={onChange} />
-            <label>Campus<sup>*</sup></label>
-            <select className={errors.campusId ? 'error' : ''} name='campusId' onChange={onChange} value={campusId}>
-                <option name='campusId' onChange={onChange} value={null || undefined}>SELECT CAMPUS</option>
+            <label>Campus</label>
+            {/* <Select options={actions} onChange={onChange} value={campus.id}/> */}
+            <select defaultValue={campusId ? campusId : ''} className={errors.campusId ? 'error' : ''} name='campusId' onChange={onChange} value={campusId}>
+                <option value={''}>SELECT CAMPUS</option>
                 {
                     campuses.map( campus => { 
                         return (
@@ -82,7 +90,7 @@ const StudentForm = ({action, studentId}) => {
                     })
                 }
             </select>
-            <label>GPA<sup>*</sup><small className='errormessage'>{errors.gpa ? '---GPA should be between 0.0 and 4.0---' : ''}</small></label>
+            <label>GPA<small className='errormessage'>{errors.gpa ? '---GPA should be between 0.0 and 4.0---' : ''}</small></label>
             <textarea className={errors.gpa ? 'error' : ''} rows='1' cols='50' name='gpa' value={gpa} onChange={onChange} />
             <button disabled={!isEnabled}>{action === 'add' ? 'ADD' : 'UPDATE'}</button>
             <br/>

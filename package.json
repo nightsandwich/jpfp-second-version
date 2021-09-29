@@ -14,14 +14,17 @@
     "@babel/preset-react": "^7.14.5",
     "axios": "^0.21.1",
     "babel-loader": "^8.2.2",
+    "bootstrap": "^5.1.1",
     "express": "^4.17.1",
     "faker": "^5.5.3",
     "nodemon": "^2.0.9",
     "pg": "^8.6.0",
     "react": "^17.0.2",
+    "react-bootstrap": "^2.0.0-rc.0",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.5",
     "react-router-dom": "^5.3.0",
+    "react-select": "^5.0.0",
     "redux": "^4.1.1",
     "redux-devtools-extension": "^2.13.9",
     "redux-logger": "^3.0.6",
@@ -29,6 +32,5 @@
     "sequelize": "^6.6.4",
     "webpack": "^5.41.1",
     "webpack-cli": "^4.7.2"
-  },
-  "devDependencies": {}
+  }
 }
