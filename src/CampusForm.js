@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from "react";
 import { useDispatch, useSelector} from 'react-redux';
 import { addCampus, updateCampus, updateStudent } from './store';
+import { TextField, Button } from "@mui/material";
 
-const CampusForm = ({ action, campusId}) => {
+const CampusForm = ({ action='add', campusId}) => {
     
     const dispatch = useDispatch();
 
@@ -13,7 +14,7 @@ const CampusForm = ({ action, campusId}) => {
     const [inputs, setInputs] = useState(() => ({
         id: '',
         name: '',
-        imageUrl: '',
+        imageUrl: action === 'add' ? 'campus.png' : '',
         address: '',
         description: '',
         error: ''
@@ -54,25 +55,14 @@ const CampusForm = ({ action, campusId}) => {
     
     return (
         <>
-        <form onSubmit={ onSubmit } className='add'>
-            <h3>{action === 'add' ? 'Add Campus' : 'Update Campus'}</h3>
-            <label>Name<sup>*</sup></label>
-            <textarea className={errors.name ? 'error' : ''} rows='1' cols='50' name='name' value={name} onChange={onChange} />
-            <label>Image URL</label>
-            <textarea rows='1' cols='50' name='imageUrl' value={imageUrl} onChange={onChange} />
-            <label>Address<sup>*</sup></label>
-            <textarea className={errors.address ? 'error' : ''} rows='1' cols='50' name='address' value={address} onChange={onChange} />
-            <label>Description</label>
-            <textarea rows='12' cols='50' name='description' value={description} onChange={onChange} />
-            <button disabled={!isEnabled}>{action === 'add' ? 'Add' : 'Update'}</button>
-            <br/>
-            <small><sup>*</sup>Required Field</small>
-            <pre className={error ? 'error' : ''}>
-                    {
-                        !!error && JSON.stringify(error, null, 2)
-                    }
-            </pre>
-        </form>
+        <TextField id="name-input" name="name" label="Name" type="text" value={name} onChange={onChange}/>
+        <TextField id="image-url-input" name="imageUrl" label="Image URL" type="text" value={imageUrl} onChange={onChange}/>
+        <TextField id="address-input" name="address" label="Address" type="text" value={address} onChange={onChange}/>
+        <TextField id="description-input" name="description" label="Description" multiline maxRows={10} value={description} onChange={onChange}/>
+        <br/>
+        <Button variant='contained' color='primary' onClick={onSubmit}>{action === 'add' ? 'Add' : 'Update'}</Button>
+        <br/>
+        <br/> 
         {action === 'update' ? 
             <div>
             {students.length ? `Enrollees: ${students.length}` : 'No students currently enrolled.'}

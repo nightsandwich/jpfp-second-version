@@ -15,7 +15,7 @@ const StudentForm = ({action, studentId}) => {
         id: '',
         firstName: '',
         lastName: '',
-        imageUrl: '',
+        imageUrl: action === 'add' ?  'student.png' : '',
         email: '',
         gpa: '',
         error: '',
@@ -25,16 +25,17 @@ const StudentForm = ({action, studentId}) => {
     const {id, firstName, lastName, imageUrl, email, gpa, error, campusId} = inputs;
 console.log(inputs.campusId)
     //componentDidUpdate
+    
     useEffect(() => {setInputs({ ...inputs, ...student})}, action === 'update' ? [student] : []);
     //useEffect(() => {setInputs({...inputs, ...student, campusId: campus.id})}, action === 'update' ? [campus] : []);
-    const validate = (firstName, lastName, campusId, email, gpa) => {
+    const validate = (firstName, lastName, email, gpa) => {
         const validEmail = new RegExp('^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$');
         const validGpa = new RegExp('^[0-3]+(.[0-9]{0,1})?$|^4+(.[0]{0,1})?$');        
         return {
             firstName: !firstName.length,
             lastName: !lastName.length,
-            // email: !email.length,
-            // gpa: isNaN(gpa),
+            email: !email.length,
+            gpa: gpa < 0 || gpa > 4 || !gpa,
         }
     }
 
@@ -51,9 +52,9 @@ console.log(inputs.campusId)
         ev.preventDefault();
         try{
             action === 'add' ? dispatch(addStudent({firstName, lastName, email, gpa, imageUrl, campusId})) :
-            dispatch(updateStudent({id, firstName, lastName, imageUrl, email, gpa, campusId}));
+            dispatch(updateStudent({id, firstName, lastName, imageUrl , email, gpa, campusId}));
         } catch(ex) {
-            setInputs({...inputs, error: ex.response.data.error});
+            setInputs({...inputs, error: ex.response});
         }
         setInputs({firstName: '', lastName: '', email: '', imageUrl: '', gpa: '', error: '', id: ''})
     }
@@ -78,7 +79,7 @@ console.log(inputs.campusId)
             <textarea rows='1' cols='50' name='imageUrl' value={imageUrl} onChange={onChange} />
             <label>Campus</label>
             {/* <Select options={actions} onChange={onChange} value={campus.id}/> */}
-            <select defaultValue={campusId ? campusId : ''} className={errors.campusId ? 'error' : ''} name='campusId' onChange={onChange} value={campusId}>
+            <select className={errors.campusId ? 'error' : ''} name='campusId' onChange={onChange} value={campusId}>
                 <option value={''}>SELECT CAMPUS</option>
                 {
                     campuses.map( campus => { 

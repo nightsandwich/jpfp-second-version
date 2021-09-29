@@ -28,10 +28,10 @@ const Students = ({location, match}) => {
         setInputs({...inputs, [ev.target.name]: ev.target.value});
     }
     
-    const sortedByFirst = [...students].sort((a,b) => (a.firstName > b.firstName) ? 1 : -1); 
-    const sortedByLast = [...students].sort((a,b) => (a.lastName > b.lastName) ? 1 : -1);
-    const sortedByGpa = [...students].sort((a,b) => (a.gpa * 1 < b.gpa * 1) ? 1 : (a.gpa * 1 === b.gpa * 1) ? ((a.firstName > b.firstName) ? 1: -1) : -1);
-    const studentsToRender = view === 'normal' ? sortedByFirst : view === 'last' ? sortedByLast : sortedByGpa;
+    const sortByName = (type) => [...students].sort((a,b) => (a[type] > b[type]) ? 1 : -1); 
+
+    const sortedByGpa = [...students].sort((a,b) => (+a.gpa  < +b.gpa) ? 1 : (a.gpa * 1 === b.gpa * 1) ? ((a.firstName > b.firstName) ? 1: -1) : -1);
+    const studentsToRender = view === 'normal' ? sortByName('firstName') : view === 'last' ? sortByName('lastName') : sortedByGpa;
     
     const filteredStudents = studentsToRender.filter(student => {
         return filter === 'all' ?
