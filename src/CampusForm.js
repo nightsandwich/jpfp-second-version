@@ -1,18 +1,29 @@
 import React, {useState, useEffect} from "react";
 import { useDispatch, useSelector} from 'react-redux';
-import { addCampus } from './store';
+import { addCampus, updateCampus, updateStudent } from './store';
 
-const CampusForm = ({buttonName}) => {
+const CampusForm = ({buttonName, action, campusId}) => {
+    
     const dispatch = useDispatch();
 
+    //mapState
+    const campus = useSelector(state => state.campuses.find(school => school.id === campusId) || {});
+
+    //componentDidMount
+    useEffect(() => {setInputs({...inputs, ...campus})},[campus]);
+    
     const [inputs, setInputs] = useState(() => ({
+        id: '',
         name: '',
         imageUrl: '',
         address: '',
         description: '',
-        error: ''
+        error: '',
+        students: []
     }));
-    const {name, imageUrl, address, description, error} = inputs;
+    
+    const {id, name, imageUrl, address, description, error, students} = inputs;
+    
     
     const validate = (name, address) => {
         return {
@@ -30,10 +41,11 @@ const CampusForm = ({buttonName}) => {
     }
 
     const onSubmit = (ev) => {
-        const {name, imageUrl, address, description} = inputs;
+
         ev.preventDefault();
         try{
-            dispatch(addCampus({name, imageUrl, address, description}));
+            action === 'add' ? dispatch(addCampus({name, imageUrl, address, description})) :
+            dispatch(updateCampus({id, name, imageUrl, address, description}));
         }
         catch(ex){
             setInputs({...inputs, error: ex.response.data.error});

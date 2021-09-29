@@ -32,7 +32,7 @@ const App = () => {
         
             <div className='updatecontainer'>
                 <Route component={Campus} path='/campuses/:id' exact/>
-                <Route component={UpdateCampus} path='/campuses/:id' exact/>
+                
                 <Route component={Student} path='/students/:id' exact/>
                 <Route component={UpdateStudent} path='/students/:id' exact/>
             </div>

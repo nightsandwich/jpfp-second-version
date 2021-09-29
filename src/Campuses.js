@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import CampusForm from "./CampusForm";
 import { deleteCampus, loadCampuses } from "./store";
 
-const Campuses = ({location}) => {
+const Campuses = ({location, match}) => {
     
     useEffect(() => dispatch(loadCampuses()), []); //componentDidMount
     
@@ -81,7 +81,7 @@ const Campuses = ({location}) => {
                 }
             </ul>
             <div>
-                <CampusForm buttonName={'Add Campus'} />
+                <CampusForm buttonName={'Add Campus'} action={'add'} match={match} />
             </div>
         </div>
         <div className='pagnav'>

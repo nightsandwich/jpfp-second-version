@@ -1,8 +1,12 @@
 import React from "react";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import CampusForm from "./CampusForm";
 
-const Campus = ({campus, students}) => {
+const Campus = ({match}) => {
+   const campus = useSelector(state => state.campuses.find(campus => campus.id === +match.params.id) || {})
+   const students = useSelector(state => state.students.filter(student => student.campusId === campus.id) || []);
+
    if (!campus.id){
        return '...loading campus';
    } 
@@ -32,14 +36,11 @@ const Campus = ({campus, students}) => {
                     })
                 }
         </ul>
-        
+        <div>
+            <CampusForm buttonName={'Update Campus'} action={'update'} campusId={campus.id} />
+        </div>
     </div>
     );
 }
-const mapState = (state, otherProps) => {
-    const campus = state.campuses.find(campus => campus.id === otherProps.match.params.id * 1) || {};
-    //const students = campus.students || [];
-    const students = state.students.filter(student => student.campusId === campus.id);
-    return {campus, students};
-}
-export default connect(mapState)(Campus);
+
+export default Campus;
