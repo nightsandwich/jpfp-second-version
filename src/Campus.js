@@ -12,6 +12,7 @@ const Campus = ({match}) => {
    } 
    
     return (
+    <div className = 'addContainer'>
     <div className='infocontainer'>
         <h1>{campus.name}</h1>
         <div>
@@ -36,9 +37,10 @@ const Campus = ({match}) => {
                     })
                 }
         </ul>
-        <div>
-            <CampusForm buttonName={'Update Campus'} action={'update'} campusId={campus.id} />
-        </div>
+    </div>
+    <div className='edit'>
+        <CampusForm action={'update'} campusId={campus.id} />
+    </div>
     </div>
     );
 }

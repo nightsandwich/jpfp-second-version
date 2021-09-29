@@ -9,7 +9,7 @@ import Campus from './Campus';
 import Students from './Students';
 import Student from './Student';
 import UpdateStudent from './UpdateStudent';
-import UpdateCampus from './UpdateCampus';
+
 import Home from './Home';
 
 const App = () => {

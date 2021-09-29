@@ -81,7 +81,7 @@ const Campuses = ({location, match}) => {
                 }
             </ul>
             <div>
-                <CampusForm buttonName={'Add Campus'} action={'add'} match={match} />
+                <CampusForm action={'add'} match={match} />
             </div>
         </div>
         <div className='pagnav'>

@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import { useDispatch, useSelector} from 'react-redux';
 import { addCampus, updateCampus, updateStudent } from './store';
 
-const CampusForm = ({buttonName, action, campusId}) => {
+const CampusForm = ({ action, campusId}) => {
     
     const dispatch = useDispatch();
 
@@ -54,7 +54,7 @@ const CampusForm = ({buttonName, action, campusId}) => {
     return (
         <>
         <form onSubmit={ onSubmit } className='add'>
-            <h3>{buttonName}</h3>
+            <h3>{action === 'add' ? 'Add Campus' : 'Update Campus'}</h3>
             <label>Name<sup>*</sup></label>
             <textarea className={errors.name ? 'error' : ''} rows='1' cols='50' name='name' value={name} onChange={onChange} />
             <label>Image URL</label>
@@ -63,7 +63,7 @@ const CampusForm = ({buttonName, action, campusId}) => {
             <textarea className={errors.address ? 'error' : ''} rows='1' cols='50' name='address' value={address} onChange={onChange} />
             <label>Description</label>
             <textarea rows='12' cols='50' name='description' value={description} onChange={onChange} />
-            <button disabled={!isEnabled}>{buttonName}</button>
+            <button disabled={!isEnabled}>{action === 'add' ? 'Add' : 'Update'}</button>
             <br/>
             <small><sup>*</sup>Required Field</small>
             <pre className={error ? 'error' : ''}>
