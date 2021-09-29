@@ -2,7 +2,7 @@
 import axios from 'axios';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { updateCampus, deleteStudentSchool } from './store';
+import { updateCampus, updateStudent } from './store';
 import CampusForm from './CampusForm';
 
 class UpdateCampus extends Component {
@@ -50,8 +50,9 @@ class UpdateCampus extends Component {
 
     onClick(ev){
     const {students} = this.state;
-    this.setState({...this.state, students: students.filter(student => student.id !== ev.target.value * 1)});      
-    this.props.deleteStudentSchool(ev.target.value * 1);
+    const studentToUpdate = students.find(student => student.id === +ev.target.value);
+    this.setState({...this.state, students: students.filter(student => student.id !== studentToUpdate.id)});      
+    this.props.updateStudent({...studentToUpdate, campusId: null});
         
 
     }
@@ -85,7 +86,7 @@ class UpdateCampus extends Component {
 const mapDispatch = (dispatch) => {
     return {
         update: (campus) => dispatch(updateCampus(campus)),
-        deleteStudentSchool: (id) => dispatch(deleteStudentSchool(id))
+        updateStudent: (student) => dispatch(updateStudent(student))
     }
 }
 export default connect(null, mapDispatch)(UpdateCampus);

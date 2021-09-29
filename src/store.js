@@ -9,8 +9,6 @@ const DELETE_STUDENT = 'DELETE_STUDENT';
 const UPDATE_CAMPUS = 'UPDATE_CAMPUS';
 const UPDATE_STUDENT = 'UPDATE_STUDENT';
 const DELETE_STUDENT_SCHOOL = 'DELETE_STUDENT_SCHOOL';
-const LOAD_SOME_CAMPUSES = 'LOAD_SOME_CAMPUSES';
-const LOAD_SOME_STUDENTS = 'LOAD_SOME_STUDENTS';
 
 import axios from 'axios';
 import thunk from 'redux-thunk';
@@ -28,9 +26,6 @@ const campusesReducer = (state = [], action) => {
     }
     if(action.type === UPDATE_CAMPUS){
         state = state.map(campus => campus.id === action.campus.id ? action.campus : campus)
-    }
-    if(action.type === LOAD_SOME_CAMPUSES){
-        state = action.campuses;
     }
     return state;
 };
@@ -50,9 +45,6 @@ const studentsReducer = (state = [], action) => {
     }
     if(action.type === DELETE_STUDENT_SCHOOL){
         state = state.map(student => student.id === action.student.id ? action.student : student)
-    }
-    if(action.type === LOAD_SOME_STUDENTS){
-        state = action.students;
     }
     return state;
 };
@@ -83,26 +75,6 @@ const loadStudents = () => {
     return async (dispatch) => {
         const students = (await axios.get('/api/students')).data;
         dispatch(_loadStudents(students));
-    }
-}
-
-const _loadSomeCampuses = (campuses) => (
-    {type: LOAD_SOME_CAMPUSES, campuses}
-)
-const loadSomeCampuses = () => {
-    return async (dispatch) => {
-        const campuses = (await axios.get(`/api/campuses?page=:${pg}`)).data;
-        dispatch(_loadSomeCampuses(campuses));
-    }
-}
-
-const _loadSomeStudents = (students) => (
-    {type: LOAD_SOME_STUDENTS, students}
-)
-const loadSomeStudents = () => {
-    return async (dispatch) => {
-        const students = (await axios.get(`/api/students?page=:${pg}`)).data;
-        dispatch(_loadSomeStudents(students));
     }
 }
 
@@ -166,15 +138,5 @@ const updateStudent = (student) => {
     }
 }
 
-const _deleteStudentSchool = (student) => (
-    {type: DELETE_STUDENT_SCHOOL, student}
-)
-const deleteStudentSchool = (id) => {
-    return async (dispatch) => {
-        const updated = (await axios.put(`/api/students/${id}`, {campusId: null})).data;
-        dispatch(_deleteStudentSchool(updated));
-    }
-}
-
 export default store;
-export {loadCampuses, loadStudents, addCampus, addStudent, deleteCampus, deleteStudent, updateCampus, updateStudent, deleteStudentSchool, loadSomeCampuses, loadSomeStudents };
+export {loadCampuses, loadStudents, addCampus, addStudent, deleteCampus, deleteStudent, updateCampus, updateStudent };

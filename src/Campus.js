@@ -6,6 +6,7 @@ const Campus = ({campus, students}) => {
    if (!campus.id){
        return '...loading campus';
    } 
+   
     return (
     <div className='infocontainer'>
         <h1>{campus.name}</h1>
@@ -37,7 +38,8 @@ const Campus = ({campus, students}) => {
 }
 const mapState = (state, otherProps) => {
     const campus = state.campuses.find(campus => campus.id === otherProps.match.params.id * 1) || {};
-    const students = state.students.filter(student => student.campusId === campus.id) || [];
+    //const students = campus.students || [];
+    const students = state.students.filter(student => student.campusId === campus.id);
     return {campus, students};
 }
 export default connect(mapState)(Campus);

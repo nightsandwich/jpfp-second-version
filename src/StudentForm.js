@@ -11,13 +11,14 @@ const StudentForm = ({firstName, lastName, email, imageUrl, gpa, campusId, campu
             lastName: !lastName.length,
             email: !email.length || !validEmail.test(email),
             gpa: !gpa.length || !validGpa.test(gpa),
-            campusId: !campusId
+            
         }
     }
 
     const errors = validate(firstName, lastName, campusId, email, gpa);
     const isEnabled = !Object.keys(errors).some(x => errors[x]);
     
+    console.log('campusID, ',campusId);
     return (
         <form onSubmit={ onSubmit } className='add'>
             <h3>{buttonName}</h3>
@@ -31,7 +32,7 @@ const StudentForm = ({firstName, lastName, email, imageUrl, gpa, campusId, campu
             <textarea rows='1' cols='50' name='imageUrl' value={imageUrl} onChange={onChange} />
             <label>Campus<sup>*</sup></label>
             <select className={errors.campusId ? 'error' : ''} name='campusId' onChange={onChange} value={campusId}>
-                <option name='campusId' onChange={onChange} value={null}>SELECT CAMPUS</option>
+                <option name='campusId' onChange={onChange} value={null || undefined}>SELECT CAMPUS</option>
                 {
                     campuses.map( campus => { 
                         return (

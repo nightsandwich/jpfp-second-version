@@ -30,6 +30,13 @@ class UpdateStudent extends Component {
        }
     }
 
+    componentDidUpdate(prevProps){
+        if (prevProps.campus.id !== this.props.campus.id){
+            this.setState({...this.state, campusId: this.props.campus.id})
+        }
+        console.log(this.state.campusId)
+    }
+
     onChange(ev){
         const change = {};
         change[ev.target.name] = ev.target.value;
@@ -54,10 +61,16 @@ class UpdateStudent extends Component {
         )
     }
 }
+const mapState = (state, otherProps) => {
+    const student = state.students.find(student => student.id === otherProps.match.params.id * 1) || {};
+    const campus = state.campuses.find(campus => campus.id === student.campusId * 1) || {};
+    const campuses = state.campuses;
+    return {student, campus, campuses};
+}
 
 const mapDispatch = (dispatch) => {
     return {
         update: (student) => dispatch(updateStudent(student))
     }
 }
-export default connect(({campuses})=> ({campuses}), mapDispatch)(UpdateStudent);
+export default connect(mapState, mapDispatch)(UpdateStudent);

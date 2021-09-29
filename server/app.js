@@ -20,7 +20,8 @@ app.get('/api/campuses', async(req, res, next) => {
     res.send(await Campus.findAll({
       include: [
         {
-          model: Student
+          model: Student,
+          include: Campus
         }
       ],
       order: [
@@ -38,7 +39,7 @@ app.get('/api/campuses/:id', async(req, res, next) => {
     res.send(await Campus.findByPk(req.params.id,{
       include: [
         {
-          model: Student
+          model: Student,
         }
       ]
     }));
@@ -75,7 +76,8 @@ app.get('/api/students', async(req, res, next) => {
     res.send(await Student.findAll({
       include: [
         {
-          model: Campus
+          model: Campus,
+          include: Student
         }
       ],
       order: [
@@ -172,9 +174,10 @@ app.delete('/api/students/:id', async(req, res, next) => {
 });
 
 app.put('/api/campuses/:id', async(req, res, next) => {
+  const { name, address, imageUrl, description} = req.body;
   try{
     const _campus = await Campus.findByPk(req.params.id);
-    await _campus.update(req.body);
+    await _campus.update({name, address, imageUrl, description});
     const campus = await Campus.findByPk(req.params.id, {
       include: [
         {
@@ -190,9 +193,10 @@ app.put('/api/campuses/:id', async(req, res, next) => {
 })
 
 app.put('/api/students/:id', async(req, res, next) => {
+  const {firstName, lastName, email, imageUrl, gpa, campusId} = req.body;
   try{
     const _student = await Student.findByPk(req.params.id);
-    await _student.update(req.body);
+    await _student.update({firstName, lastName, email, imageUrl, gpa, campusId});
     const student = await Student.findByPk(req.params.id, {
       include: [
         {
@@ -295,9 +299,9 @@ const syncAndSeed = async()=> {
   await db.sync({ force: true });
   
 //--------------------------------------//
-  const numCampuses = 100;
-  const numStudentsWithSchool = 150;
-  const numStudentsWithoutSchool = 50;
+  const numCampuses = 5;
+  const numStudentsWithSchool = 5;
+  const numStudentsWithoutSchool = 3;
 //--------------------------------------//
 
   const gpaGenerator = () => {
