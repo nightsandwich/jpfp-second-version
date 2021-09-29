@@ -1,123 +1,108 @@
-import React, {Component} from "react";
-import { connect } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import AddCampus from "./AddCampus";
 import { deleteCampus, loadCampuses } from "./store";
 
-class Campuses extends Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            view: 'normal',
-            filter: 'all'
-        }
-        this.chooseSort = this.chooseSort.bind(this);
-        this.chooseFilter = this.chooseFilter.bind(this);
-    }
-
-    componentDidMount(){
-        this.props.loadCampuses();
-    }
+const Campuses = ({location}) => {
     
-    chooseSort(ev){
-        this.setState({...this.state, view: ev.target.value});
-    }
-    chooseFilter(ev){
-        this.setState({...this.state, filter: ev.target.value});
-    } 
-    render(){
-        const {campuses, destroy, start, end} = this.props;
-        const {view, filter} = this.state;
-        const {chooseSort, chooseFilter} = this;
-        
-        const sortedByName = [...campuses].sort((a,b) => (a.name > b.name) ? 1 : -1); 
-        const sortedByStudents = [...campuses].sort((a,b) => (a.students.length < b.students.length) ? 1 : (a.students.length === b.students.length) ? ((a.name > b.name) ? 1: -1) : -1);
-        const sortedByState = [...campuses].sort((a,b) => (a.address.split(', ').slice(2,3).join('').split(' (')[0] > b.address.split(', ').slice(2,3).join('').split(' (')[0]) ? 1 : -1);
-        const campusesToRender = view === 'normal' ? sortedByName : view === 'students' ? sortedByStudents : sortedByState;
-        
-        const filteredCampuses = campusesToRender.filter(campus => {
-            return filter === 'all' ? 
-            campus : 
-            filter === 'students' ?
-            campus.students.length :
-            !campus.students.length
-        });
-        const paginatedCampuses = filteredCampuses.filter((campus,idx) => idx + 1 >= start && idx + 1 <= end ? campus : '');
-        
-        return (
-        <div>
-            <h1>Campuses</h1>
-            <div>
-                Sort by:
-                <select name='view' value={view} onChange={chooseSort} >
-                    <option value={'normal'}>Name</option>
-                    <option value={'students'}>Number of Students</option>
-                    <option value={'states'}>State</option>
-                </select>
-            </div>
-            <div>
-                Filter by: 
-                <select disabled={start !== 1} name='filter' value={filter} onChange={chooseFilter} >
-                    <option value={'all'}>Show All</option>
-                    <option value={'students'}>Campuses With Students</option>
-                    <option value={'none'}>Campuses Without Students</option>
-                </select>
-            </div>
-            
-            <div className='addContainer'>
-                <ul>
-                    {
-                        paginatedCampuses.map(campus => {
-                            return (
-                                <li key={campus.id}>
-                                    <button onClick={()=>destroy(campus.id)}><small>DELETE</small></button><span> </span>
-                                    <Link to={`/campuses/${campus.id}`}>{campus.name}</Link>
-                                    <small>  ({campus.address.split(', ').slice(2,3).join('').split(' (')[0]})</small>
-                                    <div className='count'>
-                                    {campus.students.length === 0 ? '--No students--' : campus.students.length === 1 ? '--1 student--' : `--${campus.students.length} students--`}
-                                    </div>
-                                </li>
-                            );
-                        })
-                    }
-                </ul>
-                <div>
-                    <AddCampus />
-                </div>
-            </div>
-            <div className='pagnav'>
-                Campuses 
-                {
-                    filteredCampuses.map((campus, idx) => {
-                        return (((idx + 1) % 10 === 1) ? 
-                        <Link key={campus.id} to={`campuses?page=${(idx + 10) / 10}`}> {`<${idx + 1}>`} </Link>
-                        : '');
-                    })
-                } 
-                <small className='nums' ><b>({start} to {end} of {campuses.length})</b></small>
-            </div>
-            
-        </div>
+    useEffect(() => dispatch(loadCampuses()), []); //componentDidMount
     
-        );
-    }
-}
-const mapState = (state, otherProps) => {
-    const start = (10 * (otherProps.location.search.slice(6) - 1)) + 1;
+    //mapState
+    const campuses = useSelector(({campuses}) => campuses);
+    
+    const dispatch = useDispatch(); //mapDispatch
+    
+    // //pagination
+    const start = 10 * (location.search.slice(6) - 1) + 1;
     const end = start + 9;
-    return {
-        campuses: state.campuses,
-        start: start,
-        end: end,
+    
+    //local state
+    const [inputs, setInputs] = useState({ 
+        view: 'normal',
+        filter: 'all'
+    })
+    
+    
+    //sort and filter
+    const chooseSort = (ev) => {
+        setInputs({...inputs, view: ev.target.value});
     }
+    const chooseFilter = (ev) =>{
+        setInputs({...inputs, filter: ev.target.value});
+    } 
+    const sortedByName = [...campuses].sort((a,b) => (a.name > b.name) ? 1 : -1); 
+    const sortedByStudents = [...campuses].sort((a,b) => (a.students.length < b.students.length) ? 1 : (a.students.length === b.students.length) ? ((a.name > b.name) ? 1: -1) : -1);
+    const sortedByState = [...campuses].sort((a,b) => (a.address.split(', ').slice(2,3).join('').split(' (')[0] > b.address.split(', ').slice(2,3).join('').split(' (')[0]) ? 1 : -1);
+    const campusesToRender = inputs.view === 'normal' ? sortedByName : inputs.view === 'students' ? sortedByStudents : sortedByState;
+    
+    const filteredCampuses = campusesToRender.filter(campus => {
+        return inputs.filter === 'all' ? 
+        campus : 
+        inputs.filter === 'students' ?
+        campus.students.length :
+        !campus.students.length
+    });
+    const paginatedCampuses = filteredCampuses.filter((campus,idx) => idx + 1 >= start && idx + 1 <= end ? campus : '');
+    console.log('paginatedCampuses, ', paginatedCampuses);
+    return (
+    <div>
+        <h1>Campuses</h1>
+        <div>
+            Sort by:
+            <select name='view' value={inputs.view} onChange={chooseSort} >
+                <option value={'normal'}>Name</option>
+                <option value={'students'}>Number of Students</option>
+                <option value={'states'}>State</option>
+            </select>
+        </div>
+        <div>
+            Filter by: 
+            <select disabled={start !== 1} name='filter' value={inputs.filter} onChange={chooseFilter} >
+                <option value={'all'}>Show All</option>
+                <option value={'students'}>Campuses With Students</option>
+                <option value={'none'}>Campuses Without Students</option>
+            </select>
+        </div>
+        
+        <div className='addContainer'>
+            <ul>
+                {
+                    paginatedCampuses.map(campus => {
+                        return (
+                            <li key={campus.id}>
+                                <button onClick={()=>dispatch(deleteCampus(campus.id))}><small>DELETE</small></button><span> </span>
+                                <Link to={`/campuses/${campus.id}`}>{campus.name}</Link>
+                                <small>  ({campus.address.split(', ').slice(2,3).join('').split(' (')[0]})</small>
+                                <div className='count'>
+                                {campus.students.length === 0 ? '--No students--' : campus.students.length === 1 ? '--1 student--' : `--${campus.students.length} students--`}
+                                </div>
+                            </li>
+                        );
+                    })
+                }
+            </ul>
+            <div>
+                <AddCampus />
+            </div>
+        </div>
+        <div className='pagnav'>
+            Campuses 
+            {
+                filteredCampuses.map((campus, idx) => {
+                    return (((idx + 1) % 10 === 1) ? 
+                    <Link key={campus.id} to={`campuses?page=${(idx + 10) / 10}`}> {`<${idx + 1}>`} </Link>
+                    : '');
+                })
+            } 
+            <small className='nums' ><b>({start} to {end} of {campuses.length})</b></small>
+        </div>
+        
+    </div>
+
+    );
 }
 
-const mapDispatch = (dispatch) => {
-    return {
-        destroy: (id) => dispatch(deleteCampus(id)),
-        loadCampuses: () => dispatch(loadCampuses())
-    }
-}
-export default connect(mapState, mapDispatch)(Campuses);
+export default Campuses;
 
 
