@@ -1,9 +1,11 @@
 import React from "react";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 import {NavLink} from 'react-router-dom'
 
-const Nav = ({campuses, students}) => {
+const Nav = () => {
 
+    const [campuses, students] = useSelector(({campuses, students}) => [campuses, students]);
+    
     return (
     <div id='nav'>
         <NavLink className='none' to='/'> Home  </NavLink>
@@ -13,4 +15,4 @@ const Nav = ({campuses, students}) => {
     )
 }
 
-export default connect(state=>state)(Nav);
+export default Nav;
