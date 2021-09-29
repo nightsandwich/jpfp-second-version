@@ -79,7 +79,7 @@ const Students = ({location, match}) => {
                 }
             </ul>
             <div>
-                {/* <StudentForm /> */}
+                <StudentForm match={match} action={'add'}/>
             </div>
         </div>
         <div className='pagnav'>

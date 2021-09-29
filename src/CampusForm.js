@@ -49,8 +49,9 @@ const CampusForm = ({ action, campusId}) => {
         catch(ex){
             setInputs({...inputs, error: ex.response.data.error});
         }
-        setInputs({name: '', imageUrl: '', address: '', description: '', error: ''});
+        setInputs({name: '', imageUrl: '', address: '', description: '', error: '', id: ''});
     }
+    
     return (
         <>
         <form onSubmit={ onSubmit } className='add'>
