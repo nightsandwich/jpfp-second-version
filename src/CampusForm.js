@@ -86,10 +86,12 @@ const CampusForm = ({ action='add', campusId, handleClose}) => {
                     {
                     students.map((student) => {
                         return (
+                            <>
                             <ListItem alignItems="flex-start" key={student.id}>
                                 <ListItemText>{student.firstName} {student.lastName}</ListItemText>
-                                <Button value={student.id} variant='contained' size='small' color='primary' onClick={()=> onClick(student)}>Unenroll</Button>
                             </ListItem>
+                            <Button value={student.id} variant='outlined' size='small' color='error' onClick={()=> onClick(student)}>Unenroll</Button>
+                            </>
                         );
                     })
                     }

@@ -13,8 +13,8 @@ const Students = ({location, match}) => {
     useEffect(() => dispatch(loadStudents()), []); //componentDidMount
     
     //pagination
-    const start = 10 * (location.search.slice(6) - 1) + 1;
-    const end = start + 9;
+    // const start = 10 * (location.search.slice(6) - 1) + 1;
+    // const end = start + 9;
     
     //local state
     const [inputs, setInputs] = useState({
@@ -40,7 +40,7 @@ const Students = ({location, match}) => {
         student.campusId :
         !student.campusId
     });
-    const paginatedStudents = filteredStudents.filter((student, idx) => idx + 1 >= start && idx + 1 <= end ? student : '');
+    // const paginatedStudents = filteredStudents.filter((student, idx) => idx + 1 >= start && idx + 1 <= end ? student : '');
     
     return (
     <div>
@@ -55,7 +55,7 @@ const Students = ({location, match}) => {
         </div>
         <div>
             Filter by: 
-            <select disabled={start !== 1} name='filter' value={filter} onChange={chooseSortFilter} >
+            <select name='filter' value={filter} onChange={chooseSortFilter} >
                 <option value={'all'}>Show All</option>
                 <option value={'campuses'}>Students With Campus Enrollment</option>
                 <option value={'none'}>Students Without Campus Enrollment</option>
@@ -65,7 +65,7 @@ const Students = ({location, match}) => {
         <div className='addContainer'>
             <ul>
                 {
-                    paginatedStudents.map(student => {
+                    filteredStudents.map(student => {
                         return (
                             <li key={student.id}>
                                 <button onClick={()=>dispatch(deleteStudent(student.id))}><small>DELETE</small></button><span> </span>
@@ -82,7 +82,7 @@ const Students = ({location, match}) => {
                 <StudentForm match={match} action={'add'}/>
             </div>
         </div>
-        <div className='pagnav'>
+        {/* <div className='pagnav'>
             Students
             {
                 filteredStudents.map((student, idx) => {
@@ -92,7 +92,7 @@ const Students = ({location, match}) => {
                 })
             }
             <small className='nums' ><b>({start} to {end} of {students.length})</b></small>
-        </div>
+        </div> */}
     </div>
     );
 }

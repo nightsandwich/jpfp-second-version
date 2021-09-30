@@ -3,8 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import {updateStudent} from './store';
 import StudentForm from "./StudentForm";
-import Button from '@mui/material/Button';
-import styled from '@emotion/styled';
+import {Button, Dialog, Typography, CardActionArea, CardContent, Card, CardMedia} from '@mui/material';
 
 const Student = ({match}) => {
     let history = useHistory();
@@ -19,30 +18,33 @@ const Student = ({match}) => {
     if (!student.id){
         return('...loading student');
     }
-        return (
-        <div className = 'addContainer'>
-            <div className='infocontainer student'>
-                <div className='studentname'>
-                    <h2>{student.firstName} {student.lastName}</h2>
-                </div>
-                <div>
-                    <img src={student.imageUrl} alt={`Photo of ${student.firstName}`}/>
-                </div>
-                <div>
-                    <small>{student.email}</small>
-                </div>
-                <div>
-                    {campus.id ? `GPA: ${student.gpa}` : '' }
-                </div>
-                <div>
-                    {campus.id ? <Link to={`/campuses/${campus.id}`}>{campus.name}</Link> : 'Not enrolled in a school.' }
-                    {campus.id ? <Button variant='contained' color='error' onClick={onClick}>Unenroll</Button> : ''}
-                </div>
-            </div>
-            <div className='edit'>
-                <StudentForm action={'update'} studentId={student.id} />
-            </div>
-        </div>
+    return (
+        <>
+            <StudentForm action={'update'} studentId={student.id} />
+            <Card sx={{ maxWidth: 500 }} >
+                <Typography gutterBottom variant="h5" component="div">
+                {student.firstName} {student.lastName} <Button size='small' variant='contained' color='success' >Edit Student</Button>
+                </Typography>
+                <CardMedia
+                    component="img"
+                    height="400"
+                    image={student.imageUrl}
+                    alt="student image"
+                />
+                <CardContent>
+                    <Typography variant="body1" color="text.primary" component="div">
+                        {/* {campus.id ? 'Currently attending ' + <Link style={{ color: 'darkslategrey'}} to={`/campuses/${campus.id}`}>{campus.name}</Link> + ' ' + <Button size='small' variant='outlined' color='error' onClick={onClick}>Unenroll</Button> : 'Not enrolled in a school.' } */}
+                        {campus.id ? 'Currently attending ' : 'Not enrolled in a school.' }
+                        {campus.id ? <Link style={{ color: 'darkslategrey'}} to={`/campuses/${campus.id}`}>{campus.name}</Link> : '' }
+                        {campus.id ? <Button size='small' variant='outlined' color='error' onClick={onClick} style={{marginLeft: '1rem'}}>Unenroll</Button> : '' }
+                        <br></br>
+                        {campus.id ? `GPA: ${student.gpa}` : '' }
+                        <br></br> 
+                        Email: {student.email}
+                    </Typography>
+                </CardContent>
+            </Card>
+        </>
         );
     
 }

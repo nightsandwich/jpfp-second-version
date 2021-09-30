@@ -115,7 +115,7 @@ const Campuses = ({location}) => {
                                     </CardContent>
                                 </CardActionArea >
                                 <CardActions>
-                                    <Button onClick={()=>dispatch(deleteCampus(campus.id))} size="small" variant="contained" color='error'>Delete Campus</Button>
+                                    <Button onClick={()=>dispatch(deleteCampus(campus.id))} size="small" variant="contained" color='error'>Delete</Button>
                                     <Button onClick={()=>history.push(`/campuses/${campus.id}`)} variant="contained" color="primary" size="small">Learn More</Button>
                                 </CardActions>
                             </Card>
