@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import { useDispatch, useSelector} from 'react-redux';
 import { addCampus, updateCampus, updateStudent } from './store';
-import { TextField, Button } from "@mui/material";
+import { TextField, Button, Box, List, ListItem, ListItemText } from "@mui/material";
 
 const CampusForm = ({ action='add', campusId}) => {
     
@@ -52,34 +52,55 @@ const CampusForm = ({ action='add', campusId}) => {
         }
         setInputs({name: '', imageUrl: '', address: '', description: '', error: '', id: ''});
     }
+
+    const onClick = (student) => {
+        dispatch(updateStudent({...student, campusId: null}));
+    }
     
     return (
         <>
-        <TextField id="name-input" name="name" label="Name" type="text" value={name} onChange={onChange}/>
-        <TextField id="image-url-input" name="imageUrl" label="Image URL" type="text" value={imageUrl} onChange={onChange}/>
-        <TextField id="address-input" name="address" label="Address" type="text" value={address} onChange={onChange}/>
-        <TextField id="description-input" name="description" label="Description" multiline maxRows={10} value={description} onChange={onChange}/>
-        <br/>
-        <Button variant='contained' color='primary' onClick={onSubmit}>{action === 'add' ? 'Add' : 'Update'}</Button>
-        <br/>
-        <br/> 
-        {action === 'update' ? 
-            <div>
-            {students.length ? `Enrollees: ${students.length}` : 'No students currently enrolled.'}
-            <ul>
-            {
-            students.map((student) => {
-                return (
-                    <li key={student.id}>
-                        {student.firstName} {student.lastName} <button value={student.id} onClick={() => dispatch(updateStudent({...student, campusId: null}))}>Unenroll</button>
-                    </li>
-                );
-            })
-            }
-            </ul>
-        </div>    
-        : ''
-        }
+    <Box
+            component="form"
+            sx={{
+                '& .MuiTextField-root': { m: 1, width: '25ch' },
+            }}
+            noValidate
+            autoComplete="off"
+        >
+      <div>
+            <div style={{display: 'flex'}}>
+                <div style={{display: 'flex', flexDirection: 'column', width: '35%'}}>
+                    <TextField style={{width: '90%'}} helperText='Required' variant='standard' id="name-input" name="name" label="Name" type="text" value={name} onChange={onChange}/>
+                    <TextField style={{width: '90%'}} variant='standard' id="image-url-input" name="imageUrl" label="Image URL" type="text" value={imageUrl} onChange={onChange}/>
+                    <TextField style={{width: '90%'}} helperText='Required' variant='standard' id="address-input" name="address" label="Address" type="text" value={address} onChange={onChange}/>
+                    <Button style={{width: '90%'}} variant='contained' color='primary' onClick={onSubmit}>{action === 'add' ? 'Add' : 'Update'}</Button>
+                </div>
+                <div style={{width: '35%'}}>
+                    <TextField style={{width: '90%'}} variant='standard' id="description-input" name="description" label="Description" multiline value={description} onChange={onChange}/>
+                </div>
+                {action === 'update' ? 
+                <div style={{width: '30%'}}>
+                    <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+                    <ListItemText>{students.length ? `Enrollees: ${students.length}` : 'No students currently enrolled.'}</ListItemText>
+                    {
+                    students.map((student) => {
+                        return (
+                            <ListItem alignItems="flex-start" key={student.id}>
+                                <ListItemText>{student.firstName} {student.lastName}</ListItemText>
+                                <Button value={student.id} variant='contained' size='small' color='primary' onClick={()=> onClick(student)}>Unenroll</Button>
+                            </ListItem>
+                        );
+                    })
+                    }
+                    </List>
+                </div>    
+                    : ''
+                }
+            </div>
+        
+      </div>
+    </Box>
+        
         </>
     )
 }
