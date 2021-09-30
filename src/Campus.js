@@ -1,23 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import CampusForm from "./CampusForm";
-import {Button, Grid,Typography, FormControl, MenuItem, InputLabel, Select, CardActionArea, CardActions, CardContent, Card, CardMedia} from '@mui/material';
+import {Button, Dialog, Typography, FormControl, MenuItem, InputLabel, Select, CardActionArea, CardActions, CardContent, Card, CardMedia} from '@mui/material';
 
 const Campus = ({match}) => {
+    //dialog
+    const [open, setOpen] = useState(false);
+ 
+    const handleOpen = () => {
+        setOpen(true);
+    }
+    const handleClose = (ev) => {
+        ev.preventDefault();
+        setOpen(false);
+    }
+     
    const campus = useSelector(state => state.campuses.find(campus => campus.id === +match.params.id) || {})
    const students = useSelector(state => state.students.filter(student => student.campusId === campus.id) || []);
 
    if (!campus.id){
        return '...loading campus';
    } 
-   
     return (
     <div className = 'addContainer'>
-        <div className='edit'>
-        <CampusForm action={'update'} campusId={campus.id} />
-    </div>
+        <Dialog onClose={handleClose} open={open}>
+            <CampusForm action={'update'} campusId={campus.id} handleClose={handleClose}/>
+        </Dialog>
     <div className='infocontainer'>
+    <h1>{campus.name}</h1><Button variant='contained' color='success' onClick={handleOpen}>Edit Campus</Button>
     <Card sx={{ maxWidth: 700 }} >
         <CardActionArea >
             <CardMedia

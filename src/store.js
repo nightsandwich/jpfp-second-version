@@ -10,6 +10,7 @@ const DELETE_STUDENT = 'DELETE_STUDENT';
 const UPDATE_CAMPUS = 'UPDATE_CAMPUS';
 const UPDATE_STUDENT = 'UPDATE_STUDENT';
 const DELETE_STUDENT_SCHOOL = 'DELETE_STUDENT_SCHOOL';
+// const SORT_SELECTION = 'SORT_SELECTION';
 
 import axios from 'axios';
 import thunk from 'redux-thunk';
@@ -27,6 +28,9 @@ const campusesReducer = (state = [], action) => {
     if(action.type === UPDATE_CAMPUS){
         state = state.map(campus => campus.id === action.campus.id ? action.campus : campus)
     }
+    // if(action.type === SORT_SELECTION){
+    //     state = [...state].sort((a, b) => a - b)
+    // }
     return state;
 };
 

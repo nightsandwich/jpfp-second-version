@@ -3,7 +3,7 @@ import { useDispatch, useSelector} from 'react-redux';
 import { addCampus, updateCampus, updateStudent } from './store';
 import { TextField, Button, Box, List, ListItem, ListItemText } from "@mui/material";
 
-const CampusForm = ({ action='add', campusId}) => {
+const CampusForm = ({ action='add', campusId, handleClose}) => {
     
     const dispatch = useDispatch();
 
@@ -41,7 +41,6 @@ const CampusForm = ({ action='add', campusId}) => {
     }
 
     const onSubmit = (ev) => {
-
         ev.preventDefault();
         try{
             action === 'add' ? dispatch(addCampus({name, imageUrl, address, description})) :
@@ -51,6 +50,7 @@ const CampusForm = ({ action='add', campusId}) => {
             setInputs({...inputs, error: ex.response.data.error});
         }
         setInputs({name: '', imageUrl: '', address: '', description: '', error: '', id: ''});
+        handleClose(ev);
     }
 
     const onClick = (student) => {
@@ -68,6 +68,7 @@ const CampusForm = ({ action='add', campusId}) => {
             autoComplete="off"
         >
       <div>
+          <button onClick={(ev)=> handleClose(ev)}>X</button>
             <div style={{display: 'flex'}}>
                 <div style={{display: 'flex', flexDirection: 'column', width: '35%'}}>
                     <TextField style={{width: '90%'}} helperText='Required' variant='standard' id="name-input" name="name" label="Name" type="text" value={name} onChange={onChange}/>

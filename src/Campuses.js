@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import CampusForm from "./CampusForm";
 import { deleteCampus, loadCampuses } from "./store";
+// import CampusDropdowns from "./CampusDropdowns";
+import {Dialog, FormControl, MenuItem, InputLabel, Select, Button, Grid,Typography, CardActionArea, CardActions, CardContent, Card, CardMedia} from '@mui/material';
 
-import {Button, Grid,Typography, FormControl, MenuItem, InputLabel, Select, CardActionArea, CardActions, CardContent, Card, CardMedia} from '@mui/material';
 
-
-const Campuses = ({location, match}) => {
+const Campuses = ({location}) => {
     //mapState
     const campuses = useSelector(({campuses}) => campuses);
     //mapDispatch
@@ -16,23 +16,20 @@ const Campuses = ({location, match}) => {
 
     useEffect(() => dispatch(loadCampuses()), []); //componentDidMount
     
-    
-    // //pagination
-    // const start = 10 * (location.search.slice(6) - 1) + 1;
-    // const end = start + 9;
-    
     //local state
     const [inputs, setInputs] = useState({ 
         view: 'normal',
         filter: 'all'
     })
     
-    
     //sort and filter
     const chooseSortFilter = (ev) => {
         setInputs({...inputs, [ev.target.name]: ev.target.value});
     }
      
+    // //pagination
+    // const start = 10 * (location.search.slice(6) - 1) + 1;
+    // const end = start + 9;
     const sortedByName = [...campuses].sort((a,b) => (a.name > b.name) ? 1 : -1); 
     const sortedByStudents = [...campuses].sort((a,b) => (a.students.length < b.students.length) ? 1 : (a.students.length === b.students.length) ? ((a.name > b.name) ? 1: -1) : -1);
     // const sortedByState = [...campuses].sort((a,b) => (a.address.split(', ').slice(2,3).join('').split(' (')[0] > b.address.split(', ').slice(2,3).join('').split(' (')[0]) ? 1 : -1);
@@ -47,11 +44,20 @@ const Campuses = ({location, match}) => {
     });
     // const paginatedCampuses = filteredCampuses.filter((campus,idx) => idx + 1 >= start && idx + 1 <= end ? campus : '');
     
+    //dialog
+    const [open, setOpen] = useState(false);
+    
+    const handleOpen = () => {
+        setOpen(true);
+    }
+    const handleClose = (ev) => {
+        ev.preventDefault();
+        setOpen(false);
+    }
     return (
-    <div>
-        <h1>Campuses</h1>
-        <CampusForm />
         
+    <div>
+        <h1>Campuses</h1><Button variant='contained' color='success' onClick={handleOpen}>Add New Campus</Button>
             <FormControl sx={{m:1, minWidth: 120}} >
                 <InputLabel id="demo-simple-select-label">Sort</InputLabel>
                 <Select
@@ -65,8 +71,8 @@ const Campuses = ({location, match}) => {
                     <MenuItem value={'normal'}>Name</MenuItem>
                     <MenuItem value={'students'}>Number of Students</MenuItem>
                 </Select>
-            </FormControl>
-            <FormControl sx={{m:1, minWidth: 120}} >
+                </FormControl>
+                <FormControl sx={{m:1, minWidth: 120}} >
                 <InputLabel id="demo-simple-select-label">Filter</InputLabel>
                 <Select
                     labelId="demo-simple-select-label"
@@ -81,7 +87,10 @@ const Campuses = ({location, match}) => {
                     <MenuItem value={'students'}>Campuses With Students</MenuItem>
                 </Select>
             </FormControl>
-        
+
+            <Dialog onClose={handleClose} open={open}>
+                <CampusForm handleClose={handleClose} />
+            </Dialog>
         <div className='addContainer'>
             <Grid container spacing={2}  direction='row' >
             {
