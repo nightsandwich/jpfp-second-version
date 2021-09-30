@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import { useDispatch, useSelector} from 'react-redux';
 import { addCampus, updateCampus, updateStudent } from './store';
 import { TextField, Button, Box, List, ListItem, ListItemText } from "@mui/material";
+import EnrolledStudents from "./EnrolledStudents";
 
 const CampusForm = ({ action='add', campusId, handleClose}) => {
     
@@ -67,39 +68,42 @@ const CampusForm = ({ action='add', campusId, handleClose}) => {
             noValidate
             autoComplete="off"
         >
-      <div>
           <button onClick={(ev)=> handleClose(ev)}>X</button>
+      <div style={{display: 'flex', flexDirection: 'column'}}>
             <div style={{display: 'flex'}}>
-                <div style={{display: 'flex', flexDirection: 'column', width: '35%'}}>
+                <div style={{display: 'flex', flexDirection: 'column', width: '40%'}}>
                     <TextField style={{width: '90%'}} helperText='Required' variant='standard' id="name-input" name="name" label="Name" type="text" value={name} onChange={onChange}/>
                     <TextField style={{width: '90%'}} variant='standard' id="image-url-input" name="imageUrl" label="Image URL" type="text" value={imageUrl} onChange={onChange}/>
                     <TextField style={{width: '90%'}} helperText='Required' variant='standard' id="address-input" name="address" label="Address" type="text" value={address} onChange={onChange}/>
                     <Button style={{width: '90%'}} variant='contained' color='primary' onClick={onSubmit}>{action === 'add' ? 'Add' : 'Update'}</Button>
                 </div>
-                <div style={{width: '35%'}}>
-                    <TextField style={{width: '90%'}} variant='standard' id="description-input" name="description" label="Description" multiline value={description} onChange={onChange}/>
+                <div style={{width: '60%'}}>
+                    <TextField maxRows={10} style={{width: '90%'}} variant='standard' id="description-input" name="description" label="Description" multiline value={description} onChange={onChange}/>
                 </div>
-                {action === 'update' ? 
-                <div style={{width: '30%'}}>
-                    <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-                    <ListItemText>{students.length ? `Enrollees: ${students.length}` : 'No students currently enrolled.'}</ListItemText>
-                    {
-                    students.map((student) => {
-                        return (
-                            <>
-                            <ListItem alignItems="flex-start" key={student.id}>
-                                <ListItemText>{student.firstName} {student.lastName}</ListItemText>
-                            </ListItem>
-                            <Button value={student.id} variant='outlined' size='small' color='error' onClick={()=> onClick(student)}>Unenroll</Button>
-                            </>
-                        );
-                    })
-                    }
-                    </List>
-                </div>    
-                    : ''
-                }
             </div>
+            <div style={{flexShrink: '2'}}>
+                {action === '' ? '' : !students.length ? 'No students currently enrolld.' : <EnrolledStudents campusId={campus.id}/>}
+            </div>
+                {/* // <div style={{width: '30%'}}> */}
+                    {/* <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+                    <ListItemText>{!students.length ? 'No students currently enrolled.' : ''}</ListItemText>
+                    {
+                        students.map((student) => {
+                            return (
+                                <>
+                                <ListItem alignItems="flex-start" key={student.id}>
+                                <ListItemText>{student.firstName} {student.lastName}</ListItemText>
+                                </ListItem>
+                                <Button value={student.id} variant='outlined' size='small' color='error' onClick={()=> onClick(student)}>Unenroll</Button>
+                                </>
+                                );
+                            })
+                        }
+                //     </List> */}
+                {/* // // </div> */}
+                
+                
+                
         
       </div>
     </Box>

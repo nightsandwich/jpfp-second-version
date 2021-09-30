@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import { useDispatch, useSelector} from 'react-redux';
 import { addStudent, updateStudent } from './store';
+import EnrolledStudents from "./EnrolledStudents";
 // import { Form, Button } from "react-bootstrap";
 
 const StudentForm = ({action, studentId}) => {    
@@ -23,7 +24,7 @@ const StudentForm = ({action, studentId}) => {
     }));
     
     const {id, firstName, lastName, imageUrl, email, gpa, error, campusId} = inputs;
-console.log(inputs.campusId)
+
     //componentDidUpdate
     
     useEffect(() => {setInputs({ ...inputs, ...student})}, action === 'update' ? [student] : []);

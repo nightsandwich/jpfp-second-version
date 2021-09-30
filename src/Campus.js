@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import CampusForm from "./CampusForm";
-import {Button, Dialog, Typography, CardActionArea, CardContent, Card, CardMedia} from '@mui/material';
+import {Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Dialog, Typography, Stack, CardContent, Grid, Paper, Card, CardMedia} from '@mui/material';
+import EnrolledStudents from "./EnrolledStudents";
 
 const Campus = ({match}) => {
     //dialog
@@ -38,7 +39,7 @@ const Campus = ({match}) => {
             height="500"
             image={campus.imageUrl}
             alt="campus image"
-        />
+            />
         <CardContent>
             <Typography variant="body2" color="text.secondary" component="div">
             {campus.address}
@@ -47,19 +48,48 @@ const Campus = ({match}) => {
             {campus.description}
             </Typography>
             <Typography variant="body2" color="text.primary">
-            {students.length === 1 ? <h3 className='studentsheading'>{students.length} Student Currently Enrolled</h3> : students.length > 1 ? <h3 className='studentsheading'>{students. length} Students Currently Enrolled</h3> : <h4 className='studentsheading'>(No students currently enrolled.)</h4>}
-                <ul>
-                        {
-                            students.map(student => {
-                                return (
-                                    <li key={student.id}>
-                                        <Link style={{ color: 'darkslategrey'}} to={`/students/${student.id}`}>{student.firstName} {student.lastName}</Link>
-                                    </li>
-                                );
-                            })
-                        }
-                </ul>
+            {
+                !students.length ? '(No students currently enrolled.)' : ''
+                
+                // <TableContainer >
+                //     <Table sx={{ minWidth: 650 }} aria-label="simple table" component={Paper}>
+                //         <TableRow>
+                //             <TableCell align='center'>
+                //             Enrolled Students ({students.length})
+                //             </TableCell>
+                //         </TableRow>
+                //     </Table>
+                //     <Table sx={{ minWidth: 650 }} aria-label="simple table" component={Paper}>
+                //         <TableHead>
+                //             <TableRow>
+                //                 <TableCell >Name</TableCell>
+                //                 <TableCell >Email</TableCell>
+                //                 <TableCell >GPA</TableCell>
+                //                 <TableCell ></TableCell>
+                //             </TableRow>
+                //         </TableHead>
+                //         <TableBody>
+                //         {students.map((student) => (
+                //             <TableRow
+                //             hover
+                //             key={student.id}
+                //             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                //             >
+                //             <TableCell component="th" scope="row">
+                //                 <Link style={{ color: 'darkslategrey'}} to={`/students/${student.id}`}>{student.firstName} {student.lastName}</Link>
+                //             </TableCell>
+                //             <TableCell >{student.email}</TableCell>
+                //             <TableCell >{student.gpa}</TableCell>
+                //             <TableCell ><Button variant='outlined' color='error'>Unenroll</Button></TableCell>
+                //             </TableRow>
+                //         ))}
+                //         </TableBody>
+                //     </Table>
+
+                // </TableContainer>
+            }
             </Typography>
+            {students.length ? <EnrolledStudents campusId={campus.id} /> : ''}
         </CardContent>
     </Card>
         

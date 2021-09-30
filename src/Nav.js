@@ -51,8 +51,8 @@ const Nav = () => {
         <NavLink style={{textDecoration: 'none', color: 'dodgerBlue'}} to='/students'> <MenuItem onClick={handleClose}>Add Student </MenuItem></NavLink>
         </Menu> */}
     </div>
-        <PaginationItem onClick={()=>history.goBack()} type='previous'/>
-        <PaginationItem onClick={()=>history.goForward()} type='next'/>
+        <PaginationItem value='<' variant='outlined' shape='circular' color='primary' onClick={()=>history.goBack()} type='previous'/>
+        <PaginationItem  value='>' variant='outlined' shape='circular' color='secondary' onClick={()=>history.goForward()} type='next'/>
     <Stack >
     </Stack>
     </>
