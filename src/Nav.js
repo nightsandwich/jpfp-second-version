@@ -1,11 +1,10 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import {NavLink} from 'react-router-dom'
-import Button from '@mui/material/Button';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
+import {NavLink, useHistory } from 'react-router-dom'
+import {Menu, MenuItem, Button, PaginationItem, Stack} from '@mui/material';
 
 const Nav = () => {
+    const history = useHistory();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -18,6 +17,7 @@ const Nav = () => {
     const [campuses, students] = useSelector(({campuses, students}) => [campuses, students]);
     
     return (
+    <>
     <div id='nav'>
         <Button id='basic-button' aria-controls='basic-menu' aria-haspopup='true' aria-expanded={open ? 'true' : undefined} onClick={handleClick}>
             Dashboard
@@ -51,6 +51,11 @@ const Nav = () => {
         <NavLink style={{textDecoration: 'none', color: 'dodgerBlue'}} to='/students'> <MenuItem onClick={handleClose}>Add Student </MenuItem></NavLink>
         </Menu> */}
     </div>
+        <PaginationItem onClick={()=>history.goBack()} type='previous'/>
+        <PaginationItem onClick={()=>history.goForward()} type='next'/>
+    <Stack >
+    </Stack>
+    </>
     )
 }
 
