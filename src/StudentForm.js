@@ -12,7 +12,8 @@ const StudentForm = ({ action='add', studentId, handleClose}) => {
     //mapState
     const student = useSelector(state => state.students.find(student => student.id === studentId) || {});
     console.log(student)
-    const campuses = useSelector(state => state.campuses);
+    const _campuses = useSelector(state => state.campuses);
+    const campuses = _campuses.sort((a,b) => (a.name > b.name) ? 1 : -1);
     
     const [inputs, setInputs] = useState(() => ({
         id: '',
