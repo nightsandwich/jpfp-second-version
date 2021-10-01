@@ -1,11 +1,11 @@
-import React from "react";
+import React, {useState} from "react";
 import { useSelector } from "react-redux";
 import {NavLink, useHistory } from 'react-router-dom'
 import {Menu, MenuItem, Button, PaginationItem, Stack} from '@mui/material';
 
 const Nav = () => {
     const history = useHistory();
-    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
       setAnchorEl(event.currentTarget);

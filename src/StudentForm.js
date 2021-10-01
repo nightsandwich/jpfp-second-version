@@ -22,12 +22,13 @@ const StudentForm = ({ action='add', studentId, handleClose}) => {
         email: '',
         gpa: '',
         campusId: '',
+        
     }));
     
     const {id, firstName, imageUrl, lastName, email, gpa, campusId } = inputs;
     
     //componentDidUpdate
-    useEffect(() => {setInputs({...inputs, ...student, campusId: campusId === null ? '' : campusId})},action === 'update' ? [student] : []);
+    useEffect(() => {setInputs({...inputs, ...student, campusId: campusId === null ? '' : student.campusId})},action === 'update' ? [student] : []);
     
     // const validate = (name, address) => {
     //     return {
@@ -45,11 +46,11 @@ const StudentForm = ({ action='add', studentId, handleClose}) => {
     }
 
     const onSubmit = (ev) => {
-        console.log('EVVVVVVVVVVVVVV', ev.target)
+        
         ev.preventDefault();
         try{
             action === 'add' ? dispatch(addStudent({ firstName, imageUrl, lastName, email, gpa })) :
-            dispatch(updateStudent({id, firstName, imageUrl, lastName, email, gpa }));
+            dispatch(updateStudent({id, firstName, imageUrl, lastName, email, gpa, campusId }));
         }
         catch(ex){
             setInputs({...inputs, error: ex.response.data.error});
@@ -76,15 +77,15 @@ const StudentForm = ({ action='add', studentId, handleClose}) => {
                     <TextField style={{width: '90%'}} helperText='Required' variant='standard' id="email-input" name="email" label="Email" type="text" value={email} onChange={onChange}/>
                     <TextField style={{width: '90%'}} helperText='Required' variant='standard' id="imageUrl-input" name="imageUrl" label="Image URL" type="text" value={imageUrl} onChange={onChange}/>
                     <TextField style={{width: '90%'}} helperText='Required' variant='standard' id="gpa-input" name="gpa" label="GPA" type="text" value={gpa} onChange={onChange}/>
-                    <FormControl sx={{m:1, minWidth: 120}} >
-                        <InputLabel id="demo-simple-select-label">Campuses</InputLabel>
+                    
+                        <InputLabel>Campuses</InputLabel>
                         <Select
                             value={campusId === null ? '' : campusId}
                             label="Campuses"
                             onChange={onChange}
                             name="campusId"
                         >
-                            <MenuItem key={'no campus'} value={''}>None</MenuItem>
+                            {/* <MenuItem key={'no'} value={''}>None</MenuItem> */}
                             {
                                 campuses.map(campus => {
                                     return (
@@ -93,8 +94,8 @@ const StudentForm = ({ action='add', studentId, handleClose}) => {
                                 })
                             }
                         </Select>
-                    </FormControl>
-                    <Button style={{width: '90%'}} variant='contained' color='primary' onClick={onSubmit}>{action === 'add' ? 'Add' : 'Update'}</Button>
+                    
+                    <Button style={{width: '90%'}} variant='contained' color='primary' onClick={(ev) => onSubmit(ev)}>{action === 'add' ? 'Add' : 'Update'}</Button>
             </div>
       </div>
     </Box>

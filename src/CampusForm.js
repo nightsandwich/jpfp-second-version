@@ -53,13 +53,9 @@ const CampusForm = ({ action='add', campusId, handleClose}) => {
         setInputs({name: '', imageUrl: '', address: '', description: '', error: '', id: ''});
         handleClose(ev);
     }
-
-    const onClick = (student) => {
-        dispatch(updateStudent({...student, campusId: null}));
-    }
     
     return (
-        <>
+    <>
     <Box
             component="form"
             sx={{
@@ -81,30 +77,13 @@ const CampusForm = ({ action='add', campusId, handleClose}) => {
                     <TextField maxRows={11} style={{width: '90%'}} variant='standard' id="description-input" name="description" label="Description" multiline value={description} onChange={onChange}/>
                 </div>
             </div>
-            <div style={{margin: '.5rem', marginTop: 'none'}}>
-                {action === '' ? '' : !students.length ? 'No students currently enrolled.' : <EnrolledStudents campusId={campus.id}/>}
+            <div style={{margin: '.5rem', marginTop: 'none', fontFamily: 'Roboto'}}>
+                {action === 'add' ? '' : !students.length ? 'No students.' : <EnrolledStudents campusId={campus.id}/>}
             </div>
-                {/* // <div style={{width: '30%'}}> */}
-                    {/* <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-                    <ListItemText>{!students.length ? 'No students currently enrolled.' : ''}</ListItemText>
-                    {
-                        students.map((student) => {
-                            return (
-                                <>
-                                <ListItem alignItems="flex-start" key={student.id}>
-                                <ListItemText>{student.firstName} {student.lastName}</ListItemText>
-                                </ListItem>
-                                <Button value={student.id} variant='outlined' size='small' color='error' onClick={()=> onClick(student)}>Unenroll</Button>
-                                </>
-                                );
-                            })
-                        }
-                //     </List> */}
-                {/* // // </div> */}
       </div>
     </Box>
         
-        </>
+    </>
     )
 }
 
