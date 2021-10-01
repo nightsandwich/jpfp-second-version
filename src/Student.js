@@ -24,7 +24,6 @@ const Student = ({match}) => {
     const campus = useSelector(state => state.campuses.find(campus => campus.id === student.campusId) || {});
     const onClick = () => {
         dispatch(updateStudent({...student, campusId: null}));
-        // history.push(`/campuses/${campus.id}`);
     }
     if (!student.id){
         return('...loading student');

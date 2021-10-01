@@ -8,7 +8,7 @@ import Home from './Home';
 // import Campuses from './Campuses';
 import CampusesView from './CampusesView';
 import Campus from './Campus';
-import Students from './Students';
+import StudentsView from './StudentsView';
 import Student from './Student';
 
 const App = () => {
@@ -33,8 +33,8 @@ const App = () => {
         <Router>        
             <Route component={Nav} path='/' />
             <Route component={Home} path='/' exact/>
-            <Route component={Students} path='/students?page=:pg' /> 
-            <Route component={Students} path='/students/' exact/>
+            {/* <Route component={Students} path='/students?page=:pg' />  */}
+            <Route component={StudentsView} path='/students/' exact/>
             {/* <Route component={Campuses} path='/campuses?page=:pg' />                     */}
             <Route component={CampusesView} path='/campuses/' exact/> 
             <Switch>                                 

@@ -302,10 +302,12 @@ const syncAndSeed = async()=> {
   const numCampuses = 100;
   const numStudentsWithSchool = 150;
   const numStudentsWithoutSchool = 30;
+  const gpaHigh = 4;
+  const gpaDecimals = 10;
 //--------------------------------------//
 
   const gpaGenerator = () => {
-    return Math.floor(Math.random() * (4 * 10)) / (1*10);
+    return Math.floor(Math.random() * (gpaHigh * gpaDecimals) + 1) / (gpaDecimals);
   }
   const campusIdGenerator = () => {
     return Math.floor(Math.random() * (numCampuses)+1);

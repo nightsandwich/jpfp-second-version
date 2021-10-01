@@ -1,9 +1,8 @@
 import React, {useState, useEffect} from "react";
 import { useDispatch, useSelector} from 'react-redux';
 import { addStudent, updateStudent } from './store';
-import { TextField, Button, Box, FormControl, InputLabel, Select, MenuItem, List, ListItem, ListItemText } from "@mui/material";
-import EnrolledStudents from "./EnrolledStudents";
-import Campus from "./Campus";
+import { TextField, Button, Box, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
+
 
 const StudentForm = ({ action='add', studentId, handleClose}) => {
     
@@ -72,12 +71,12 @@ const StudentForm = ({ action='add', studentId, handleClose}) => {
         >
           <button onClick={(ev)=> handleClose(ev)}>X</button>
       <div style={{display: 'flex', flexDirection: 'column'}}>
-                <div style={{margin: '.5rem', display: 'flex', flexDirection: 'column', width: '50%'}}>
-                    <TextField style={{width: '90%'}} helperText='Required' variant='standard' id="name-input" name="firstName" label="First Name" type="text" value={firstName} onChange={onChange}/>
-                    <TextField style={{width: '90%'}} variant='standard' id="lastName-input" name="lastName" label="Last Name" type="text" value={lastName} onChange={onChange}/>
-                    <TextField style={{width: '90%'}} helperText='Required' variant='standard' id="email-input" name="email" label="Email" type="text" value={email} onChange={onChange}/>
-                    <TextField style={{width: '90%'}} helperText='Required' variant='standard' id="imageUrl-input" name="imageUrl" label="Image URL" type="text" value={imageUrl} onChange={onChange}/>
-                    <TextField style={{width: '90%'}} helperText='Required' variant='standard' id="gpa-input" name="gpa" label="GPA" type="text" value={gpa} onChange={onChange}/>
+                <div style={{margin: '.5rem', display: 'flex', flexDirection: 'column'}}>
+                    <TextField style={{width: '90%'}} helperText='Required' variant='outlined' id="name-input" name="firstName" label="First Name" type="text" value={firstName} onChange={onChange}/>
+                    <TextField style={{width: '90%'}} helperText='Required' variant='outlined' id="lastName-input" name="lastName" label="Last Name" type="text" value={lastName} onChange={onChange}/>
+                    <TextField style={{width: '90%'}} helperText='Required' variant='outlined' id="email-input" name="email" label="Email" type="text" value={email} onChange={onChange}/>
+                    <TextField style={{width: '90%'}} variant='outlined' id="imageUrl-input" name="imageUrl" label="Image URL" type="text" value={imageUrl} onChange={onChange}/>
+                    <TextField style={{width: '90%'}} variant='outlined' id="gpa-input" name="gpa" label="GPA" type="text" value={gpa} onChange={onChange}/>
                     
                         <InputLabel>Campuses</InputLabel>
                         <Select
@@ -95,7 +94,7 @@ const StudentForm = ({ action='add', studentId, handleClose}) => {
                                 })
                             }
                         </Select>
-                    
+                    <br></br>
                     <Button style={{width: '90%'}} variant='contained' color='primary' onClick={(ev) => onSubmit(ev)}>{action === 'add' ? 'Add' : 'Update'}</Button>
             </div>
       </div>

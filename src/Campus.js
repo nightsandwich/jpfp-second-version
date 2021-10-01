@@ -30,13 +30,13 @@ const Campus = ({match}) => {
         </Dialog>
     <div>
     
-    <Card sx={{ maxWidth: 700 }} >
+    <Card sx={{ maxWidth: 500 }} >
         <Typography gutterBottom variant="h5" component="div">
         {campus.name} <Button size='small' variant='contained' color='success' onClick={handleOpen}>Edit Campus</Button>
         </Typography>
         <CardMedia
             component="img"
-            height="500"
+            height="400"
             image={campus.imageUrl}
             alt="campus image"
             />

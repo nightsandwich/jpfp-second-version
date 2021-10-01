@@ -19,7 +19,7 @@ const Nav = () => {
     return (
     <>
     <div id='nav'>
-        <Button id='basic-button' aria-controls='basic-menu' aria-haspopup='true' aria-expanded={open ? 'true' : undefined} onClick={handleClick}>
+        {/* <Button id='basic-button' aria-controls='basic-menu' aria-haspopup='true' aria-expanded={open ? 'true' : undefined} onClick={handleClick}>
             Dashboard
         </Button>
         <Menu
@@ -34,7 +34,7 @@ const Nav = () => {
         <NavLink style={{textDecoration: 'none', color: 'dodgerBlue'}} className='none' to='/'> <MenuItem onClick={handleClose}>Home</MenuItem> </NavLink>
         <NavLink style={{textDecoration: 'none', color: 'dodgerBlue'}} to='/campuses'><MenuItem onClick={handleClose}>Campuses ({campuses.length}) </MenuItem></NavLink>
         <NavLink style={{textDecoration: 'none', color: 'dodgerBlue'}} to='/students'> <MenuItem onClick={handleClose}>Students ({students.length}) </MenuItem></NavLink>
-        </Menu>
+        </Menu> */}
         {/* <Button id='basic-button' aria-controls='basic-menu' aria-haspopup='true' aria-expanded={open ? 'true' : undefined} onClick={handleClick}>
             Add Data
         </Button>
@@ -50,6 +50,8 @@ const Nav = () => {
         <NavLink style={{textDecoration: 'none', color: 'dodgerBlue'}} to='/campuses/add'><MenuItem onClick={handleClose}>Add Campus </MenuItem></NavLink>
         <NavLink style={{textDecoration: 'none', color: 'dodgerBlue'}} to='/students'> <MenuItem onClick={handleClose}>Add Student </MenuItem></NavLink>
         </Menu> */}
+        <Button onClick={()=>history.push('/campuses')}>Campuses ({campuses.length})</Button>
+        <Button onClick={()=>history.push('/students')}>Students ({students.length})</Button>
     </div>
         <PaginationItem value='<' variant='outlined' shape='circular' color='primary' onClick={()=>history.goBack()} type='previous'/>
         <PaginationItem  value='>' variant='outlined' shape='circular' color='secondary' onClick={()=>history.goForward()} type='next'/>

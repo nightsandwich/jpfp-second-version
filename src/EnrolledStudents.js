@@ -34,7 +34,7 @@ const EnrolledStudents = ({campusId}) => {
     return (
         <>
         <TableContainer >
-            <Table sx={{ minWidth: 650 }} aria-label="simple table" >
+            <Table sx={{ minWidth: 400 }} aria-label="simple table" >
                 <TableHead>
                     <TableRow>
                         <TableCell align='center'>
@@ -43,7 +43,7 @@ const EnrolledStudents = ({campusId}) => {
                     </TableRow>
                 </TableHead>
             </Table>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table" >
+            <Table sx={{ minWidth: 400 }} aria-label="simple table" >
                 <TableHead>
                     <TableRow>
                         <TableCell >Name</TableCell>

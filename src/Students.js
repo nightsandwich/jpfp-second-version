@@ -1,98 +1,52 @@
 import React, {useState, useEffect} from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import StudentForm from './StudentForm';
-import {loadStudents, deleteStudent} from './store';
+import { useHistory } from "react-router-dom";
+import {Button, Grid,Typography, CardActionArea, CardActions, CardContent, Card, CardMedia} from '@mui/material';
+import {deleteStudent} from './store';
 
-const Students = ({location, match}) => {
-    //mapState
-    const students = useSelector(({students}) => students);
-    //mapDispatch
+const Students = ({students, match}) => {
     const dispatch = useDispatch(); 
-    
-    useEffect(() => dispatch(loadStudents()), []); //componentDidMount
-    
-    //pagination
-    // const start = 10 * (location.search.slice(6) - 1) + 1;
-    // const end = start + 9;
-    
-    //local state
-    const [inputs, setInputs] = useState({
-        view: 'normal',
-        filter: 'all'
-    });
-    const {view, filter} = inputs;
+    const history = useHistory();
 
-    //sort and filter
-    const chooseSortFilter = (ev) => {
-        setInputs({...inputs, [ev.target.name]: ev.target.value});
-    }
-    
-    const sortByName = (type) => [...students].sort((a,b) => (a[type] > b[type]) ? 1 : -1); 
-
-    const sortedByGpa = [...students].sort((a,b) => (+a.gpa  < +b.gpa) ? 1 : (a.gpa * 1 === b.gpa * 1) ? ((a.firstName > b.firstName) ? 1: -1) : -1);
-    const studentsToRender = view === 'normal' ? sortByName('firstName') : view === 'last' ? sortByName('lastName') : sortedByGpa;
-    
-    const filteredStudents = studentsToRender.filter(student => {
-        return filter === 'all' ?
-        student :
-        filter === 'campuses' ?
-        student.campusId :
-        !student.campusId
-    });
-    // const paginatedStudents = filteredStudents.filter((student, idx) => idx + 1 >= start && idx + 1 <= end ? student : '');
-    
     return (
-    <div>
-        <h1> Students</h1>
         <div>
-            Sort by:
-            <select name='view' value={view} onChange={chooseSortFilter}>
-                <option value={'normal'}>First Name</option>
-                <option value={'last'}>Last Name</option>
-                <option value={'gpa'}>Highest GPA</option>
-            </select>
-        </div>
-        <div>
-            Filter by: 
-            <select name='filter' value={filter} onChange={chooseSortFilter} >
-                <option value={'all'}>Show All</option>
-                <option value={'campuses'}>Students With Campus Enrollment</option>
-                <option value={'none'}>Students Without Campus Enrollment</option>
-            </select>
-        </div>
-        
         <div className='addContainer'>
-            <ul>
-                {
-                    filteredStudents.map(student => {
+            <Grid container spacing={2}  direction='row' >
+            {
+                    students.map(student => {
                         return (
-                            <li key={student.id}>
-                                <button onClick={()=>dispatch(deleteStudent(student.id))}><small>DELETE</small></button><span> </span>
-                                <Link to={`/students/${student.id}`}>{student.firstName} {student.lastName}</Link>
-                                <small>  (GPA: {student.campus ?  student.gpa : 'N/A'}) </small>
-                                <br/> 
-                                {student.campus ? `--attending ${student.campus.name}--` : '--not enrolled--'}
-                            </li>
+                            <Grid key={student.id} item xs={7} sm={4}>
+                            <Card sx={{ maxWidth: 400, maxHeight: 400}} >
+                                <CardActionArea onClick={()=>history.push(`/students/${student.id}`)}>
+                                    <CardMedia
+                                        component="img"
+                                        height="130"
+                                        image={student.imageUrl}
+                                        alt="student image"
+                                    />
+                                    <CardContent>
+                                        <Typography variant="h5" component="div">
+                                        {student.firstName} {student.lastName} 
+                                        </Typography>
+                                        <Typography variant="body1" color="text.primary">
+                                        {student.campusId ? `Enrolled at ${student.campus.name}.` : 'No enrollment.'}
+                                        </Typography>
+                                        <Typography variant="body1" color="text.secondary">
+                                        {student.campusId ? `GPA: ${student.gpa}.` : ''}
+                                        </Typography>
+                                    </CardContent>
+                                </CardActionArea >
+                                <CardActions>
+                                    <Button onClick={()=>dispatch(deleteStudent(student.id))} size="small" variant="contained" color='error'>Delete</Button>
+                                    <Button onClick={()=>history.push(`/students/${student.id}`)} variant="contained" color="primary" size="small">Learn More</Button>
+                                </CardActions>
+                            </Card>
+                            </Grid>
                         );
                     })
                 }
-            </ul>
-            <div>
-                <StudentForm match={match} action={'add'}/>
-            </div>
+            </Grid>
         </div>
-        {/* <div className='pagnav'>
-            Students
-            {
-                filteredStudents.map((student, idx) => {
-                    return (((idx + 1) % 10 === 1) ? 
-                    <Link key={student.id} to={`students?page=${(idx + 10) / 10}`}> {`<${idx + 1}>`} </Link>
-                    : '');
-                })
-            }
-            <small className='nums' ><b>({start} to {end} of {students.length})</b></small>
-        </div> */}
     </div>
     );
 }
