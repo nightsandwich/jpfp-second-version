@@ -32,8 +32,8 @@ const CampusDropdowns = () => {
                 <MenuItem value={'normal'}>Name</MenuItem>
                 <MenuItem value={'students'}>Number of Students</MenuItem>
             </Select>
-            </FormControl>
-            <FormControl sx={{m:1, minWidth: 120}} >
+        </FormControl>
+        <FormControl sx={{m:1, minWidth: 120}} >
             <InputLabel id="demo-simple-select-label">Filter</InputLabel>
             <Select
                 labelId="demo-simple-select-label"

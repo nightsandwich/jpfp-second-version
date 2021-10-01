@@ -1,108 +1,105 @@
 import React, {useState, useEffect} from "react";
 import { useDispatch, useSelector} from 'react-redux';
 import { addStudent, updateStudent } from './store';
+import { TextField, Button, Box, FormControl, InputLabel, Select, MenuItem, List, ListItem, ListItemText } from "@mui/material";
 import EnrolledStudents from "./EnrolledStudents";
-// import { Form, Button } from "react-bootstrap";
+import Campus from "./Campus";
 
-const StudentForm = ({action, studentId}) => {    
-    console.log('render')
-    const dispatch = useDispatch();
+const StudentForm = ({ action='add', studentId, handleClose}) => {
     
+    const dispatch = useDispatch();
+
     //mapState
     const student = useSelector(state => state.students.find(student => student.id === studentId) || {});
-    const campuses = useSelector(({campuses}) => campuses);
-    const campus = action === 'update' ? useSelector(state => state.campuses.find(campus => campus.id === student.campusId) || {}) : '';
+    console.log(student)
+    const campuses = useSelector(state => state.campuses);
+    
     const [inputs, setInputs] = useState(() => ({
         id: '',
         firstName: '',
+        imageUrl: action === 'add' ? 'student.png' : '',
         lastName: '',
-        imageUrl: action === 'add' ?  'student.png' : '',
         email: '',
         gpa: '',
-        error: '',
-        campusId: ''
+        campusId: '',
     }));
     
-    const {id, firstName, lastName, imageUrl, email, gpa, error, campusId} = inputs;
-
+    const {id, firstName, imageUrl, lastName, email, gpa, campusId } = inputs;
+    
     //componentDidUpdate
+    useEffect(() => {setInputs({...inputs, ...student, campusId: campusId === null ? '' : campusId})},action === 'update' ? [student] : []);
     
-    useEffect(() => {setInputs({ ...inputs, ...student})}, action === 'update' ? [student] : []);
-    //useEffect(() => {setInputs({...inputs, ...student, campusId: campus.id})}, action === 'update' ? [campus] : []);
-    const validate = (firstName, lastName, email, gpa) => {
-        const validEmail = new RegExp('^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$');
-        const validGpa = new RegExp('^[0-3]+(.[0-9]{0,1})?$|^4+(.[0]{0,1})?$');        
-        return {
-            firstName: !firstName.length,
-            lastName: !lastName.length,
-            email: !email.length,
-            gpa: gpa < 0 || gpa > 4 || !gpa,
-        }
-    }
+    // const validate = (name, address) => {
+    //     return {
+    //         name: !name.length,
+    //         address: !address.length
+    //     }
+    // }
+    // const errors = validate(name, address);
+    // const isEnabled = !Object.keys(errors).some(x => errors[x]);
 
-    const errors = validate(firstName, lastName, email, gpa);
-    const isEnabled = !Object.keys(errors).some(x => errors[x]);
-    
     const onChange = ev => {
         const change = {};
         change[ev.target.name] = ev.target.value;
         setInputs({...inputs, ...change});
     }
 
-    const onSubmit = ev => {
+    const onSubmit = (ev) => {
+        console.log('EVVVVVVVVVVVVVV', ev.target)
         ev.preventDefault();
         try{
-            action === 'add' ? dispatch(addStudent({firstName, lastName, email, gpa, imageUrl, campusId})) :
-            dispatch(updateStudent({id, firstName, lastName, imageUrl , email, gpa, campusId}));
-        } catch(ex) {
-            setInputs({...inputs, error: ex.response});
+            action === 'add' ? dispatch(addStudent({ firstName, imageUrl, lastName, email, gpa })) :
+            dispatch(updateStudent({id, firstName, imageUrl, lastName, email, gpa }));
         }
-        setInputs({firstName: '', lastName: '', email: '', imageUrl: '', gpa: '', error: '', id: ''})
+        catch(ex){
+            setInputs({...inputs, error: ex.response.data.error});
+        }
+        setInputs({firstName: '', imageUrl: '', lastName: '', email: '', error: '', id: '', gpa: ''});
+        handleClose(ev);
     }
-    const actions = [
-        {label: 'SELECT CAMPUS', value: null},
-        campuses.map(campus => {
-            return ({label: campus.name, value: campus.id, key: campus.id })
-        })
-    ];
-
-    return (   
-
-        <form onSubmit={ onSubmit } className='add'>
-            <h3>{action === 'add' ? 'Add Student' : 'Update Student'}</h3>
-            <label>First Name<sup>*</sup></label>
-            <textarea className={errors.firstName ? 'error' : ''} rows='1' cols='50' name='firstName' value={firstName} onChange={onChange} />
-            <label>Last Name<sup>*</sup></label>
-            <textarea className={errors.lastName ? 'error' : ''} rows='1' cols='50' name='lastName' value={lastName} onChange={onChange} />
-            <label>Email<sup>*</sup> <small className='errormessage'>{errors.email ? '---Please enter a valid email address---' : ''}</small></label>
-            <textarea className={errors.email ? 'error' : ''} rows='1' cols='50' name='email' value={email} onChange={onChange} />
-            <label>Image URL</label>
-            <textarea rows='1' cols='50' name='imageUrl' value={imageUrl} onChange={onChange} />
-            <label>Campus</label>
-            {/* <Select options={actions} onChange={onChange} value={campus.id}/> */}
-            <select className={errors.campusId ? 'error' : ''} name='campusId' onChange={onChange} value={campusId}>
-                <option value={''}>SELECT CAMPUS</option>
-                {
-                    campuses.map( campus => { 
-                        return (
-                        <option value={ campus.id } key={ campus.id } >
-                            {campus.name}
-                        </option>
-                        );
-                    })
-                }
-            </select>
-            <label>GPA<small className='errormessage'>{errors.gpa ? '---GPA should be between 0.0 and 4.0---' : ''}</small></label>
-            <textarea className={errors.gpa ? 'error' : ''} rows='1' cols='50' name='gpa' value={gpa} onChange={onChange} />
-            <button disabled={!isEnabled}>{action === 'add' ? 'ADD' : 'UPDATE'}</button>
-            <br/>
-            <small><sup>*</sup>Required Field</small>
-            <pre className={error ? 'error' : ''}>
-                    {
-                        !!error && JSON.stringify(error, null, 2)
-                    }
-            </pre>
-        </form>
+    
+    return (
+        <>
+    <Box
+            component="form"
+            sx={{
+                '& .MuiTextField-root': { m: 1, width: '25ch' },
+            }}
+            noValidate
+            autoComplete="off"
+        >
+          <button onClick={(ev)=> handleClose(ev)}>X</button>
+      <div style={{display: 'flex', flexDirection: 'column'}}>
+                <div style={{margin: '.5rem', display: 'flex', flexDirection: 'column', width: '50%'}}>
+                    <TextField style={{width: '90%'}} helperText='Required' variant='standard' id="name-input" name="firstName" label="First Name" type="text" value={firstName} onChange={onChange}/>
+                    <TextField style={{width: '90%'}} variant='standard' id="lastName-input" name="lastName" label="Last Name" type="text" value={lastName} onChange={onChange}/>
+                    <TextField style={{width: '90%'}} helperText='Required' variant='standard' id="email-input" name="email" label="Email" type="text" value={email} onChange={onChange}/>
+                    <TextField style={{width: '90%'}} helperText='Required' variant='standard' id="imageUrl-input" name="imageUrl" label="Image URL" type="text" value={imageUrl} onChange={onChange}/>
+                    <TextField style={{width: '90%'}} helperText='Required' variant='standard' id="gpa-input" name="gpa" label="GPA" type="text" value={gpa} onChange={onChange}/>
+                    <FormControl sx={{m:1, minWidth: 120}} >
+                        <InputLabel id="demo-simple-select-label">Campuses</InputLabel>
+                        <Select
+                            value={campusId === null ? '' : campusId}
+                            label="Campuses"
+                            onChange={onChange}
+                            name="campusId"
+                        >
+                            <MenuItem key={'no campus'} value={''}>None</MenuItem>
+                            {
+                                campuses.map(campus => {
+                                    return (
+                                        <MenuItem key={campus.id} value={campus.id}>{campus.name}</MenuItem>
+                                    );
+                                })
+                            }
+                        </Select>
+                    </FormControl>
+                    <Button style={{width: '90%'}} variant='contained' color='primary' onClick={onSubmit}>{action === 'add' ? 'Add' : 'Update'}</Button>
+            </div>
+      </div>
+    </Box>
+        
+        </>
     )
 }
 

@@ -71,18 +71,18 @@ const CampusForm = ({ action='add', campusId, handleClose}) => {
           <button onClick={(ev)=> handleClose(ev)}>X</button>
       <div style={{display: 'flex', flexDirection: 'column'}}>
             <div style={{display: 'flex'}}>
-                <div style={{display: 'flex', flexDirection: 'column', width: '40%'}}>
+                <div style={{margin: '.5rem', display: 'flex', flexDirection: 'column', width: '50%'}}>
                     <TextField style={{width: '90%'}} helperText='Required' variant='standard' id="name-input" name="name" label="Name" type="text" value={name} onChange={onChange}/>
                     <TextField style={{width: '90%'}} variant='standard' id="image-url-input" name="imageUrl" label="Image URL" type="text" value={imageUrl} onChange={onChange}/>
                     <TextField style={{width: '90%'}} helperText='Required' variant='standard' id="address-input" name="address" label="Address" type="text" value={address} onChange={onChange}/>
                     <Button style={{width: '90%'}} variant='contained' color='primary' onClick={onSubmit}>{action === 'add' ? 'Add' : 'Update'}</Button>
                 </div>
-                <div style={{width: '60%'}}>
-                    <TextField maxRows={10} style={{width: '90%'}} variant='standard' id="description-input" name="description" label="Description" multiline value={description} onChange={onChange}/>
+                <div style={{width: '50%', margin: '.5rem'}}>
+                    <TextField maxRows={11} style={{width: '90%'}} variant='standard' id="description-input" name="description" label="Description" multiline value={description} onChange={onChange}/>
                 </div>
             </div>
-            <div style={{flexShrink: '2'}}>
-                {action === '' ? '' : !students.length ? 'No students currently enrolld.' : <EnrolledStudents campusId={campus.id}/>}
+            <div style={{margin: '.5rem', marginTop: 'none'}}>
+                {action === '' ? '' : !students.length ? 'No students currently enrolled.' : <EnrolledStudents campusId={campus.id}/>}
             </div>
                 {/* // <div style={{width: '30%'}}> */}
                     {/* <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
@@ -101,10 +101,6 @@ const CampusForm = ({ action='add', campusId, handleClose}) => {
                         }
                 //     </List> */}
                 {/* // // </div> */}
-                
-                
-                
-        
       </div>
     </Box>
         

@@ -47,7 +47,7 @@ const EnrolledStudents = ({campusId}) => {
                 <TableHead>
                     <TableRow>
                         <TableCell >Name</TableCell>
-                        <TableCell >Email</TableCell>
+                        {/* <TableCell >Email</TableCell> */}
                         <TableCell >GPA</TableCell>
                         <TableCell ></TableCell>
                     </TableRow>
@@ -62,7 +62,7 @@ const EnrolledStudents = ({campusId}) => {
                     <TableCell >
                         <Link style={{ color: 'darkslategrey'}} to={`/students/${student.id}`}>{student.firstName} {student.lastName}</Link>
                     </TableCell>
-                    <TableCell >{student.email}</TableCell>
+                    {/* <TableCell >{student.email}</TableCell> */}
                     <TableCell >{student.gpa}</TableCell>
                     <TableCell ><Button variant='outlined' color='error' onClick={()=> onClick(student)}>Unenroll</Button></TableCell>
                     </TableRow>
