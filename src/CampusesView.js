@@ -9,16 +9,15 @@ import {Dialog, FormControl, MenuItem, InputLabel, Select, Button } from '@mui/m
 
 
 const CampusesView = () => {
+    //mapDispatch
+    const dispatch = useDispatch(); 
     const [loading, setLoading] = useState(false);
+
     //mapState
     const campuses = useSelector(({campuses}) => campuses);
     //why won't this load the campuses without useEffect ??
     //what's the difference of loading the store via the state vs reloading?
-
-    //mapDispatch
-    const dispatch = useDispatch(); 
-    let history = useHistory();
-
+        
     useEffect(() => {
         try{
             dispatch(loadCampuses());
@@ -96,9 +95,6 @@ const CampusesView = () => {
                 <CampusForm handleClose={handleClose} />
             </Dialog>
             <Campuses campuses={filteredCampuses} />
-        <div>
-            <CampusForm  />
-        </div>
     </div>
 
     );

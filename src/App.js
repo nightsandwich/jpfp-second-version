@@ -5,11 +5,11 @@ import { loadCampuses, loadStudents } from './store';
 
 import Nav from './Nav';
 import Home from './Home';
-// import Campuses from './Campuses';
 import CampusesView from './CampusesView';
 import Campus from './Campus';
 import StudentsView from './StudentsView';
 import Student from './Student';
+import Footer from './Footer';
 
 const App = () => {
     const dispatch = useDispatch();
@@ -33,14 +33,11 @@ const App = () => {
         <Router>        
             <Route component={Nav} path='/' />
             <Route component={Home} path='/' exact/>
-            {/* <Route component={Students} path='/students?page=:pg' />  */}
-            <Route component={StudentsView} path='/students/' exact/>
-            {/* <Route component={Campuses} path='/campuses?page=:pg' />                     */}
             <Route component={CampusesView} path='/campuses/' exact/> 
-            <Switch>                                 
-                <Route component={Campus} path='/campuses/:id' exact/>
-                <Route component={Student} path='/students/:id' exact/>
-            </Switch>
+            <Route component={Campus} path='/campuses/:id'/>
+            <Route component={StudentsView} path='/students/' exact/>
+            <Route component={Student} path='/students/:id'/>
+            <Route component={Footer} path='/' />
         </Router>
     );
     else return (

@@ -13,45 +13,38 @@ const CampusForm = ({ action='add', campusId, handleClose}) => {
     const students = action === 'update' ? useSelector(state => state.students.filter(student => student.campusId === campusId) || []) : '';
     
     const [inputs, setInputs] = useState(() => ({
-        id: '',
-        name: '',
-        imageUrl: action === 'add' ? 'campus.png' : '',
-        address: '',
-        description: '',
-        error: ''
-    }));
+            id: campus.id || '',
+            name: campus.name || '',
+            imageUrl: campus.imageUrl || 'campus.png',
+            address: campus.address || '',
+            description: campus.description || '',
+            error: ''
+        }));
     
     const {id, name, imageUrl, address, description, error} = inputs;
     
     //componentDidUpdate
-    useEffect(() => {setInputs({...inputs, ...campus})},action === 'update' ? [campus] : []);
-    
-    const validate = (name, address) => {
-        return {
-            name: !name.length,
-            address: !address.length
-        }
-    }
-    const errors = validate(name, address);
-    const isEnabled = !Object.keys(errors).some(x => errors[x]);
+    // useEffect(() => {setInputs({...inputs, id: campus.id, name: campus.name
+    //     , imageUrl: campus.imageUrl, address: campus.address, description: campus.description})}
+    //     , action === 'update' ? [campus] : []);
+    useEffect(() => {setInputs({...inputs, error: error})},[error]);
 
     const onChange = ev => {
         const change = {};
         change[ev.target.name] = ev.target.value;
-        setInputs({...inputs, ...change});
+        setInputs({id, name, imageUrl, address, description, ...change});
     }
 
-    const onSubmit = (ev) => {
+    const onSubmit = async (ev) => {
         ev.preventDefault();
         try{
-            action === 'add' ? dispatch(addCampus({name, imageUrl, address, description})) :
-            dispatch(updateCampus({id, name, imageUrl, address, description}));
+            action === 'add' ? await dispatch(addCampus({name, imageUrl, address, description})) :
+            await dispatch(updateCampus({id, name, imageUrl, address, description}));
+            handleClose(ev);
         }
         catch(ex){
-            setInputs({...inputs, error: ex.response.data.error});
+            setInputs({...inputs, error: ex.response.data});
         }
-        setInputs({name: '', imageUrl: '', address: '', description: '', error: '', id: ''});
-        handleClose(ev);
     }
     
     return (
@@ -68,15 +61,23 @@ const CampusForm = ({ action='add', campusId, handleClose}) => {
       <div style={{display: 'flex', flexDirection: 'column'}}>
             <div style={{display: 'flex'}}>
                 <div style={{margin: '.5rem', display: 'flex', flexDirection: 'column', width: '50%'}}>
-                    <TextField style={{width: '90%'}} helperText='Required' variant='outlined' id="name-input" name="name" label="Name" type="text" value={name} onChange={onChange}/>
+                    <TextField  style={{width: '90%'}} helperText='Required' variant='outlined' id="name-input" name="name" label="Name" type="text" value={name} onChange={onChange}/>
                     <TextField style={{width: '90%'}} variant='outlined' id="image-url-input" name="imageUrl" label="Image URL" type="text" value={imageUrl} onChange={onChange}/>
-                    <TextField style={{width: '90%'}} helperText='Required' variant='outlined' id="address-input" name="address" label="Address" type="text" value={address} onChange={onChange}/>
-                    <Button style={{width: '90%'}} variant='contained' color='primary' onClick={onSubmit}>{action === 'add' ? 'Add' : 'Update'}</Button>
+                    <TextField  style={{width: '90%'}} helperText='Required' variant='outlined' id="address-input" name="address" label="Address" type="text" value={address} onChange={onChange}/>
+                    <Button disabled={!name.length} style={{width: '90%'}} variant='contained' color='primary' onClick={onSubmit}>{action === 'add' ? 'Add' : 'Update'}</Button>
                 </div>
                 <div style={{width: '50%', margin: '.5rem'}}>
                     <TextField maxRows={11} style={{width: '90%'}} variant='outlined' id="description-input" name="description" label="Description" multiline value={description} onChange={onChange}/>
                 </div>
+                
             </div>
+            {
+                !!error ? 
+                <div style={{margin: '1rem', color: 'red', border: '1px solid red'}}>
+                    { JSON.stringify(error, null, 2) }
+                </div>
+                : ''
+            }
             <div style={{margin: '.5rem', marginTop: 'none', fontFamily: 'Roboto'}}>
                 {action === 'add' ? '' : !students.length ? 'No students.' : <EnrolledStudents campusId={campus.id}/>}
             </div>

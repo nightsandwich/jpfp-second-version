@@ -30,8 +30,8 @@ const Campus = ({match}) => {
         </Dialog>
     <div>
     
-    <Card sx={{ maxWidth: 500 }} >
-        <Typography gutterBottom variant="h5" component="div">
+    <Card sx={{ maxWidth: 500 }} variant='outlined'>
+        <Typography gutterBottom variant="h5" component="div" >
         {campus.name} <Button size='small' variant='contained' color='success' onClick={handleOpen}>Edit Campus</Button>
         </Typography>
         <CardMedia
@@ -41,52 +41,17 @@ const Campus = ({match}) => {
             alt="campus image"
             />
         <CardContent>
+            <hr></hr>
             <Typography variant="body2" color="text.secondary" component="div">
             {campus.address}
             </Typography>
+            <hr></hr>
             <Typography  variant="body2" component="div">
             {campus.description}
             </Typography>
             <Typography variant="body2" color="text.primary">
             {
                 !students.length ? '(No students currently enrolled.)' : ''
-                
-                // <TableContainer >
-                //     <Table sx={{ minWidth: 650 }} aria-label="simple table" component={Paper}>
-                //         <TableRow>
-                //             <TableCell align='center'>
-                //             Enrolled Students ({students.length})
-                //             </TableCell>
-                //         </TableRow>
-                //     </Table>
-                //     <Table sx={{ minWidth: 650 }} aria-label="simple table" component={Paper}>
-                //         <TableHead>
-                //             <TableRow>
-                //                 <TableCell >Name</TableCell>
-                //                 <TableCell >Email</TableCell>
-                //                 <TableCell >GPA</TableCell>
-                //                 <TableCell ></TableCell>
-                //             </TableRow>
-                //         </TableHead>
-                //         <TableBody>
-                //         {students.map((student) => (
-                //             <TableRow
-                //             hover
-                //             key={student.id}
-                //             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                //             >
-                //             <TableCell component="th" scope="row">
-                //                 <Link style={{ color: 'darkslategrey'}} to={`/students/${student.id}`}>{student.firstName} {student.lastName}</Link>
-                //             </TableCell>
-                //             <TableCell >{student.email}</TableCell>
-                //             <TableCell >{student.gpa}</TableCell>
-                //             <TableCell ><Button variant='outlined' color='error'>Unenroll</Button></TableCell>
-                //             </TableRow>
-                //         ))}
-                //         </TableBody>
-                //     </Table>
-
-                // </TableContainer>
             }
             </Typography>
             {students.length ? <EnrolledStudents campusId={campus.id} /> : ''}

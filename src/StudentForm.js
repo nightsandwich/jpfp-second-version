@@ -10,34 +10,34 @@ const StudentForm = ({ action='add', studentId, handleClose}) => {
 
     //mapState
     const student = useSelector(state => state.students.find(student => student.id === studentId) || {});
-    console.log(student)
     const _campuses = useSelector(state => state.campuses);
     const campuses = _campuses.sort((a,b) => (a.name > b.name) ? 1 : -1);
     
     const [inputs, setInputs] = useState(() => ({
-        id: '',
-        firstName: '',
-        imageUrl: action === 'add' ? 'student.png' : '',
-        lastName: '',
-        email: '',
-        gpa: '',
-        campusId: '',
-        
+        id: student.id || '',
+        firstName: student.firstName ||'',
+        imageUrl: student.imageUrl || 'student.png',
+        lastName: student.lastName || '',
+        email: student.email || '',
+        gpa: student.gpa || '',
+        campusId: student.campusId || '',
+        error: ''    
     }));
     
-    const {id, firstName, imageUrl, lastName, email, gpa, campusId } = inputs;
+    const {id, firstName, imageUrl, lastName, email, gpa, campusId, error } = inputs;
     
     //componentDidUpdate
-    useEffect(() => {setInputs({...inputs, ...student, campusId: campusId === null ? '' : student.campusId})},action === 'update' ? [student] : []);
+    // useEffect(() => {setInputs({...inputs, ...student})}, []);
+    useEffect(() => {setInputs({...inputs, error: error})},[error]);
     
-    // const validate = (name, address) => {
-    //     return {
-    //         name: !name.length,
-    //         address: !address.length
-    //     }
-    // }
-    // const errors = validate(name, address);
-    // const isEnabled = !Object.keys(errors).some(x => errors[x]);
+    const validate = (firstName, lastName) => {
+        return {
+            firstName: !firstName.length,
+            lastName: !lastName.length
+        }
+    }
+    const errors = validate(firstName, lastName);
+    const isEnabled = !Object.keys(errors).some(x => errors[x]);
 
     const onChange = ev => {
         const change = {};
@@ -45,36 +45,33 @@ const StudentForm = ({ action='add', studentId, handleClose}) => {
         setInputs({...inputs, ...change});
     }
 
-    const onSubmit = (ev) => {
-        
+    const onSubmit = async (ev) => {
         ev.preventDefault();
         try{
-            action === 'add' ? dispatch(addStudent({ firstName, imageUrl, lastName, email, gpa })) :
-            dispatch(updateStudent({id, firstName, imageUrl, lastName, email, gpa, campusId }));
+            action === 'add' ? await dispatch(addStudent({ firstName, imageUrl, lastName, email, gpa })) :
+            await dispatch(updateStudent({id, firstName, imageUrl, lastName, email, gpa, campusId }));
+            handleClose(ev);
         }
         catch(ex){
-            setInputs({...inputs, error: ex.response.data.error});
+            setInputs({...inputs, error: ex.response.data});
         }
-        setInputs({firstName: '', imageUrl: '', lastName: '', email: '', error: '', id: '', gpa: ''});
-        handleClose(ev);
     }
     
     return (
-        <>
     <Box
-            component="form"
-            sx={{
-                '& .MuiTextField-root': { m: 1, width: '25ch' },
-            }}
-            noValidate
-            autoComplete="off"
-        >
-          <button onClick={(ev)=> handleClose(ev)}>X</button>
-      <div style={{display: 'flex', flexDirection: 'column'}}>
+        component="form"
+        sx={{
+            '& .MuiTextField-root': { m: 1, width: '25ch' },
+        }}
+        noValidate
+        autoComplete="off"
+    >
+        <button onClick={(ev)=> handleClose(ev)}>X</button>
+        <div style={{display: 'flex', flexDirection: 'column'}}>
                 <div style={{margin: '.5rem', display: 'flex', flexDirection: 'column'}}>
-                    <TextField style={{width: '90%'}} helperText='Required' variant='outlined' id="name-input" name="firstName" label="First Name" type="text" value={firstName} onChange={onChange}/>
-                    <TextField style={{width: '90%'}} helperText='Required' variant='outlined' id="lastName-input" name="lastName" label="Last Name" type="text" value={lastName} onChange={onChange}/>
-                    <TextField style={{width: '90%'}} helperText='Required' variant='outlined' id="email-input" name="email" label="Email" type="text" value={email} onChange={onChange}/>
+                    <TextField style={{width: '90%'}} helperText='Required' variant='outlined' name="firstName" label="First Name" type="text" value={firstName} onChange={onChange}/>
+                    <TextField style={{width: '90%'}} helperText='Required' variant='outlined' name="lastName" label="Last Name" type="text" value={lastName} onChange={onChange}/>
+                    <TextField style={{width: '90%'}} helperText='Required' variant='outlined' name="email" label="Email" type="text" value={email} onChange={onChange}/>
                     <TextField style={{width: '90%'}} variant='outlined' id="imageUrl-input" name="imageUrl" label="Image URL" type="text" value={imageUrl} onChange={onChange}/>
                     <TextField style={{width: '90%'}} variant='outlined' id="gpa-input" name="gpa" label="GPA" type="text" value={gpa} onChange={onChange}/>
                     
@@ -85,7 +82,6 @@ const StudentForm = ({ action='add', studentId, handleClose}) => {
                             onChange={onChange}
                             name="campusId"
                         >
-                            {/* <MenuItem key={'no'} value={''}>None</MenuItem> */}
                             {
                                 campuses.map(campus => {
                                     return (
@@ -95,12 +91,17 @@ const StudentForm = ({ action='add', studentId, handleClose}) => {
                             }
                         </Select>
                     <br></br>
-                    <Button style={{width: '90%'}} variant='contained' color='primary' onClick={(ev) => onSubmit(ev)}>{action === 'add' ? 'Add' : 'Update'}</Button>
+                    {
+                        !!error ? 
+                        <pre style={{margin: '1rem', color: 'red', border: '1px solid red'}}>
+                            { JSON.stringify(error, null, 2) }
+                        </pre>
+                        : ''
+                    }
+                    <Button disabled={!isEnabled} style={{width: '90%'}} variant='contained' color='primary' onClick={(ev) => onSubmit(ev)}>{action === 'add' ? 'Add' : 'Update'}</Button>
             </div>
-      </div>
+        </div>
     </Box>
-        
-        </>
     )
 }
 

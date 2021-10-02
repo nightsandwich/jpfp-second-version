@@ -299,11 +299,13 @@ const syncAndSeed = async()=> {
   await db.sync({ force: true });
   
 //--------------------------------------//
-  const numCampuses = 100;
-  const numStudentsWithSchool = 150;
-  const numStudentsWithoutSchool = 30;
+  const numCampuses = 5;
+  const numStudentsWithSchool = 5;
+  const numStudentsWithoutSchool = 1;
   const gpaHigh = 4;
   const gpaDecimals = 10;
+  const descriptionSentences = 10;
+  const descriptionVariation = 5;
 //--------------------------------------//
 
   const gpaGenerator = () => {
@@ -313,29 +315,29 @@ const syncAndSeed = async()=> {
     return Math.floor(Math.random() * (numCampuses)+1);
   }
   const campusEnding = () => {
-    const random = Math.floor(Math.random() * 5);
     const arr = ['School', 'University', 'College', 'Academy', 'Center'];
+    const random = Math.floor(Math.random() * arr.length);
     return arr[random];
   }
   const emailEnding = () => {
-    const random = Math.floor(Math.random() * 5);
     const arr = ['gmail', 'hotmail', 'yahoo', 'blah', 'me'];
+    const random = Math.floor(Math.random() * arr.length);
     return arr[random];
   }
   const description = () => {
-    const random = Math.floor(Math.random() *  (20 - 15) + 15);
+    const random = Math.floor(Math.random() *  (descriptionSentences - descriptionVariation) + descriptionVariation);
     let retStr = '';
     for (let i = 1; i <= random; i++){
-      retStr += faker.company.catchPhrase() + '! ';
+      retStr += `${faker.company.catchPhrase()}!`;
     }
     return retStr;
   }
 
   const campuses = Array(numCampuses).fill().map((campus) => {
     return {
-      name: faker.random.words() + ' ' + campusEnding(), 
+      name: `${faker.random.words()} ${campusEnding()}`, 
       imageUrl: faker.image.nature(), 
-      address: faker.address.streetAddress() + ', ' + faker.address.city() + ', ' + faker.address.state() + ' (' + faker.address.zipCode() + ')', 
+      address: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()} (${faker.address.zipCode()})`, 
       description: description()
     }
   })
@@ -374,7 +376,7 @@ const syncAndSeed = async()=> {
     Student.create(student);
   })); 
 
-  const students2 = Array(numStudentsWithoutSchool).fill().map((student) => {
+  const students2 = Array(numStudentsWithoutSchool).fill().map((_) => {
     return {
       firstName: faker.name.firstName(), 
       lastName: faker.name.lastName(),

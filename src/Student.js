@@ -34,7 +34,7 @@ const Student = ({match}) => {
             <StudentForm action={'update'} studentId={student.id} handleClose={handleClose}/>
         </Dialog>
            
-            <Card sx={{ maxWidth: 500 }} >
+            <Card sx={{ maxWidth: 500 }} variant='outlined'>
                 <Typography gutterBottom variant="h5" component="div">
                 {student.firstName} {student.lastName} <Button size='small' variant='contained' color='success' onClick={handleOpen}>Edit Student</Button>
                 </Typography>
@@ -46,14 +46,14 @@ const Student = ({match}) => {
                 />
                 <CardContent>
                     <Typography variant="body1" color="text.primary" component="div">
-                        {/* {campus.id ? 'Currently attending ' + <Link style={{ color: 'darkslategrey'}} to={`/campuses/${campus.id}`}>{campus.name}</Link> + ' ' + <Button size='small' variant='outlined' color='error' onClick={onClick}>Unenroll</Button> : 'Not enrolled in a school.' } */}
-                        {campus.id ? 'Currently attending ' : 'Not enrolled in a school.' }
+                        {campus.id ? 'Enrolled at ' : 'Not enrolled in a school.' }
                         {campus.id ? <Link style={{ color: 'darkslategrey'}} to={`/campuses/${campus.id}`}>{campus.name}</Link> : '' }
                         {campus.id ? <Button size='small' variant='outlined' color='error' onClick={onClick} style={{marginLeft: '1rem'}}>Unenroll</Button> : '' }
-                        <br></br>
+                        <hr></hr>
                         {campus.id ? `GPA: ${student.gpa}` : '' }
-                        <br></br> 
+                        <hr></hr> 
                         Email: {student.email}
+                        
                     </Typography>
                 </CardContent>
             </Card>

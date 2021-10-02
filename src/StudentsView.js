@@ -98,9 +98,6 @@ const StudentsView = () => {
                 <StudentForm handleClose={handleClose} />
             </Dialog>
             <Students students={filteredStudents} />
-        <div>
-            <StudentForm  handleClose={handleClose}/>
-        </div>
     </div>
 
     );
