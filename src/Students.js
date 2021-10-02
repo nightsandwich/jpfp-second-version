@@ -7,7 +7,8 @@ import {deleteStudent} from './store';
 const Students = ({students, match}) => {
     const dispatch = useDispatch(); 
     const history = useHistory();
-
+    if(!students.length) return (<h1>loading</h1>)
+    else 
     return (
         <div>
         <div className='addContainer'>

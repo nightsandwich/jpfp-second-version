@@ -1,33 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
 import CampusForm from "./CampusForm";
 import Campuses from "./Campuses";
 import { loadCampuses } from "./store";
-// import CampusDropdowns from "./CampusDropdowns";
 import {Dialog, FormControl, MenuItem, InputLabel, Select, Button } from '@mui/material';
 
 
 const CampusesView = () => {
-    //mapDispatch
-    const dispatch = useDispatch(); 
-    const [loading, setLoading] = useState(false);
-
+    const dispatch = useDispatch();
     //mapState
     const campuses = useSelector(({campuses}) => campuses);
-    //why won't this load the campuses without useEffect ??
-    //what's the difference of loading the store via the state vs reloading?
-        
+    
     useEffect(() => {
         try{
             dispatch(loadCampuses());
-            setLoading(true);
-            
-        }catch(ex){
+        } catch(ex){
             console.log(ex);
         }
-    }, []); //componentDidMount
-    
+    },[campuses]);
     //local state
     const [inputs, setInputs] = useState({ 
         view: 'normal',
@@ -39,11 +29,11 @@ const CampusesView = () => {
         setInputs({...inputs, [ev.target.name]: ev.target.value});
     }
      
-    const sortedByName = [campuses].sort((a,b) => (a.name > b.name) ? 1 : -1); 
-    const sortedByStudents = [campuses].sort((a,b) => (a.students.length < b.students.length) ? 1 : (a.students.length === b.students.length) ? ((a.name > b.name) ? 1: -1) : -1);
+    const sortedByName = [...campuses].sort((a,b) => (a.name > b.name) ? 1 : -1); 
+    const sortedByStudents = [...campuses].sort((a,b) => (a.students.length < b.students.length) ? 1 : (a.students.length === b.students.length) ? ((a.name > b.name) ? 1: -1) : -1);
     const campusesToRender = inputs.view === 'normal' ? sortedByName : sortedByStudents;
-    
-    const filteredCampuses = inputs.filter === 'all' ? campuses : campusesToRender.filter(campus => {
+   
+    const filteredCampuses = inputs.filter === 'all' ? campusesToRender : campusesToRender.filter(campus => {
         return inputs.filter === 'students' ? 
         campus.students.length :
         !campus.students.length
@@ -59,7 +49,8 @@ const CampusesView = () => {
         ev.preventDefault();
         setOpen(false);
     }
-    if (loading) return (
+    
+    return (
         
     <div>
         <h1>Campuses</h1><Button variant='contained' color='success' onClick={handleOpen}>Add New Campus</Button>
@@ -96,9 +87,9 @@ const CampusesView = () => {
     </div>
 
     );
-    else return (
-        <h1>Loading...</h1>
-    )
+    // else return (
+    //     <h1>Loading...</h1>
+    // )
 }
 
 export default CampusesView;

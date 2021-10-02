@@ -9,25 +9,20 @@ import {Dialog, FormControl, MenuItem, InputLabel, Select, Button } from '@mui/m
 
 
 const StudentsView = () => {
-    const [loading, setLoading] = useState(false);
     //mapState
     const students = useSelector(({students}) => students);
-    //why won't this load the campuses without useEffect ??
-    //what's the difference of loading the store via the state vs reloading?
 
     //mapDispatch
     const dispatch = useDispatch(); 
-    let history = useHistory();
 
     useEffect(() => {
         try{
             dispatch(loadStudents());
-            setLoading(true);
             
         }catch(ex){
             console.log(ex);
         }
-    }, []); //componentDidMount
+    }, [students]); //componentDidMount
     
     //local state
     const [inputs, setInputs] = useState({ 
@@ -63,7 +58,8 @@ const StudentsView = () => {
         ev.preventDefault();
         setOpen(false);
     }
-    if (loading) return (
+    
+    return (
         
     <div>
         <h1>Students</h1><Button variant='contained' color='success' onClick={handleOpen}>Add New Student</Button>
@@ -101,9 +97,6 @@ const StudentsView = () => {
     </div>
 
     );
-    else return (
-        <h1>Loading...</h1>
-    )
 }
 
 export default StudentsView;

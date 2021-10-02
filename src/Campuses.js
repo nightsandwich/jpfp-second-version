@@ -8,6 +8,11 @@ import {Button, Grid,Typography, CardActionArea, CardActions, CardContent, Card,
 const Campuses = ({campuses}) => {
     const dispatch = useDispatch();
     const history = useHistory();
+    if (!campuses.length){
+        return (
+            <h1>loading...</h1>
+        )
+    } else
     return (
         
     <div>
