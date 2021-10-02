@@ -39,14 +39,12 @@ const CampusesView = () => {
         setInputs({...inputs, [ev.target.name]: ev.target.value});
     }
      
-    const sortedByName = [...campuses].sort((a,b) => (a.name > b.name) ? 1 : -1); 
-    const sortedByStudents = [...campuses].sort((a,b) => (a.students.length < b.students.length) ? 1 : (a.students.length === b.students.length) ? ((a.name > b.name) ? 1: -1) : -1);
-    const campusesToRender = inputs.view === 'normal' ? sortedByName : inputs.view === 'students' ? sortedByStudents : '';
+    const sortedByName = [campuses].sort((a,b) => (a.name > b.name) ? 1 : -1); 
+    const sortedByStudents = [campuses].sort((a,b) => (a.students.length < b.students.length) ? 1 : (a.students.length === b.students.length) ? ((a.name > b.name) ? 1: -1) : -1);
+    const campusesToRender = inputs.view === 'normal' ? sortedByName : sortedByStudents;
     
-    const filteredCampuses = campusesToRender.filter(campus => {
-        return inputs.filter === 'all' ? 
-        campus : 
-        inputs.filter === 'students' ?
+    const filteredCampuses = inputs.filter === 'all' ? campuses : campusesToRender.filter(campus => {
+        return inputs.filter === 'students' ? 
         campus.students.length :
         !campus.students.length
     });
