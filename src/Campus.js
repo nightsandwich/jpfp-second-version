@@ -27,38 +27,35 @@ const Campus = ({match}) => {
         <Dialog onClose={handleClose} open={open}>
             <CampusForm action={'update'} campusId={campus.id} handleClose={handleClose}/>
         </Dialog>
-    <div>
-    
-    <Card sx={{ maxWidth: 500 }} variant='outlined'>
-        <Typography variant="h5" component="div" >
-        {campus.name} <Button size='small' variant='contained' color='success' onClick={handleOpen}>Edit Campus</Button>
-        </Typography>
-        <CardMedia
-            component="img"
-            height="400"
-            image={campus.imageUrl}
-            alt="campus image"
-            />
-        <CardContent>
-            <hr></hr>
-            <Typography variant="body2" color="text.secondary" component="div">
-            {campus.address}
-            </Typography>
-            <hr></hr>
-            <Typography  variant="body2" component="div">
-            {campus.description}
-            </Typography>
-            <Typography variant="body2" color="text.primary">
-            {
-                !students.length ? '(No students currently enrolled.)' : ''
-            }
-            </Typography>
-            {students.length ? <EnrolledStudents campusId={campus.id} /> : ''}
-        </CardContent>
-    </Card>
-        
-    </div>
-    
+        <div>
+            <Card sx={{ maxWidth: 500 }} variant='outlined'>
+                <Typography variant="h5" component="div" >
+                {campus.name} <Button size='small' variant='contained' color='success' onClick={handleOpen}>Edit School</Button>
+                </Typography>
+                <CardMedia
+                    component="img"
+                    height="400"
+                    image={campus.imageUrl}
+                    alt="campus image"
+                    />
+                <CardContent>
+                    <hr></hr>
+                    <Typography variant="body2" color="text.secondary" component="div">
+                    {campus.address}
+                    </Typography>
+                    <hr></hr>
+                    <Typography  variant="body2" component="div">
+                    {campus.description}
+                    </Typography>
+                    <Typography variant="body2" color="text.primary">
+                    {
+                        !students.length ? '(No students currently enrolled.)' : ''
+                    }
+                    </Typography>
+                    {students.length ? <EnrolledStudents campusId={campus.id} /> : ''}
+                </CardContent>
+            </Card>
+        </div>
     </div>
     );
 }

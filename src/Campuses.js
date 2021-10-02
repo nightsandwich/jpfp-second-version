@@ -32,9 +32,11 @@ const Campuses = ({campuses}) => {
                                     <Typography variant="h5" component="div">
                                     {campus.name}
                                     </Typography>
+                                    <hr></hr>
                                     <Typography variant="body1" color="text.primary">
                                     {campus.students.length === 0 ? 'No students enrolled.' : campus.students.length === 1 ? '1 student enrolled.' : `${campus.students.length} students enrolled.`}
                                     </Typography>
+                                    <hr></hr>
                                 </CardContent>
                             </CardActionArea >
                             <CardActions>

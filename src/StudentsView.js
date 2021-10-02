@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import StudentForm from "./StudentForm";
 import Students from "./Students";
 import { loadStudents } from "./store";
-import {Dialog, FormControl, MenuItem, InputLabel, Select, Button } from '@mui/material';
+import {Dialog, FormControl, MenuItem, InputLabel, Select, Button, Typography } from '@mui/material';
 
 
 const StudentsView = () => {
@@ -60,10 +60,9 @@ const StudentsView = () => {
 
     return (    
     <div>
-        <h1>Students</h1>
-        <Button variant='contained' color='success' onClick={handleOpen}>
-            Add New Student
-        </Button>
+            <Typography variant="h2" component="div">
+                Students <Button variant='contained' color='success' onClick={handleOpen}>Add New Student</Button>
+            </Typography>
             <FormControl sx={{m:1, minWidth: 120}} >
                 <InputLabel>Sort</InputLabel>
                 <Select

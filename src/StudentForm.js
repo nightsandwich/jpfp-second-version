@@ -66,20 +66,20 @@ const StudentForm = ({ action='add', studentId, handleClose}) => {
         autoComplete="off"
     >
         <button onClick={(ev)=> handleClose(ev)}>X</button>
-        <div style={{display: 'flex', flexDirection: 'column'}}>
-                <div style={{margin: '.5rem', display: 'flex', flexDirection: 'column'}}>
-                    <TextField style={{width: '90%'}} helperText='Required' variant='outlined' name="firstName" label="First Name" type="text" 
+        <div style={{display: 'flex', flexDirection: 'column', margin: '1rem'}}>
+                
+                    <TextField  helperText='Required' variant='outlined' name="firstName" label="First Name" type="text" 
                         value={firstName} onChange={onChange}/>
-                    <TextField style={{width: '90%'}} helperText='Required' variant='outlined' name="lastName" label="Last Name" type="text" 
+                    <TextField helperText='Required' variant='outlined' name="lastName" label="Last Name" type="text" 
                         value={lastName} onChange={onChange}/>
-                    <TextField style={{width: '90%'}} helperText='Required' variant='outlined' name="email" label="Email" type="text" 
+                    <TextField helperText='Required' variant='outlined' name="email" label="Email" type="text" 
                         alue={email} onChange={onChange}/>
-                    <TextField style={{width: '90%'}} variant='outlined' id="imageUrl-input" name="imageUrl" label="Image URL" type="text" 
+                    <TextField  variant='outlined' id="imageUrl-input" name="imageUrl" label="Image URL" type="text" 
                         value={imageUrl} onChange={onChange}/>
-                    <TextField style={{width: '90%'}} variant='outlined' id="gpa-input" name="gpa" label="GPA" type="text" 
+                    <TextField  variant='outlined' id="gpa-input" name="gpa" label="GPA" type="text" 
                         value={gpa} onChange={onChange}/>
                     
-                        <InputLabel>Campuses</InputLabel>
+                        <InputLabel>Schools</InputLabel>
                         <Select
                             value={campusId === null ? '' : campusId}
                             label="Campuses"
@@ -107,7 +107,7 @@ const StudentForm = ({ action='add', studentId, handleClose}) => {
                     <Button disabled={!isEnabled} style={{width: '90%'}} variant='contained' color='primary' onClick={(ev) => onSubmit(ev)}>
                         {action === 'add' ? 'Add' : 'Update'}
                     </Button>
-            </div>
+            
         </div>
     </Box>
     )

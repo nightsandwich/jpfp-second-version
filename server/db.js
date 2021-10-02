@@ -70,9 +70,9 @@ const syncAndSeed = async()=> {
   await db.sync({ force: true });
   
 //--------------------------------------//
-  const numCampuses = 5;
-  const numStudentsWithSchool = 5;
-  const numStudentsWithoutSchool = 1;
+  const numCampuses = 30;
+  const numStudentsWithSchool = 40;
+  const numStudentsWithoutSchool = 10;
   const gpaHigh = 4;
   const gpaDecimals = 10;
   const descriptionSentences = 10;

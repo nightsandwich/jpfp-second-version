@@ -29,12 +29,15 @@ const Students = ({students}) => {
                                         <Typography variant="h5" component="div">
                                             {student.firstName} {student.lastName} 
                                         </Typography>
+                                        <hr></hr>
                                         <Typography variant="body1" color="text.primary">
                                             {student.campusId ? `Enrolled at ${student.campus.name}.` : 'No enrollment.'}
                                         </Typography>
+                                        <hr></hr>
                                         <Typography variant="body1" color="text.secondary">
                                             {student.campusId ? `GPA: ${student.gpa}.` : ''}
                                         </Typography>
+                                        <hr></hr>
                                     </CardContent>
                                 </CardActionArea >
                                 <CardActions>

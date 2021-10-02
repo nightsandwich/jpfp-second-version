@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import CampusForm from "./CampusForm";
 import Campuses from "./Campuses";
 import { loadCampuses } from "./store";
-import {Dialog, FormControl, MenuItem, InputLabel, Select, Button } from '@mui/material';
+import {Dialog, FormControl, MenuItem, InputLabel, Select, Button, Typography } from '@mui/material';
 
 const CampusesView = () => {
     const dispatch = useDispatch();
@@ -52,7 +52,9 @@ const CampusesView = () => {
     return (
         
     <div>
-        <h1>Campuses</h1><Button variant='contained' color='success' onClick={handleOpen}>Add New Campus</Button>
+        <Typography variant="h2" component="div">
+            Schools <Button variant='contained' color='success' onClick={handleOpen}>Add New School</Button>
+        </Typography>
             <FormControl sx={{m:1, minWidth: 120}} >
                 <InputLabel>Sort</InputLabel>
                 <Select
@@ -74,8 +76,8 @@ const CampusesView = () => {
                     onChange={chooseSortFilter}
                 >
                     <MenuItem value={'all'}>Show All</MenuItem>
-                    <MenuItem value={'none'}>Campuses Without Students</MenuItem>
-                    <MenuItem value={'students'}>Campuses With Students</MenuItem>
+                    <MenuItem value={'students'}>Schools With Students</MenuItem>
+                    <MenuItem value={'none'}>Schools Without Students</MenuItem>
                 </Select>
             </FormControl>
 

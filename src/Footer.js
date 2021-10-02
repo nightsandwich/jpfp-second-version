@@ -4,10 +4,10 @@ import { AppBar, Container, Toolbar, Typography } from "@mui/material"
 
 const Footer = () => {
     return (
-        <AppBar position="static" variant='outlined' >
+        <AppBar position="static" style={{backgroundColor: 'linen', marginTop: '1rem'}} >
           <Container maxWidth="md">
             <Toolbar>
-              <Typography variant="body1" fontSize={12}>
+              <Typography fontSize={17} color='black'>
                Made by Corinne at <Link to='http://wwww.fullstack.com'>Fullstack Academy</Link>
               </Typography>
             </Toolbar>
