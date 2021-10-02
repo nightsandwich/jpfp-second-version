@@ -1,30 +1,37 @@
 import React, {useState} from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {updateStudent} from './store';
 import StudentForm from "./StudentForm";
 
-import {Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Dialog, Typography, Stack, CardContent, Grid, Paper, Card, CardMedia} from '@mui/material';
+import {Button, Dialog, Typography, CardContent, Card, CardMedia} from '@mui/material';
 const Student = ({match}) => {
-    let history = useHistory();
+
     const dispatch = useDispatch();
 
     //dialog
-    const [open, setOpen] = useState(false);
-    
-    const handleOpen = () => {
-        setOpen(true);
-    }
-    const handleClose = (ev) => {
-        ev.preventDefault();
-        setOpen(false);
-    }
+        const [open, setOpen] = useState(false);
+        
+        const handleOpen = () => {
+            setOpen(true);
+        }
+        const handleClose = (ev) => {
+            ev.preventDefault();
+            setOpen(false);
+        }
+    //dialog
 
     const student = useSelector(state => state.students.find(student => student.id === +match.params.id) || {});
     const campus = useSelector(state => state.campuses.find(campus => campus.id === student.campusId) || {});
-    const onClick = () => {
-        dispatch(updateStudent({...student, campusId: null}));
-    }
+    const onClick = async() => {
+        try{
+            await dispatch(updateStudent({...student, campusId: null}));
+        }
+        catch(ex){
+            console.log(ex)
+        }
+    }   
+
     if (!student.id){
         return('...loading student');
     }

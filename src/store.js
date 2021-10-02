@@ -1,5 +1,4 @@
 import {createStore, combineReducers, applyMiddleware} from 'redux';
-import { useHistory } from 'react-router';
 
 const LOAD_CAMPUSES = 'LOAD_CAMPUSES';
 const LOAD_STUDENTS = 'LOAD_STUDENTS';
@@ -10,7 +9,6 @@ const DELETE_STUDENT = 'DELETE_STUDENT';
 const UPDATE_CAMPUS = 'UPDATE_CAMPUS';
 const UPDATE_STUDENT = 'UPDATE_STUDENT';
 const DELETE_STUDENT_SCHOOL = 'DELETE_STUDENT_SCHOOL';
-// const SORT_SELECTION = 'SORT_SELECTION';
 
 import axios from 'axios';
 import thunk from 'redux-thunk';
@@ -28,9 +26,6 @@ const campusesReducer = (state = [], action) => {
     if(action.type === UPDATE_CAMPUS){
         state = state.map(campus => campus.id === action.campus.id ? action.campus : campus)
     }
-    // if(action.type === SORT_SELECTION){
-    //     state = [...state].sort((a, b) => a - b)
-    // }
     return state;
 };
 
@@ -135,9 +130,7 @@ const updateCampus = (campus) => {
 const _updateStudent = (student) => (
     {type: UPDATE_STUDENT, student}
 )
-const updateStudent = (student, oldId) => {
-    
-    
+const updateStudent = (student) => {
     return async (dispatch) => {
         const updated = (await axios.put(`/api/students/${student.id}`, student)).data;
         dispatch(_updateStudent(updated));

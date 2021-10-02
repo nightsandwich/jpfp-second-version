@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import { useDispatch, useSelector} from 'react-redux';
-import { addCampus, updateCampus, updateStudent } from './store';
-import { TextField, Button, Box, List, ListItem, ListItemText } from "@mui/material";
+import { addCampus, updateCampus } from './store';
+import { TextField, Button, Box } from "@mui/material";
 import EnrolledStudents from "./EnrolledStudents";
 
 const CampusForm = ({ action='add', campusId, handleClose}) => {
@@ -23,10 +23,6 @@ const CampusForm = ({ action='add', campusId, handleClose}) => {
     
     const {id, name, imageUrl, address, description, error} = inputs;
     
-    //componentDidUpdate
-    // useEffect(() => {setInputs({...inputs, id: campus.id, name: campus.name
-    //     , imageUrl: campus.imageUrl, address: campus.address, description: campus.description})}
-    //     , action === 'update' ? [campus] : []);
     useEffect(() => {setInputs({...inputs, error: error})},[error]);
 
     const onChange = ev => {
@@ -46,9 +42,8 @@ const CampusForm = ({ action='add', campusId, handleClose}) => {
             setInputs({...inputs, error: ex.response.data});
         }
     }
-    
+
     return (
-    <>
     <Box
             component="form"
             sx={{
@@ -57,17 +52,23 @@ const CampusForm = ({ action='add', campusId, handleClose}) => {
             noValidate
             autoComplete="off"
         >
-          <button onClick={(ev)=> handleClose(ev)}>X</button>
-      <div style={{display: 'flex', flexDirection: 'column'}}>
+        <button onClick={(ev)=> handleClose(ev)}>X</button>
+        <div style={{display: 'flex', flexDirection: 'column'}}>
             <div style={{display: 'flex'}}>
                 <div style={{margin: '.5rem', display: 'flex', flexDirection: 'column', width: '50%'}}>
-                    <TextField  style={{width: '90%'}} helperText='Required' variant='outlined' id="name-input" name="name" label="Name" type="text" value={name} onChange={onChange}/>
-                    <TextField style={{width: '90%'}} variant='outlined' id="image-url-input" name="imageUrl" label="Image URL" type="text" value={imageUrl} onChange={onChange}/>
-                    <TextField  style={{width: '90%'}} helperText='Required' variant='outlined' id="address-input" name="address" label="Address" type="text" value={address} onChange={onChange}/>
-                    <Button disabled={!name.length} style={{width: '90%'}} variant='contained' color='primary' onClick={onSubmit}>{action === 'add' ? 'Add' : 'Update'}</Button>
+                    <TextField  style={{width: '90%'}} helperText='Required' variant='outlined' id="name-input" name="name" label="Name" type="text" 
+                        value={name} onChange={onChange}/>
+                    <TextField style={{width: '90%'}} variant='outlined' id="image-url-input" name="imageUrl" label="Image URL" type="text" 
+                        value={imageUrl} onChange={onChange}/>
+                    <TextField  style={{width: '90%'}} helperText='Required' variant='outlined' id="address-input" name="address" label="Address" type="text" 
+                        value={address} onChange={onChange}/>
+                    <Button disabled={!name.length} style={{width: '90%'}} variant='contained' color='primary' onClick={onSubmit}>
+                        {action === 'add' ? 'Add' : 'Update'}
+                    </Button>
                 </div>
                 <div style={{width: '50%', margin: '.5rem'}}>
-                    <TextField maxRows={11} style={{width: '90%'}} variant='outlined' id="description-input" name="description" label="Description" multiline value={description} onChange={onChange}/>
+                    <TextField maxRows={11} style={{width: '90%'}} variant='outlined' id="description-input" name="description" label="Description" multiline 
+                        value={description} onChange={onChange}/>
                 </div>
                 
             </div>
@@ -81,10 +82,8 @@ const CampusForm = ({ action='add', campusId, handleClose}) => {
             <div style={{margin: '.5rem', marginTop: 'none', fontFamily: 'Roboto'}}>
                 {action === 'add' ? '' : !students.length ? 'No students.' : <EnrolledStudents campusId={campus.id}/>}
             </div>
-      </div>
+        </div>
     </Box>
-        
-    </>
     )
 }
 

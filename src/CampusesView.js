@@ -5,7 +5,6 @@ import Campuses from "./Campuses";
 import { loadCampuses } from "./store";
 import {Dialog, FormControl, MenuItem, InputLabel, Select, Button } from '@mui/material';
 
-
 const CampusesView = () => {
     const dispatch = useDispatch();
     //mapState
@@ -40,16 +39,16 @@ const CampusesView = () => {
     });
     
     //dialog
-    const [open, setOpen] = useState(false);
-    
-    const handleOpen = () => {
-        setOpen(true);
-    }
-    const handleClose = (ev) => {
-        ev.preventDefault();
-        setOpen(false);
-    }
-    
+        const [open, setOpen] = useState(false);
+        
+        const handleOpen = () => {
+            setOpen(true);
+        }
+        const handleClose = (ev) => {
+            ev.preventDefault();
+            setOpen(false);
+        }
+    //
     return (
         
     <div>
@@ -87,9 +86,6 @@ const CampusesView = () => {
     </div>
 
     );
-    // else return (
-    //     <h1>Loading...</h1>
-    // )
 }
 
 export default CampusesView;

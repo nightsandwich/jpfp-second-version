@@ -1,14 +1,14 @@
-import React, {useState, useEffect} from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import {Button, Grid,Typography, CardActionArea, CardActions, CardContent, Card, CardMedia} from '@mui/material';
 import {deleteStudent} from './store';
 
-const Students = ({students, match}) => {
+const Students = ({students}) => {
     const dispatch = useDispatch(); 
     const history = useHistory();
     if(!students.length) return (<h1>loading</h1>)
-    else 
+    
     return (
         <div>
         <div className='addContainer'>
@@ -27,19 +27,23 @@ const Students = ({students, match}) => {
                                     />
                                     <CardContent>
                                         <Typography variant="h5" component="div">
-                                        {student.firstName} {student.lastName} 
+                                            {student.firstName} {student.lastName} 
                                         </Typography>
                                         <Typography variant="body1" color="text.primary">
-                                        {student.campusId ? `Enrolled at ${student.campus.name}.` : 'No enrollment.'}
+                                            {student.campusId ? `Enrolled at ${student.campus.name}.` : 'No enrollment.'}
                                         </Typography>
                                         <Typography variant="body1" color="text.secondary">
-                                        {student.campusId ? `GPA: ${student.gpa}.` : ''}
+                                            {student.campusId ? `GPA: ${student.gpa}.` : ''}
                                         </Typography>
                                     </CardContent>
                                 </CardActionArea >
                                 <CardActions>
-                                    <Button onClick={()=>dispatch(deleteStudent(student.id))} size="small" variant="contained" color='error'>Delete</Button>
-                                    <Button onClick={()=>history.push(`/students/${student.id}`)} variant="contained" color="primary" size="small">Learn More</Button>
+                                    <Button onClick={()=>dispatch(deleteStudent(student.id))} size="small" variant="contained" color='error'>
+                                        Delete
+                                    </Button>
+                                    <Button onClick={()=>history.push(`/students/${student.id}`)} variant="contained" color="primary" size="small">
+                                        Learn More
+                                    </Button>
                                 </CardActions>
                             </Card>
                             </Grid>

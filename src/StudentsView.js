@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
 import StudentForm from "./StudentForm";
 import Students from "./Students";
 import { loadStudents } from "./store";
-// import CampusDropdowns from "./CampusDropdowns";
 import {Dialog, FormControl, MenuItem, InputLabel, Select, Button } from '@mui/material';
 
 
@@ -49,20 +47,23 @@ const StudentsView = () => {
     });
     
     //dialog
-    const [open, setOpen] = useState(false);
-    
-    const handleOpen = () => {
-        setOpen(true);
-    }
-    const handleClose = (ev) => {
-        ev.preventDefault();
-        setOpen(false);
-    }
-    
-    return (
+        const [open, setOpen] = useState(false);
         
+        const handleOpen = () => {
+            setOpen(true);
+        }
+        const handleClose = (ev) => {
+            ev.preventDefault();
+            setOpen(false);
+        }
+    //dialog
+
+    return (    
     <div>
-        <h1>Students</h1><Button variant='contained' color='success' onClick={handleOpen}>Add New Student</Button>
+        <h1>Students</h1>
+        <Button variant='contained' color='success' onClick={handleOpen}>
+            Add New Student
+        </Button>
             <FormControl sx={{m:1, minWidth: 120}} >
                 <InputLabel>Sort</InputLabel>
                 <Select
@@ -95,7 +96,6 @@ const StudentsView = () => {
             </Dialog>
             <Students students={filteredStudents} />
     </div>
-
     );
 }
 

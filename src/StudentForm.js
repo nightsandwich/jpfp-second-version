@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import { useDispatch, useSelector} from 'react-redux';
 import { addStudent, updateStudent } from './store';
-import { TextField, Button, Box, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
+import { TextField, Button, Box, InputLabel, Select, MenuItem } from "@mui/material";
 
 
 const StudentForm = ({ action='add', studentId, handleClose}) => {
@@ -27,7 +27,6 @@ const StudentForm = ({ action='add', studentId, handleClose}) => {
     const {id, firstName, imageUrl, lastName, email, gpa, campusId, error } = inputs;
     
     //componentDidUpdate
-    // useEffect(() => {setInputs({...inputs, ...student})}, []);
     useEffect(() => {setInputs({...inputs, error: error})},[error]);
     
     const validate = (firstName, lastName) => {
@@ -48,7 +47,7 @@ const StudentForm = ({ action='add', studentId, handleClose}) => {
     const onSubmit = async (ev) => {
         ev.preventDefault();
         try{
-            action === 'add' ? await dispatch(addStudent({ firstName, imageUrl, lastName, email, gpa })) :
+            action === 'add' ? await dispatch(addStudent({ firstName, imageUrl, lastName, email, gpa: campusId ? gpa : 0, campusId: campusId ? campusId : null })) :
             await dispatch(updateStudent({id, firstName, imageUrl, lastName, email, gpa, campusId }));
             handleClose(ev);
         }
@@ -69,11 +68,16 @@ const StudentForm = ({ action='add', studentId, handleClose}) => {
         <button onClick={(ev)=> handleClose(ev)}>X</button>
         <div style={{display: 'flex', flexDirection: 'column'}}>
                 <div style={{margin: '.5rem', display: 'flex', flexDirection: 'column'}}>
-                    <TextField style={{width: '90%'}} helperText='Required' variant='outlined' name="firstName" label="First Name" type="text" value={firstName} onChange={onChange}/>
-                    <TextField style={{width: '90%'}} helperText='Required' variant='outlined' name="lastName" label="Last Name" type="text" value={lastName} onChange={onChange}/>
-                    <TextField style={{width: '90%'}} helperText='Required' variant='outlined' name="email" label="Email" type="text" value={email} onChange={onChange}/>
-                    <TextField style={{width: '90%'}} variant='outlined' id="imageUrl-input" name="imageUrl" label="Image URL" type="text" value={imageUrl} onChange={onChange}/>
-                    <TextField style={{width: '90%'}} variant='outlined' id="gpa-input" name="gpa" label="GPA" type="text" value={gpa} onChange={onChange}/>
+                    <TextField style={{width: '90%'}} helperText='Required' variant='outlined' name="firstName" label="First Name" type="text" 
+                        value={firstName} onChange={onChange}/>
+                    <TextField style={{width: '90%'}} helperText='Required' variant='outlined' name="lastName" label="Last Name" type="text" 
+                        value={lastName} onChange={onChange}/>
+                    <TextField style={{width: '90%'}} helperText='Required' variant='outlined' name="email" label="Email" type="text" 
+                        alue={email} onChange={onChange}/>
+                    <TextField style={{width: '90%'}} variant='outlined' id="imageUrl-input" name="imageUrl" label="Image URL" type="text" 
+                        value={imageUrl} onChange={onChange}/>
+                    <TextField style={{width: '90%'}} variant='outlined' id="gpa-input" name="gpa" label="GPA" type="text" 
+                        value={gpa} onChange={onChange}/>
                     
                         <InputLabel>Campuses</InputLabel>
                         <Select
@@ -85,7 +89,9 @@ const StudentForm = ({ action='add', studentId, handleClose}) => {
                             {
                                 campuses.map(campus => {
                                     return (
-                                        <MenuItem key={campus.id} value={campus.id}>{campus.name}</MenuItem>
+                                        <MenuItem key={campus.id} value={campus.id}>
+                                            {campus.name}
+                                        </MenuItem>
                                     );
                                 })
                             }
@@ -98,7 +104,9 @@ const StudentForm = ({ action='add', studentId, handleClose}) => {
                         </pre>
                         : ''
                     }
-                    <Button disabled={!isEnabled} style={{width: '90%'}} variant='contained' color='primary' onClick={(ev) => onSubmit(ev)}>{action === 'add' ? 'Add' : 'Update'}</Button>
+                    <Button disabled={!isEnabled} style={{width: '90%'}} variant='contained' color='primary' onClick={(ev) => onSubmit(ev)}>
+                        {action === 'add' ? 'Add' : 'Update'}
+                    </Button>
             </div>
         </div>
     </Box>

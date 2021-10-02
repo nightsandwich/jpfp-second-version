@@ -1,22 +1,21 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import CampusForm from "./CampusForm";
-import {Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Dialog, Typography, Stack, CardContent, Grid, Paper, Card, CardMedia} from '@mui/material';
+import {Button, Dialog, Typography, CardContent, Card, CardMedia} from '@mui/material';
 import EnrolledStudents from "./EnrolledStudents";
 
 const Campus = ({match}) => {
     //dialog
-    const [open, setOpen] = useState(false);
- 
-    const handleOpen = () => {
-        setOpen(true);
-    }
-    const handleClose = (ev) => {
-        ev.preventDefault();
-        setOpen(false);
-    }
-
+        const [open, setOpen] = useState(false);
+        const handleOpen = () => {
+            setOpen(true);
+        }
+        const handleClose = (ev) => {
+            ev.preventDefault();
+            setOpen(false);
+        }
+    //
+    
    const campus = useSelector(state => state.campuses.find(campus => campus.id === +match.params.id) || {})
    const students = useSelector(state => state.students.filter(student => student.campusId === campus.id) || []);
 
@@ -31,7 +30,7 @@ const Campus = ({match}) => {
     <div>
     
     <Card sx={{ maxWidth: 500 }} variant='outlined'>
-        <Typography gutterBottom variant="h5" component="div" >
+        <Typography variant="h5" component="div" >
         {campus.name} <Button size='small' variant='contained' color='success' onClick={handleOpen}>Edit Campus</Button>
         </Typography>
         <CardMedia

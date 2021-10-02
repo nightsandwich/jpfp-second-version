@@ -14,7 +14,7 @@ import Footer from './Footer';
 const App = () => {
     const dispatch = useDispatch();
     
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         try{
@@ -22,13 +22,13 @@ const App = () => {
                 dispatch(loadCampuses()),
                 dispatch(loadStudents())
             ]);
-            setLoading(true);
+            setLoading(false);
         }catch(ex){
             console.log(ex);
         }
     }, []);
 
-    if (loading) return (
+    if (!loading) return (
 
         <Router>        
             <Route component={Nav} path='/' />
