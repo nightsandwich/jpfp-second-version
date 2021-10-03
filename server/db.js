@@ -1,6 +1,8 @@
 const Sequelize = require('sequelize');
 const {STRING, TEXT, DECIMAL} = Sequelize;
 const faker = require('faker');
+const hipsum = require('lorem-hipsum');
+
 const db = new Sequelize( process.env.DATABASE_URL || 'postgres://localhost/campus_students_db');
 
 const Campus = db.define('campus', {
@@ -75,8 +77,8 @@ const syncAndSeed = async()=> {
   const numStudentsWithoutSchool = 10;
   const gpaHigh = 4;
   const gpaDecimals = 10;
-  const descriptionSentences = 10;
-  const descriptionVariation = 5;
+  const descriptionSentences = 5;
+  const descriptionVariation = 3;
 //--------------------------------------//
 
   const gpaGenerator = () => {
@@ -97,10 +99,11 @@ const syncAndSeed = async()=> {
   }
   const description = () => {
     const random = Math.floor(Math.random() *  (descriptionSentences - descriptionVariation) + descriptionVariation);
-    let retStr = '';
+    let retStr = 'OUR MISSION: ';
     for (let i = 1; i <= random; i++){
-      retStr += `${faker.company.catchPhrase()}!`;
+      retStr += `${faker.company.catchPhrase()}! `;
     }
+    retStr += ' WE GUARANTEE IT.'
     return retStr;
   }
 
