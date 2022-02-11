@@ -7,7 +7,7 @@
     "build": "webpack",
     "start:dev": "nodemon server/index.js --ignore dist/ --ignore src/ & npm run build:dev",
     "build:dev": "npm run build -- --watch --mode=development",
-    "start": "node server && npm run build"
+    "start": "node server"
   },
   "dependencies": {
     "axios": "^0.21.1",
